@@ -1,0 +1,28 @@
+[
+    {
+      "id": "WoodenHopper",
+      "type": "Hopper",
+      "range": 10,
+      "maxFlocks": 1,
+      "perchOffset": -28,
+  
+      "texture": "WoodenHopper.png",
+      "sellPrice": 250,
+      "cost": 2500,
+
+      "capacityHrs": 12
+    },
+    {
+      "id": "Tube",
+      "type":  "Tube",
+      "range": 25,
+      "maxFlocks": 3
+    },
+    {
+      "id": "Platform",
+      "type": "Platform",
+      "range": 50,
+      "maxFlocks": 5
+    }
+  ]
+  

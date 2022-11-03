@@ -1,0 +1,264 @@
+[
+    {
+      "id": "Black",
+      "name": "Brewer's Blackbird",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "Corn": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Platform": 3
+      }
+    },
+    {
+      "id": "Blonde",
+      "name": "Cedar Waxwing",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "Fruit": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3
+      }
+    },
+    {
+      "id": "Bluebird",
+      "name": "Eastern Bluebird",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "Fruit": 3
+      },
+      "weightedFeeders": {
+        "Platform": 3
+      }
+    },
+    {
+      "id": "Brown",
+      "name": "House Finch",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "MixedSeeds": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3,
+        "Platform": 3,
+        "Tube": 3
+      }
+    },
+    {
+      "id": "Cardinal",
+      "name": "Northern Cardinal",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "Corn": 3,
+        "MixedSeeds": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3,
+        "Platform": 3,
+        "Tube": 3
+      }
+    },
+    {
+      "id": "Chickadee",
+      "name": "Black-capped Chickadee",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "MixedSeeds": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3,
+        "Platform": 3,
+        "Tube": 3
+      }
+    },
+    {
+      "id": "Cream",
+      "name": "Mourning Dove",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "Corn": 3,
+        "MixedSeeds": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3,
+        "Platform": 3
+      }
+    },
+    {
+      "id": "Goldfinch",
+      "name": "American Goldfinch",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3,
+        "Platform": 3,
+        "Tube": 3
+      }
+    },
+    {
+      "id": "Grey",
+      "name": "Grey Jay",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "Fruit": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3,
+        "Platform": 3,
+        "Tube": 3
+      }
+    },
+    {
+      "id": "Honeycreeper",
+      "name": "Green Honeycreeper",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "Fruit": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3
+      }
+    },
+    {
+      "id": "Jay",
+      "name": "Blue Jay",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "Corn": 3,
+        "Fruit": 3,
+        "MixedSeeds": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3,
+        "Platform": 3,
+        "Tube": 3
+      }
+    },
+    {
+      "id": "Junco",
+      "name": "Dark-eyed Junco",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "Corn": 3,
+        "MixedSeeds": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3,
+        "Platform": 3
+      }
+    },
+    {
+      "id": "Sparrow",
+      "name": "House Sparrow",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "Corn": 3,
+        "MixedSeeds": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3,
+        "Platform": 3
+      }
+    },
+    {
+      "id": "Starling",
+      "name": "European Starling",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "Corn": 3,
+        "Fruit": 3,
+        "MixedSeeds": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3,
+        "Platform": 3,
+        "Tube": 3
+      }
+    },
+    {
+      "id": "Strawberry",
+      "name": "Spotted Towhee",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "Corn": 3,
+        "MixedSeeds": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Platform": 3
+      }
+    },
+    {
+      "id": "Titmouse",
+      "name": "Tufted Titmouse",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "MixedSeeds": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3,
+        "Platform": 3,
+        "Tube": 3
+      }
+    },
+    {
+      "id": "White",
+      "name": "White-breasted Nuthatch",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "MixedSeeds": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3,
+        "Platform": 3,
+        "Tube": 3
+      }
+    },
+    {
+      "id": "Wren",
+      "name": "Carolina Wren",
+      "maxFlockSize": 3,
+      "weightedBath": 3,
+      "weightedFoods": {
+        "MixedSeeds": 3,
+        "SunflowerSeeds": 3
+      },
+      "weightedFeeders": {
+        "Hopper": 3,
+        "Platform": 3,
+        "Tube": 3
+      }
+    }
+  ]

@@ -1,0 +1,1566 @@
+[
+  {
+    "$ItemType": "BigCraftable",
+    "ID": "WoodenHopper",
+    "Texture": "WoodenHopper.png:0",
+    "SellPrice": 250
+  },
+  {
+    "$ItemType": "ShopEntry",
+    "Item": {
+      "Type": "DGAItem",
+      "Value": "Ivy.MoreBirdsPlease/WoodenHopper"
+    },
+    "ShopId": "AnimalSupplies",
+    "MaxSold": 1,
+    "Cost": 2500
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:1",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Corn",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Apple",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Banana",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Blackberry",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Blueberry",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Cherry",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Cranberries",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Grape",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Mango",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Melon",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Orange",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Peach",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Pineapple",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Pomegranate",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Salmonberry",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Strawberry",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Wild Plum",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:3",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Mixed Seeds",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenHopper.png:4",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Sunflower Seeds",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "BigCraftable",
+    "ID": "Tube",
+    "Texture": "undefined:0"
+  },
+  {
+    "$ItemType": "ShopEntry",
+    "Item": {
+      "Type": "DGAItem",
+      "Value": "Ivy.MoreBirdsPlease/Tube"
+    },
+    "ShopId": "AnimalSupplies",
+    "MaxSold": 1
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Tube",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:3",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Mixed Seeds",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Tube",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:4",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Sunflower Seeds",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "BigCraftable",
+    "ID": "Platform",
+    "Texture": "undefined:0"
+  },
+  {
+    "$ItemType": "ShopEntry",
+    "Item": {
+      "Type": "DGAItem",
+      "Value": "Ivy.MoreBirdsPlease/Platform"
+    },
+    "ShopId": "AnimalSupplies",
+    "MaxSold": 1
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:1",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Corn",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Apple",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Banana",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Blackberry",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Blueberry",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Cherry",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Cranberries",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Grape",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Mango",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Melon",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Orange",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Peach",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Pineapple",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Pomegranate",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Salmonberry",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Strawberry",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:2",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Wild Plum",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:3",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Mixed Seeds",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/Platform",
+    "MinutesToProcess": null,
+    "MachineWorkingTextureOverride": "undefined:4",
+    "MachinePulseWhileWorking": false,
+    "StartWorkingSound": null,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Sunflower Seeds",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 20,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Rotten Plant"
+        }
+      },
+      {
+        "Weight": 5,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Iron Ore"
+        }
+      },
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "VanillaObject",
+          "Value": "Gold Ore"
+        }
+      }
+    ]
+  }
+]

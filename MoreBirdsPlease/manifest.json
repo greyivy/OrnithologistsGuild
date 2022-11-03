@@ -1,0 +1,21 @@
+﻿{
+  "Name": "MoreBirdsPlease",
+  "Author": "Ivy",
+  "Version": "1.0.0",
+  "Description": "Test",
+  "UniqueID": "Ivy.MoreBirdsPlease",
+  "MinimumApiVersion": "3.0.0",
+  "EntryDll": "MoreBirdsPlease.dll",
+  "UpdateKeys": [],
+  "Dependencies": [
+    {
+      "UniqueID": "spacechase0.DynamicGameAssets"
+    },
+    {
+      "UniqueID": "Elle.TownAnimals"
+    }
+  ],
+  "RequiredForEveryone": true,
+  "DGA.FormatVersion": 2,
+  "DGA.ConditionsFormatVersion": "1.28.3"
+}

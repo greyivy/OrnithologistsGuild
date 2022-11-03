@@ -1,0 +1,68 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <GamePath>/Users/ivy/Applications/Stardew Valley Development.app/Contents/MacOS</GamePath>
+    <AssemblyName>MoreBirdsPlease</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>Build</type>
+          <command>node build-content.js</command>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>Build</type>
+          <command>node build-content.js</command>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Pathoschild.Stardew.ModBuildConfig" />
+    <None Remove="lib\" />
+    <None Remove="DynamicGameAssets" />
+    <None Remove="assets\" />
+    <None Remove="assets\dga\" />
+    <None Remove="assets\dga\i18n\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="lib\" />
+    <Folder Include="assets\" />
+    <Folder Include="assets\dga\" />
+    <Folder Include="assets\dga\i18n\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="DynamicGameAssets">
+      <HintPath>lib\DynamicGameAssets.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="assets\goldfinch.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="birds.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="feeders.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="foods.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="birdies.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
