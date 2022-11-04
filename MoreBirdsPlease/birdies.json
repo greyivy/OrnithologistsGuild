@@ -6,7 +6,7 @@
       "weightedBath": 3,
       "weightedFoods": {
         "Corn": 3,
-        "SunflowerSeeds": 3
+        "SunflowerSeeds": 2
       },
       "weightedFeeders": {
         "Platform": 3
@@ -15,7 +15,7 @@
     {
       "id": "Blonde",
       "name": "Cedar Waxwing",
-      "maxFlockSize": 3,
+      "maxFlockSize": 6,
       "weightedBath": 3,
       "weightedFoods": {
         "Fruit": 3
@@ -27,146 +27,146 @@
     {
       "id": "Bluebird",
       "name": "Eastern Bluebird",
-      "maxFlockSize": 3,
+      "maxFlockSize": 4,
       "weightedBath": 3,
       "weightedFoods": {
         "Fruit": 3
       },
       "weightedFeeders": {
-        "Platform": 3
+        "Platform": 2
       }
     },
     {
       "id": "Brown",
       "name": "House Finch",
-      "maxFlockSize": 3,
+      "maxFlockSize": 2,
       "weightedBath": 3,
       "weightedFoods": {
         "MixedSeeds": 3,
-        "SunflowerSeeds": 3
+        "SunflowerSeeds": 5
       },
       "weightedFeeders": {
         "Hopper": 3,
-        "Platform": 3,
-        "Tube": 3
+        "Platform": 1,
+        "Tube": 5
       }
     },
     {
       "id": "Cardinal",
       "name": "Northern Cardinal",
-      "maxFlockSize": 3,
+      "maxFlockSize": 2,
       "weightedBath": 3,
       "weightedFoods": {
-        "Corn": 3,
+        "Corn": 4,
         "MixedSeeds": 3,
-        "SunflowerSeeds": 3
+        "SunflowerSeeds": 4
       },
       "weightedFeeders": {
-        "Hopper": 3,
+        "Hopper": 2,
         "Platform": 3,
-        "Tube": 3
+        "Tube": 1
       }
     },
     {
       "id": "Chickadee",
       "name": "Black-capped Chickadee",
-      "maxFlockSize": 3,
+      "maxFlockSize": 1,
       "weightedBath": 3,
       "weightedFoods": {
-        "MixedSeeds": 3,
-        "SunflowerSeeds": 3
+        "MixedSeeds": 5,
+        "SunflowerSeeds": 5
       },
       "weightedFeeders": {
-        "Hopper": 3,
+        "Hopper": 5,
         "Platform": 3,
-        "Tube": 3
+        "Tube": 5
       }
     },
     {
       "id": "Cream",
       "name": "Mourning Dove",
-      "maxFlockSize": 3,
+      "maxFlockSize": 5,
       "weightedBath": 3,
       "weightedFoods": {
         "Corn": 3,
-        "MixedSeeds": 3,
-        "SunflowerSeeds": 3
+        "MixedSeeds": 2,
+        "SunflowerSeeds": 2
       },
       "weightedFeeders": {
-        "Hopper": 3,
-        "Platform": 3
+        "Hopper": 1,
+        "Platform": 2
       }
     },
     {
       "id": "Goldfinch",
       "name": "American Goldfinch",
-      "maxFlockSize": 3,
+      "maxFlockSize": 6,
       "weightedBath": 3,
       "weightedFoods": {
-        "SunflowerSeeds": 3
+        "SunflowerSeeds": 2
       },
       "weightedFeeders": {
-        "Hopper": 3,
-        "Platform": 3,
+        "Hopper": 2,
+        "Platform": 1,
         "Tube": 3
       }
     },
     {
       "id": "Grey",
       "name": "Grey Jay",
-      "maxFlockSize": 3,
+      "maxFlockSize": 1,
       "weightedBath": 3,
       "weightedFoods": {
-        "Fruit": 3,
+        "Fruit": 2,
         "SunflowerSeeds": 3
       },
       "weightedFeeders": {
-        "Hopper": 3,
+        "Hopper": 2,
         "Platform": 3,
-        "Tube": 3
+        "Tube": 1
       }
     },
     {
       "id": "Honeycreeper",
       "name": "Green Honeycreeper",
-      "maxFlockSize": 3,
+      "maxFlockSize": 1,
       "weightedBath": 3,
       "weightedFoods": {
-        "Fruit": 3
+        "Fruit": 1
       },
       "weightedFeeders": {
-        "Hopper": 3
+        "Hopper": 1
       }
     },
     {
       "id": "Jay",
       "name": "Blue Jay",
-      "maxFlockSize": 3,
+      "maxFlockSize": 5,
       "weightedBath": 3,
       "weightedFoods": {
         "Corn": 3,
-        "Fruit": 3,
-        "MixedSeeds": 3,
+        "Fruit": 2,
+        "MixedSeeds": 2,
         "SunflowerSeeds": 3
       },
       "weightedFeeders": {
         "Hopper": 3,
-        "Platform": 3,
-        "Tube": 3
+        "Platform": 2,
+        "Tube": 1
       }
     },
     {
       "id": "Junco",
       "name": "Dark-eyed Junco",
-      "maxFlockSize": 3,
+      "maxFlockSize": 1,
       "weightedBath": 3,
       "weightedFoods": {
-        "Corn": 3,
-        "MixedSeeds": 3,
-        "SunflowerSeeds": 3
+        "Corn": 1,
+        "MixedSeeds": 2,
+        "SunflowerSeeds": 2
       },
       "weightedFeeders": {
-        "Hopper": 3,
+        "Hopper": 1,
         "Platform": 3
       }
     },
@@ -176,12 +176,12 @@
       "maxFlockSize": 3,
       "weightedBath": 3,
       "weightedFoods": {
-        "Corn": 3,
+        "Corn": 2,
         "MixedSeeds": 3,
         "SunflowerSeeds": 3
       },
       "weightedFeeders": {
-        "Hopper": 3,
+        "Hopper": 1,
         "Platform": 3
       }
     },
@@ -191,21 +191,21 @@
       "maxFlockSize": 3,
       "weightedBath": 3,
       "weightedFoods": {
-        "Corn": 3,
-        "Fruit": 3,
+        "Corn": 4,
+        "Fruit": 4,
         "MixedSeeds": 3,
         "SunflowerSeeds": 3
       },
       "weightedFeeders": {
-        "Hopper": 3,
+        "Hopper": 2,
         "Platform": 3,
-        "Tube": 3
+        "Tube": 1
       }
     },
     {
       "id": "Strawberry",
       "name": "Spotted Towhee",
-      "maxFlockSize": 3,
+      "maxFlockSize": 1,
       "weightedBath": 3,
       "weightedFoods": {
         "Corn": 3,
@@ -219,46 +219,46 @@
     {
       "id": "Titmouse",
       "name": "Tufted Titmouse",
-      "maxFlockSize": 3,
+      "maxFlockSize": 1,
       "weightedBath": 3,
       "weightedFoods": {
-        "MixedSeeds": 3,
-        "SunflowerSeeds": 3
+        "MixedSeeds": 2,
+        "SunflowerSeeds": 2
       },
       "weightedFeeders": {
-        "Hopper": 3,
+        "Hopper": 5,
         "Platform": 3,
-        "Tube": 3
+        "Tube": 5
       }
     },
     {
       "id": "White",
       "name": "White-breasted Nuthatch",
-      "maxFlockSize": 3,
+      "maxFlockSize": 1,
       "weightedBath": 3,
       "weightedFoods": {
-        "MixedSeeds": 3,
-        "SunflowerSeeds": 3
+        "MixedSeeds": 2,
+        "SunflowerSeeds": 1
       },
       "weightedFeeders": {
-        "Hopper": 3,
-        "Platform": 3,
-        "Tube": 3
+        "Hopper": 1,
+        "Platform": 1,
+        "Tube": 1
       }
     },
     {
       "id": "Wren",
       "name": "Carolina Wren",
-      "maxFlockSize": 3,
+      "maxFlockSize": 1,
       "weightedBath": 3,
       "weightedFoods": {
-        "MixedSeeds": 3,
-        "SunflowerSeeds": 3
+        "MixedSeeds": 2,
+        "SunflowerSeeds": 1
       },
       "weightedFeeders": {
-        "Hopper": 3,
-        "Platform": 3,
-        "Tube": 3
+        "Hopper": 2,
+        "Platform": 1,
+        "Tube": 2
       }
     }
   ]

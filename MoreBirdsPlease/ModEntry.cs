@@ -16,9 +16,21 @@ using DynamicGameAssets.Game;
 using SpaceShared.APIs;
 using System.Threading.Channels;
 using Microsoft.Xna.Framework.Graphics;
+using MoreBirdsPlease.Game.Items;
 
-// TODO achievements for seeing birds? A field guide that gets filled as you see new birds? Mail framework mod with gifts!
+// Notes:
+// Automate mod support (see dynamic assets readme)
+// Multiplayer... works! Each player gets their own birds, but they can be scared away by the other player. Not bad. Adding synced birds will take A LOT of work.
 
+// TODO Before v1:
+// - Patch addbirdies to add specific BetterBirdies
+// - Perch on tube feeder
+
+// TODO Planned features:
+// - Bird baths
+// - A field guide that gets filled as you see new birds?
+// - Custom mail backgrounds https://www.nexusmods.com/stardewvalley/mods/1536
+// - Specific bird behavior/speed/etc. per Birdie
 
 namespace MoreBirdsPlease
 {
@@ -32,9 +44,6 @@ namespace MoreBirdsPlease
 
         private List<string> previousActiveLocations = new List<string>();
 
-        /*********
-        ** Public methods
-        *********/
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
@@ -42,11 +51,16 @@ namespace MoreBirdsPlease
             instance = this;
 
             this.Helper.Events.GameLoop.GameLaunched += GameLoop_GameLaunched;
+            this.Helper.Events.GameLoop.SaveLoaded += GameLoop_SaveLoaded;
             this.Helper.Events.Player.Warped += Player_Warped;
 
-            // this.Helper.Events.GameLoop.UpdateTicked += GameLoop_UpdateTicked;
-
             DataManager.Initialize(this);
+        }
+
+        private void GameLoop_SaveLoaded(object sender, SaveLoadedEventArgs e)
+        {
+            DataManager.InitializeSaveData();
+            Mail.Initialize();
         }
 
         /*
@@ -57,36 +71,10 @@ namespace MoreBirdsPlease
 
             if (e.IsMultipleOf(60 * 5 /* 5s ))
             {
-                // First, get locations of all bird feeders
-                foreach (var d in Game1.player.currentLocation.Objects)
-                {
-                    foreach (var o in d.Values)
-                        if (typeof(CustomBigCraftable).IsAssignableFrom(o.GetType()))
-                        {
-                            var bc = (CustomBigCraftable)o;
-
-                            // TODO check bird feeder ID, decide on range, attraction based on it
-
-                            this.Monitor.Log(bc.Id + ": " + bc.TileLocation.ToString() + ", " + bc.MinutesUntilReady + ", " + bc.TextureOverride);
-
-                            // could maybe use TextureOveride to determine type of food if set a different texture for each type of food
-                            var feeder = new FeederDefinition()
-                            {
-                                range = 10,
-                                maxFlocks = 2,
-                                maxFlockSize = 5
-                            };
-
-                            var r = feeder.getRangeRect(bc.TileLocation);
 
                             // see if any critters remain in their original position, else respawn Game1.player.currentLocation.critters[0].startingPosition
 
-                            //if (Utility.isOnScreen(new Vector2(r.Top, r.Left) * (float)Game1.tileSize, Game1.tileSize) ||
-                            //    Utility.isOnScreen(new Vector2(r.Bottom, r.Left) * (float)Game1.tileSize, Game1.tileSize) ||
-                            //    Utility.isOnScreen(new Vector2(r.Top, r.Right) * (float)Game1.tileSize, Game1.tileSize) ||
-                            //    Utility.isOnScreen(new Vector2(r.Bottom, r.Right) * (float)Game1.tileSize, Game1.tileSize) ||
-                            //    Utility.isOnScreen(bc.TileLocation * (float)Game1.tileSize, Game1.tileSize))
-                            //{
+  
                             if (Utility.isOnScreen(bc.TileLocation * (float)Game1.tileSize, Game1.tileSize * feeder.range)) {
                                 this.Monitor.Log("onsc");
                             } else
@@ -94,14 +82,6 @@ namespace MoreBirdsPlease
                                 this.Monitor.Log("offsc");
 
                             }
-
-
-
-                            // Only attract birds if there is food
-                            //if (bc.MinutesUntilReady > 0)
-                            //{
-                            //    this.AddBirdsNearFeeder(location, bc.TileLocation, feeder);
-                            //}
                         }
                 }
             }
@@ -113,80 +93,35 @@ namespace MoreBirdsPlease
             ConsiderAddingBirds(e.NewLocation);
         }
 
-        /* 
-        private void GameLoop_UpdateTicked(object sender, UpdateTickedEventArgs e)
-        {
-            // TODO ARE BIRDS SHARED BETWEEN PLAYERS?
-
-            // Ignore if player hasn't loaded a save yet
-            if (!Context.IsWorldReady) return;
-
-            CheckNewlyActiveLocations();
-        }
-
-        private void CheckNewlyActiveLocations()
-        {
-            // This doesn't work well because farms always stay loaded. Maybe we should just override addBirdies
-            var activeLocations = this.Helper.Multiplayer.GetActiveLocations();
-            var newlyActiveLocations = new List<GameLocation>();
-
-            foreach (var location in activeLocations)
-            {
-                if (!previousActiveLocations.Contains(location.Name))
-                {
-                    newlyActiveLocations.Add(location);
-                }
-            }
-
-            if (newlyActiveLocations.Any())
-            {
-                foreach (var location in newlyActiveLocations)
-                {
-                    ConsiderAddingBirds(location);
-                }
-
-                previousActiveLocations = activeLocations.Select(l => l.Name).ToList();
-            }
-        }
-        */
-
         private void ConsiderAddingBirds(GameLocation location)
         {
             // First, get locations of all bird feeders
-            foreach (var d in location.Objects)
+            foreach (var overlaidDict in location.Objects)
             {
-                foreach (var o in d.Values)
-                    if (typeof(CustomBigCraftable).IsAssignableFrom(o.GetType()))
+                foreach (var obj in overlaidDict.Values)
+                {
+                    if (typeof(CustomBigCraftable).IsAssignableFrom(obj.GetType()))
                     {
-                        var bc = (CustomBigCraftable)o;
-
-                        // TODO
-                        this.Monitor.Log(bc.Id + ": " + bc.TileLocation.ToString() + ", " + bc.MinutesUntilReady + ", " + bc.TextureOverride);
+                        var bigCraftable = (CustomBigCraftable)obj;
 
                         // Only attract birds if there is food
-                        if (bc.MinutesUntilReady > 0)
+                        if (bigCraftable.MinutesUntilReady > 0)
                         {
-                            var feeder = DataManager.Feeders.FirstOrDefault(f => f.id == bc.Id);
+                            var feeder = DataManager.Feeders.FirstOrDefault(feeder => feeder.id == bigCraftable.Id);
                             if (feeder != null)
                             {
-                                // TODO
-                                this.Monitor.Log("FEEDER: " + feeder.id);
-
-                                var food = DataManager.Foods.FirstOrDefault(f => bc.TextureOverride.EndsWith($":{f.feederAssetIndex}"));
+                                var food = DataManager.Foods.FirstOrDefault(food => bigCraftable.TextureOverride.EndsWith($":{food.feederAssetIndex}"));
                                 if (food != null)
                                 {
-                                    // TODO
-                                    this.Monitor.Log("FOOD: " + food.id);
-
-                                    this.AddBirdsNearFeeder(location, bc.TileLocation, feeder, food);
+                                    this.AddBirdsNearFeeder(location, bigCraftable.TileLocation, feeder, food);
                                 }
                             }
                         }
                     }
+                }
             }
         }
 
-        // TODO
         private static Microsoft.Xna.Framework.Rectangle GetFeederRangeRect(Models.FeederModel feeder, Vector2 feederLocation)
         {
             return new Microsoft.Xna.Framework.Rectangle((int)feederLocation.X - feeder.range, (int)feederLocation.Y - feeder.range, (feeder.range * 2) + 1, (feeder.range * 2) + 1);
@@ -217,9 +152,9 @@ namespace MoreBirdsPlease
 
             Models.BirdieModel flockSpecies = null;
 
-            // 75% change to add another flock
+            // 65% change to add another flock
             int flocksAdded = 0;
-            while (flocksAdded < feeder.maxFlocks && Game1.random.NextDouble() < 0.75)
+            while (flocksAdded < feeder.maxFlocks && Game1.random.NextDouble() < 0.65)
             {
                 // Determine flock parameters
                 flockSpecies = GetRandomBirdie(feeder, food);
@@ -241,10 +176,21 @@ namespace MoreBirdsPlease
 
                     this.Monitor.Log($"Found clear location at {randomRect}, adding flock of {flockSize} {flockSpecies.name} ({flockSpecies.id})");
 
+                    bool birdAddedToFeeder = false;
+
                     // Spawn birdies
                     List<Critter> crittersToAdd = new List<Critter>();
                     for (int index = 0; index < flockSize; ++index)
-                        crittersToAdd.Add((Critter)new BetterBirdie(flockSpecies, -100, -100));
+                    {
+                        if (!birdAddedToFeeder && Game1.random.NextDouble() < 0.65)
+                        {
+                            // Maybe a stationary birdie eating at the feeder
+                            location.addCritter((Critter)new BetterBirdie(flockSpecies, (int)feederLocation.X, (int)feederLocation.Y, feeder));
+                        } else
+                        {
+                            crittersToAdd.Add((Critter)new BetterBirdie(flockSpecies, -100, -100));
+                        }
+                    }
 
                     this.Helper.Reflection.GetMethod(location, "addCrittersStartingAtTile").Invoke(randomTile, crittersToAdd);
 
@@ -253,32 +199,7 @@ namespace MoreBirdsPlease
                     break;
                 }
             }
-
-            if (flockSpecies != null && Game1.random.NextDouble() < 0.75)
-            {
-                // Maybe a stationary birdie eating at the feeder
-                location.addCritter((Critter)new BetterBirdie(flockSpecies, (int)feederLocation.X, (int)feederLocation.Y, feeder));
-            }
         }
-
-        // TODO
-        private void AddBirdsInBath(GameLocation location, Vector2 bathLocation)
-        {
-
-        }
-
-        //private void World_ObjectListChanged(object sender, ObjectListChangedEventArgs e)
-        //{
-        //    foreach (var o in new List<KeyValuePair<Vector2, StardewValley.Object>>(e.Added))
-        //    {
-        //        if (typeof(CustomBigCraftable).IsAssignableFrom(o.Value.GetType()))
-        //        {
-        //            var bc = (CustomBigCraftable)o.Value;
-
-        //            this.Monitor.Log(bc.Id);
-        //        }
-        //    }
-        //}
 
         private void GameLoop_GameLaunched(object sender, GameLaunchedEventArgs e)
         {
@@ -287,22 +208,25 @@ namespace MoreBirdsPlease
             dga.AddEmbeddedPack(this.ModManifest, Path.Combine(Helper.DirectoryPath, "assets", "dga"));
             dgaPack = DynamicGameAssets.Mod.GetPacks().First(cp => cp.GetManifest().UniqueID == ModManifest.UniqueID);
 
-            Helper.ConsoleCommands.Add("mbp_debug", "Adds debug items to inventory", OnDebugCommand);
+            var sc = Helper.ModRegistry.GetApi<ISpaceCoreApi>("spacechase0.SpaceCore");
+            sc.RegisterSerializerType(typeof(Binoculars));
 
-            BetterBirdie.LoadAssets(this);
+            Helper.ConsoleCommands.Add("mbp_debug", "Adds debug items to inventory", OnDebugCommand);
         }
 
         private void OnDebugCommand(string cmd, string[] args)
         {
-            Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(270, 32)); // Corn
-            Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(770, 32)); // Mixed Seeds
+            // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(270, 32)); // Corn
+            // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(770, 32)); // Mixed Seeds
             Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(431, 32)); // Sunflower Seeds
-            Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(832, 32)); // Pineapple
+            // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(832, 32)); // Pineapple
 
             Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("WoodenHopper").ToItem());
             Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("WoodenPlatform").ToItem());
             Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("PlasticTube").ToItem());
             Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("SeedHuller").ToItem());
+            Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("SeedHuller").ToItem());
+            Game1.player.addItemByMenuIfNecessary((Item)new Binoculars());
         }
     }
 }

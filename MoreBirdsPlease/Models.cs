@@ -31,5 +31,15 @@ namespace MoreBirdsPlease.Models
         public Dictionary<string, int> weightedFoods;
         public Dictionary<string, int> weightedFeeders;
     }
+
+    public class SaveJSONModel
+    {
+        public string[] lifeList;
+
+        public SaveJSONModel()
+        {
+            this.lifeList = new string[] { };
+        }
+    }
 }
 

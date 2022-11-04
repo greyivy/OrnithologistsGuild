@@ -18,6 +18,23 @@ const uniqueId = "Ivy.MoreBirdsPlease";
             "Category": "Seeds"
         },
         {
+            "$ItemType": "Object",
+            "ID": "Binoculars",
+            "Texture": "Binoculars.png:0",
+            "SellPrice": 100,
+            "Category": "Junk"
+        },
+        {
+            "$ItemType": "ShopEntry",
+            "Item": {
+                "Type": "DGAItem",
+                "Value": "Ivy.MoreBirdsPlease/Binoculars"
+            },
+            "ShopId": "TravelingMerchant",
+            "MaxSold": 1,
+            "Cost": 250
+        },
+        {
             "$ItemType": "BigCraftable",
             "ID": "SeedHuller",
             "Texture": "SeedHuller.png:0",
@@ -99,14 +116,14 @@ const uniqueId = "Ivy.MoreBirdsPlease";
                         ],
                         "Result": [
                             {
-                                "Weight": 20,
+                                "Weight": 25,
                                 "Value": {
                                     "Type": "VanillaObject",
                                     "Value": "Rotten Plant"
                                 }
                             },
                             {
-                                "Weight": 5,
+                                "Weight": 3,
                                 "Value": {
                                     "Type": "VanillaObject",
                                     "Value": "Iron Ore"

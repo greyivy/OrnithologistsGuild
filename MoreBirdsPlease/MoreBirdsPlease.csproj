@@ -33,6 +33,9 @@
     <None Remove="assets\" />
     <None Remove="assets\dga\" />
     <None Remove="assets\dga\i18n\" />
+    <None Remove="Game\" />
+    <None Remove="Game\Items\" />
+    <None Remove="MailFrameworkMod" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.2" />
@@ -42,10 +45,15 @@
     <Folder Include="assets\" />
     <Folder Include="assets\dga\" />
     <Folder Include="assets\dga\i18n\" />
+    <Folder Include="Game\" />
+    <Folder Include="Game\Items\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="DynamicGameAssets">
       <HintPath>lib\DynamicGameAssets.dll</HintPath>
+    </Reference>
+    <Reference Include="MailFrameworkMod">
+      <HintPath>lib\MailFrameworkMod.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

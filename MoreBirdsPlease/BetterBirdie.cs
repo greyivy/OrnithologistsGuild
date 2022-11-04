@@ -16,16 +16,14 @@ namespace MoreBirdsPlease
         public Models.BirdieModel Birdie;
         public Models.FeederModel Perch;
 
-        private static Dictionary<string, string> LoadedAssets = new Dictionary<string, string>();
-
         public BetterBirdie(Models.BirdieModel birdie, int tileX, int tileY, Models.FeederModel perch = null) : base(tileX, tileY, 0)
         {
             Birdie = birdie;
 
-            if (LoadedAssets.ContainsKey(birdie.id))
+            if (DataManager.BirdieAssetIds.ContainsKey(birdie.id))
             {
                 baseFrame = 0;
-                sprite = new AnimatedSprite(LoadedAssets[birdie.id], baseFrame, 32, 32);
+                sprite = new AnimatedSprite(DataManager.BirdieAssetIds[birdie.id], baseFrame, 32, 32);
             } else
             {
                 // Fallback to random vanilla bird
@@ -41,28 +39,8 @@ namespace MoreBirdsPlease
             }
         }
 
-        public static void LoadAssets(Mod mod)
-        {
-            foreach (var birdie in DataManager.Birdies)
-            {
-                var asset = $"assets/birdies/{birdie.id.ToString()}.png";
-
-                try
-                {
-                    mod.Helper.ModContent.Load<Texture2D>(asset);
-                    LoadedAssets.Add(birdie.id, mod.Helper.ModContent.GetInternalAssetName(asset).BaseName);
-
-                    mod.Monitor.Log($"Loaded birdie asset {asset}", LogLevel.Debug);
-                } catch
-                {
-                    mod.Monitor.Log($"Error loading birdie asset {asset}", LogLevel.Warn);
-                }
-            }
-        }
-
         public override bool update(GameTime time, GameLocation environment)
         {
-            // TODO specific bird behavior/speed/etc. per Birdie?
             var result = base.update(time, environment);
 
             if (Perch != null && this.yOffset == 0)

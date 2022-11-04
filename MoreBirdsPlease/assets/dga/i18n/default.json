@@ -1,4 +1,6 @@
 ﻿{
+  "object.Binoculars.name": "Rusty Binoculars",
+  "object.Binoculars.description": "I wonder if they still work?",
   "object.HulledSunflowerSeeds.name": "Hulled Sunflower Seeds",
   "object.HulledSunflowerSeeds.description": "A delicasy to many birds!",
   "big-craftable.SeedHuller.name": "Seed Huller",
