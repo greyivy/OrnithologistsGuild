@@ -13,16 +13,30 @@
       "capacityHrs": 12
     },
     {
-      "id": "Tube",
+      "id": "PlasticTube",
       "type":  "Tube",
       "range": 25,
-      "maxFlocks": 3
+      "maxFlocks": 2,
+      "perchOffset": -16,
+  
+      "texture": "PlasticTube.png",
+      "sellPrice": 100,
+      "cost": 1000,
+
+      "capacityHrs": 12
     },
     {
-      "id": "Platform",
+      "id": "WoodenPlatform",
       "type": "Platform",
       "range": 50,
-      "maxFlocks": 5
+      "maxFlocks": 3,
+      "perchOffset": -10,
+  
+      "texture": "WoodenPlatform.png",
+      "sellPrice": 500,
+      "cost": 5000,
+
+      "capacityHrs": 12
     }
   ]
   

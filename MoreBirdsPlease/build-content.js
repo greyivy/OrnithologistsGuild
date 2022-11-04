@@ -9,7 +9,54 @@ const uniqueId = "Ivy.MoreBirdsPlease";
     const feeders = JSON.parse(await fs.readFile("feeders.json", "utf-8"));
     const foods = JSON.parse(await fs.readFile("foods.json", "utf-8"));
 
-    const output = [];
+    const output = [
+        {
+            "$ItemType": "Object",
+            "ID": "HulledSunflowerSeeds",
+            "Texture": "HulledSunflowerSeeds.png:0",
+            "SellPrice": 20,
+            "Category": "Seeds"
+        },
+        {
+            "$ItemType": "BigCraftable",
+            "ID": "SeedHuller",
+            "Texture": "SeedHuller.png:0",
+            "SellPrice": 500
+        },
+        {
+            "$ItemType": "ShopEntry",
+            "Item": {
+                "Type": "DGAItem",
+                "Value": "Ivy.MoreBirdsPlease/SeedHuller"
+            },
+            "ShopId": "AnimalSupplies",
+            "MaxSold": 1,
+            "Cost": 5000
+        },
+        {
+            "$ItemType": "MachineRecipe",
+            "MachineId": "Ivy.MoreBirdsPlease/SeedHuller",
+            "MinutesToProcess": 30,
+            "MachineWorkingTextureOverride": "SeedHuller.png:1",
+            "MachinePulseWhileWorking": true,
+            "Ingredients": [
+                {
+                    "Type": "VanillaObject",
+                    "Value": "Sunflower Seeds",
+                    "Quantity": 1
+                }
+            ],
+            "Result": [
+                {
+                    "Weight": 1,
+                    "Value": {
+                        "Type": "DGAItem",
+                        "Value": "Ivy.MoreBirdsPlease/HulledSunflowerSeeds"
+                    }
+                }
+            ]
+        },
+    ];
 
     for (let feeder of feeders) {
         // BigCraftable
@@ -45,8 +92,8 @@ const uniqueId = "Ivy.MoreBirdsPlease";
                         "StartWorkingSound": null,
                         "Ingredients": [
                             {
-                                "Type": "VanillaObject",
-                                "Value": item,
+                                "Type": item.startsWith("DGA:") ? "DGAItem" : "VanillaObject",
+                                "Value": item.startsWith("DGA:") ? item.split(":")[1] : item,
                                 "Quantity": 1
                             }
                         ],

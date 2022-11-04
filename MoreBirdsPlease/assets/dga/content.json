@@ -1,5 +1,51 @@
 [
   {
+    "$ItemType": "Object",
+    "ID": "HulledSunflowerSeeds",
+    "Texture": "HulledSunflowerSeeds.png:0",
+    "SellPrice": 20,
+    "Category": "Seeds"
+  },
+  {
+    "$ItemType": "BigCraftable",
+    "ID": "SeedHuller",
+    "Texture": "SeedHuller.png:0",
+    "SellPrice": 500
+  },
+  {
+    "$ItemType": "ShopEntry",
+    "Item": {
+      "Type": "DGAItem",
+      "Value": "Ivy.MoreBirdsPlease/SeedHuller"
+    },
+    "ShopId": "AnimalSupplies",
+    "MaxSold": 1,
+    "Cost": 5000
+  },
+  {
+    "$ItemType": "MachineRecipe",
+    "MachineId": "Ivy.MoreBirdsPlease/SeedHuller",
+    "MinutesToProcess": 30,
+    "MachineWorkingTextureOverride": "SeedHuller.png:1",
+    "MachinePulseWhileWorking": true,
+    "Ingredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": "Sunflower Seeds",
+        "Quantity": 1
+      }
+    ],
+    "Result": [
+      {
+        "Weight": 1,
+        "Value": {
+          "Type": "DGAItem",
+          "Value": "Ivy.MoreBirdsPlease/HulledSunflowerSeeds"
+        }
+      }
+    ]
+  },
+  {
     "$ItemType": "BigCraftable",
     "ID": "WoodenHopper",
     "Texture": "WoodenHopper.png:0",
@@ -708,8 +754,8 @@
     "StartWorkingSound": null,
     "Ingredients": [
       {
-        "Type": "VanillaObject",
-        "Value": "Sunflower Seeds",
+        "Type": "DGAItem",
+        "Value": "Ivy.MoreBirdsPlease/HulledSunflowerSeeds",
         "Quantity": 1
       }
     ],
@@ -739,23 +785,25 @@
   },
   {
     "$ItemType": "BigCraftable",
-    "ID": "Tube",
-    "Texture": "undefined:0"
+    "ID": "PlasticTube",
+    "Texture": "PlasticTube.png:0",
+    "SellPrice": 100
   },
   {
     "$ItemType": "ShopEntry",
     "Item": {
       "Type": "DGAItem",
-      "Value": "Ivy.MoreBirdsPlease/Tube"
+      "Value": "Ivy.MoreBirdsPlease/PlasticTube"
     },
     "ShopId": "AnimalSupplies",
-    "MaxSold": 1
+    "MaxSold": 1,
+    "Cost": 1000
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Tube",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:3",
+    "MachineId": "Ivy.MoreBirdsPlease/PlasticTube",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "PlasticTube.png:3",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -791,15 +839,15 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Tube",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:4",
+    "MachineId": "Ivy.MoreBirdsPlease/PlasticTube",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "PlasticTube.png:4",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
       {
-        "Type": "VanillaObject",
-        "Value": "Sunflower Seeds",
+        "Type": "DGAItem",
+        "Value": "Ivy.MoreBirdsPlease/HulledSunflowerSeeds",
         "Quantity": 1
       }
     ],
@@ -829,23 +877,25 @@
   },
   {
     "$ItemType": "BigCraftable",
-    "ID": "Platform",
-    "Texture": "undefined:0"
+    "ID": "WoodenPlatform",
+    "Texture": "WoodenPlatform.png:0",
+    "SellPrice": 500
   },
   {
     "$ItemType": "ShopEntry",
     "Item": {
       "Type": "DGAItem",
-      "Value": "Ivy.MoreBirdsPlease/Platform"
+      "Value": "Ivy.MoreBirdsPlease/WoodenPlatform"
     },
     "ShopId": "AnimalSupplies",
-    "MaxSold": 1
+    "MaxSold": 1,
+    "Cost": 5000
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:1",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:1",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -881,9 +931,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -919,9 +969,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -957,9 +1007,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -995,9 +1045,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1033,9 +1083,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1071,9 +1121,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1109,9 +1159,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1147,9 +1197,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1185,9 +1235,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1223,9 +1273,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1261,9 +1311,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1299,9 +1349,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1337,9 +1387,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1375,9 +1425,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1413,9 +1463,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1451,9 +1501,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:2",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1489,9 +1539,9 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:3",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:3",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
@@ -1527,15 +1577,15 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/Platform",
-    "MinutesToProcess": null,
-    "MachineWorkingTextureOverride": "undefined:4",
+    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MinutesToProcess": 720,
+    "MachineWorkingTextureOverride": "WoodenPlatform.png:4",
     "MachinePulseWhileWorking": false,
     "StartWorkingSound": null,
     "Ingredients": [
       {
-        "Type": "VanillaObject",
-        "Value": "Sunflower Seeds",
+        "Type": "DGAItem",
+        "Value": "Ivy.MoreBirdsPlease/HulledSunflowerSeeds",
         "Quantity": 1
       }
     ],

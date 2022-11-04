@@ -19,7 +19,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 // TODO achievements for seeing birds? A field guide that gets filled as you see new birds? Mail framework mod with gifts!
 
-// Feeder decides range/number of flocks, food decides bird, bird decides max flock size
 
 namespace MoreBirdsPlease
 {
@@ -301,6 +300,9 @@ namespace MoreBirdsPlease
             Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(832, 32)); // Pineapple
 
             Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("WoodenHopper").ToItem());
+            Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("WoodenPlatform").ToItem());
+            Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("PlasticTube").ToItem());
+            Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("SeedHuller").ToItem());
         }
     }
 }

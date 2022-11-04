@@ -10,7 +10,7 @@
     <CustomCommands>
       <CustomCommands>
         <Command>
-          <type>Build</type>
+          <type>BeforeBuild</type>
           <command>node build-content.js</command>
         </Command>
       </CustomCommands>
@@ -20,7 +20,7 @@
     <CustomCommands>
       <CustomCommands>
         <Command>
-          <type>Build</type>
+          <type>BeforeBuild</type>
           <command>node build-content.js</command>
         </Command>
       </CustomCommands>
