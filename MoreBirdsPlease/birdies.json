@@ -3,6 +3,7 @@
       "id": "Black",
       "name": "Brewer's Blackbird",
       "maxFlockSize": 3,
+      "weightedRandom": 5,
       "weightedBath": 3,
       "weightedFoods": {
         "Corn": 3,
@@ -16,6 +17,7 @@
       "id": "Blonde",
       "name": "Cedar Waxwing",
       "maxFlockSize": 6,
+      "weightedRandom": 5,
       "weightedBath": 3,
       "weightedFoods": {
         "Fruit": 3
@@ -28,6 +30,7 @@
       "id": "Bluebird",
       "name": "Eastern Bluebird",
       "maxFlockSize": 4,
+      "weightedRandom": 5,
       "weightedBath": 3,
       "weightedFoods": {
         "Fruit": 3
@@ -40,6 +43,7 @@
       "id": "Brown",
       "name": "House Finch",
       "maxFlockSize": 2,
+      "weightedRandom": 100,
       "weightedBath": 3,
       "weightedFoods": {
         "MixedSeeds": 3,
@@ -55,6 +59,7 @@
       "id": "Cardinal",
       "name": "Northern Cardinal",
       "maxFlockSize": 2,
+      "weightedRandom": 20,
       "weightedBath": 3,
       "weightedFoods": {
         "Corn": 4,
@@ -71,6 +76,7 @@
       "id": "Chickadee",
       "name": "Black-capped Chickadee",
       "maxFlockSize": 1,
+      "weightedRandom": 100,
       "weightedBath": 3,
       "weightedFoods": {
         "MixedSeeds": 5,
@@ -86,6 +92,7 @@
       "id": "Cream",
       "name": "Mourning Dove",
       "maxFlockSize": 5,
+      "weightedRandom": 4,
       "weightedBath": 3,
       "weightedFoods": {
         "Corn": 3,
@@ -101,6 +108,7 @@
       "id": "Goldfinch",
       "name": "American Goldfinch",
       "maxFlockSize": 6,
+      "weightedRandom": 5,
       "weightedBath": 3,
       "weightedFoods": {
         "SunflowerSeeds": 2
@@ -115,6 +123,7 @@
       "id": "Grey",
       "name": "Grey Jay",
       "maxFlockSize": 1,
+      "weightedRandom": 5,
       "weightedBath": 3,
       "weightedFoods": {
         "Fruit": 2,
@@ -130,6 +139,7 @@
       "id": "Honeycreeper",
       "name": "Green Honeycreeper",
       "maxFlockSize": 1,
+      "weightedRandom": 0,
       "weightedBath": 3,
       "weightedFoods": {
         "Fruit": 1
@@ -142,6 +152,7 @@
       "id": "Jay",
       "name": "Blue Jay",
       "maxFlockSize": 5,
+      "weightedRandom": 10,
       "weightedBath": 3,
       "weightedFoods": {
         "Corn": 3,
@@ -159,6 +170,7 @@
       "id": "Junco",
       "name": "Dark-eyed Junco",
       "maxFlockSize": 1,
+      "weightedRandom": 20,
       "weightedBath": 3,
       "weightedFoods": {
         "Corn": 1,
@@ -174,6 +186,7 @@
       "id": "Sparrow",
       "name": "House Sparrow",
       "maxFlockSize": 3,
+      "weightedRandom": 100,
       "weightedBath": 3,
       "weightedFoods": {
         "Corn": 2,
@@ -189,6 +202,7 @@
       "id": "Starling",
       "name": "European Starling",
       "maxFlockSize": 3,
+      "weightedRandom": 20,
       "weightedBath": 3,
       "weightedFoods": {
         "Corn": 4,
@@ -206,6 +220,7 @@
       "id": "Strawberry",
       "name": "Spotted Towhee",
       "maxFlockSize": 1,
+      "weightedRandom": 5,
       "weightedBath": 3,
       "weightedFoods": {
         "Corn": 3,
@@ -220,6 +235,7 @@
       "id": "Titmouse",
       "name": "Tufted Titmouse",
       "maxFlockSize": 1,
+      "weightedRandom": 10,
       "weightedBath": 3,
       "weightedFoods": {
         "MixedSeeds": 2,
@@ -235,6 +251,7 @@
       "id": "White",
       "name": "White-breasted Nuthatch",
       "maxFlockSize": 1,
+      "weightedRandom": 0,
       "weightedBath": 3,
       "weightedFoods": {
         "MixedSeeds": 2,
@@ -250,6 +267,7 @@
       "id": "Wren",
       "name": "Carolina Wren",
       "maxFlockSize": 1,
+      "weightedRandom": 5,
       "weightedBath": 3,
       "weightedFoods": {
         "MixedSeeds": 2,

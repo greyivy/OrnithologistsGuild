@@ -17,20 +17,24 @@ using SpaceShared.APIs;
 using System.Threading.Channels;
 using Microsoft.Xna.Framework.Graphics;
 using MoreBirdsPlease.Game.Items;
+using HarmonyLib;
 
 // Notes:
 // Automate mod support (see dynamic assets readme)
 // Multiplayer... works! Each player gets their own birds, but they can be scared away by the other player. Not bad. Adding synced birds will take A LOT of work.
 
-// TODO Before v1:
-// - Patch addbirdies to add specific BetterBirdies
-// - Perch on tube feeder
-
 // TODO Planned features:
 // - Bird baths
+// - Seasonal rarity
 // - A field guide that gets filled as you see new birds?
-// - Custom mail backgrounds https://www.nexusmods.com/stardewvalley/mods/1536
+// - Custom mail backgrounds? Or color? https://www.nexusmods.com/stardewvalley/mods/1536
 // - Specific bird behavior/speed/etc. per Birdie
+// - Better bird models / sounds
+// - Better weight/chance system taking luck into account
+// - Mail early in the game?
+
+// Bugs/enhancements:
+// - Bring all spawning code to addBirdies? Confirm that it is called regularly and no pop-in occurs
 
 namespace MoreBirdsPlease
 {
@@ -144,7 +148,7 @@ namespace MoreBirdsPlease
         private void AddBirdsNearFeeder(GameLocation location, Vector2 feederLocation, Models.FeederModel feeder, Models.FoodModel food)
         {
             // No birdies past 8:00 PM (it's their bedtime), in the desert or railroad // TODO ensure they don't spawn indoors!
-            if (Game1.timeOfDay >= 1800 || location is Desert || (location is Railroad)) return;
+            if (Game1.timeOfDay >= 1800 || !location.IsOutdoors || location is Desert || (location is Railroad)) return;
 
             // Build a rectangle around the feeder based on the range
             var feederRect = GetFeederRangeRect(feeder, feederLocation);
@@ -152,7 +156,7 @@ namespace MoreBirdsPlease
 
             Models.BirdieModel flockSpecies = null;
 
-            // 65% change to add another flock
+            // Chance to add another flock
             int flocksAdded = 0;
             while (flocksAdded < feeder.maxFlocks && Game1.random.NextDouble() < 0.65)
             {
@@ -176,16 +180,16 @@ namespace MoreBirdsPlease
 
                     this.Monitor.Log($"Found clear location at {randomRect}, adding flock of {flockSize} {flockSpecies.name} ({flockSpecies.id})");
 
-                    bool birdAddedToFeeder = false;
-
                     // Spawn birdies
                     List<Critter> crittersToAdd = new List<Critter>();
+                    bool birdAddedToFeeder = false;
                     for (int index = 0; index < flockSize; ++index)
                     {
                         if (!birdAddedToFeeder && Game1.random.NextDouble() < 0.65)
                         {
                             // Maybe a stationary birdie eating at the feeder
                             location.addCritter((Critter)new BetterBirdie(flockSpecies, (int)feederLocation.X, (int)feederLocation.Y, feeder));
+                            birdAddedToFeeder = true;
                         } else
                         {
                             crittersToAdd.Add((Critter)new BetterBirdie(flockSpecies, -100, -100));
@@ -210,8 +214,17 @@ namespace MoreBirdsPlease
 
             var sc = Helper.ModRegistry.GetApi<ISpaceCoreApi>("spacechase0.SpaceCore");
             sc.RegisterSerializerType(typeof(Binoculars));
+            sc.RegisterSerializerType(typeof(LifeList));
 
             Helper.ConsoleCommands.Add("mbp_debug", "Adds debug items to inventory", OnDebugCommand);
+
+            var harmony = new Harmony(this.ModManifest.UniqueID);
+
+            LocationPatches.Initialize(this.Monitor);
+            harmony.Patch(
+               original: AccessTools.Method(typeof(StardewValley.GameLocation), nameof(StardewValley.GameLocation.addBirdies)),
+               prefix: new HarmonyMethod(typeof(LocationPatches), nameof(LocationPatches.addBirdies_Prefix))
+            );
         }
 
         private void OnDebugCommand(string cmd, string[] args)
@@ -225,7 +238,7 @@ namespace MoreBirdsPlease
             Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("WoodenPlatform").ToItem());
             Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("PlasticTube").ToItem());
             Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("SeedHuller").ToItem());
-            Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("SeedHuller").ToItem());
+            Game1.player.addItemByMenuIfNecessary((Item)new LifeList());
             Game1.player.addItemByMenuIfNecessary((Item)new Binoculars());
         }
     }

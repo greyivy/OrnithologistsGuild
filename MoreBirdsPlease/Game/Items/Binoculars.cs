@@ -11,6 +11,7 @@ using StardewValley.Monsters;
 using System.Collections.Generic;
 using MailFrameworkMod;
 using SpaceShared;
+using System.Linq;
 
 namespace MoreBirdsPlease.Game.Items
 {
@@ -23,15 +24,16 @@ namespace MoreBirdsPlease.Game.Items
 
         public override bool performUseAction(GameLocation location)
         {
-            if (location == null) return false;
+            if (location == null || !location.IsOutdoors) return false;
 
-            if (Game1.random.NextDouble() < 0.05)
+            if (Game1.random.NextDouble() < 0.025)
             {
                 Game1.addHUDMessage(new HUDMessage("Binoculars fell apart in your hands", HUDMessage.error_type));
 
                 return true;
             }
 
+            bool anyIdentified = false;
             foreach (var critter in location.critters)
             {
                 if (critter is BetterBirdie && Utility.isOnScreen(critter.position, 0))
@@ -42,14 +44,18 @@ namespace MoreBirdsPlease.Game.Items
                     {
                         DataManager.AddToLifeList(birdie.Birdie);
 
-                        Game1.addHUDMessage(new HUDMessage($"{birdie.Birdie.name} added to life list", HUDMessage.achievement_type));
+                        Game1.addHUDMessage(new HUDMessage($"{birdie.Birdie.name} identified", HUDMessage.achievement_type));
+                        anyIdentified = true;
                     }
                 }
+            }
+
+            if (!anyIdentified)
+            {
+                Game1.addHUDMessage(new HUDMessage("Nothing new to identify", ""));
             }
 
             return false;
         }
     }
 }
-
-

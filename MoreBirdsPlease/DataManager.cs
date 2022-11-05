@@ -16,7 +16,6 @@ namespace MoreBirdsPlease
         public static Models.BirdieModel[] Birdies;
 
         public static Dictionary<string, string> BirdieAssetIds = new Dictionary<string, string>();
-        public static Texture2D BinocularsAsset;
 
         public static Models.SaveJSONModel SaveData;
 
@@ -32,9 +31,6 @@ namespace MoreBirdsPlease
             Feeders = mod.Helper.Data.ReadJsonFile<Models.FeederModel[]>("feeders.json");
             Foods = mod.Helper.Data.ReadJsonFile<Models.FoodModel[]>("foods.json");
             Birdies = mod.Helper.Data.ReadJsonFile<Models.BirdieModel[]>("birdies.json");
-
-            // Load binoculars asset
-            BinocularsAsset = mod.Helper.ModContent.Load<Texture2D>("assets/tools-binoculars.png");
 
             // Load birdie assets
             foreach (var birdie in Birdies)

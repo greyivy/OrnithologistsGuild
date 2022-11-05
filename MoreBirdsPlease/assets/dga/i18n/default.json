@@ -1,6 +1,8 @@
 ﻿{
-  "object.Binoculars.name": "Rusty Binoculars",
+  "object.Binoculars.name": "Antique Binoculars",
   "object.Binoculars.description": "I wonder if they still work?",
+  "object.LifeList.name": "Birding Life List",
+  "object.LifeList.description": "It has spots to record identified birds.",
   "object.HulledSunflowerSeeds.name": "Hulled Sunflower Seeds",
   "object.HulledSunflowerSeeds.description": "A delicasy to many birds!",
   "big-craftable.SeedHuller.name": "Seed Huller",

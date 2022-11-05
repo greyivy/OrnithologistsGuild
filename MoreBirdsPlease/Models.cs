@@ -27,6 +27,7 @@ namespace MoreBirdsPlease.Models
         public string name;
         // TODO asset
         public int maxFlockSize;
+        public int weightedRandom;
         public int weightedBath;
         public Dictionary<string, int> weightedFoods;
         public Dictionary<string, int> weightedFeeders;

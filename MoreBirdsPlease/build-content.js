@@ -12,10 +12,12 @@ const uniqueId = "Ivy.MoreBirdsPlease";
     const output = [
         {
             "$ItemType": "Object",
-            "ID": "HulledSunflowerSeeds",
-            "Texture": "HulledSunflowerSeeds.png:0",
-            "SellPrice": 20,
-            "Category": "Seeds"
+            "ID": "LifeList",
+            "Texture": "LifeList.png:0",
+            "SellPrice": null,
+            "CanTrash": false,
+            "IsGiftable": false,
+            "Category": "Junk"
         },
         {
             "$ItemType": "Object",
@@ -35,6 +37,13 @@ const uniqueId = "Ivy.MoreBirdsPlease";
             "Cost": 250
         },
         {
+            "$ItemType": "Object",
+            "ID": "HulledSunflowerSeeds",
+            "Texture": "HulledSunflowerSeeds.png:0",
+            "SellPrice": 20,
+            "Category": "Seeds"
+        },
+        {
             "$ItemType": "BigCraftable",
             "ID": "SeedHuller",
             "Texture": "SeedHuller.png:0",
@@ -48,7 +57,7 @@ const uniqueId = "Ivy.MoreBirdsPlease";
             },
             "ShopId": "AnimalSupplies",
             "MaxSold": 1,
-            "Cost": 5000
+            "Cost": 2500
         },
         {
             "$ItemType": "MachineRecipe",

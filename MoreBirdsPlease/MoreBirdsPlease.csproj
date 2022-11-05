@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <GamePath>/Users/ivy/Applications/Stardew Valley Development.app/Contents/MacOS</GamePath>
     <AssemblyName>MoreBirdsPlease</AssemblyName>
+    <EnableHarmony>true</EnableHarmony>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
