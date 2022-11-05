@@ -9,14 +9,14 @@ using StardewValley.BellsAndWhistles;
 
 namespace OrnithologistsGuild
 {
-    public class BetterBirdie : StardewValley.BellsAndWhistles.Birdie
+    public partial class BetterBirdie : StardewValley.BellsAndWhistles.Critter
     {
         public readonly int[] FallbackBirdTypes = new int[] { StardewValley.BellsAndWhistles.Birdie.blueBird, StardewValley.BellsAndWhistles.Birdie.brownBird };
 
         public Models.BirdieModel Birdie;
         public Models.FeederModel Perch;
 
-        public BetterBirdie(Models.BirdieModel birdie, int tileX, int tileY, Models.FeederModel perch = null) : base(tileX, tileY, 0)
+        public BetterBirdie(Models.BirdieModel birdie, int tileX, int tileY, Models.FeederModel perch = null) : base(0, new Vector2(tileX * 64, tileY * 64))
         {
             Birdie = birdie;
 
@@ -31,6 +31,13 @@ namespace OrnithologistsGuild
                 sprite = new AnimatedSprite(critterTexture, baseFrame, 32, 32);
             }
 
+            flip = Game1.random.NextDouble() < 0.5;
+            position.X += 32f;
+            position.Y += 32f;
+            startingPosition = position;
+            flightOffset = (float)Game1.random.NextDouble() - 0.5f;
+            State = BetterBirdieState.Pecking;
+
             this.Perch = perch;
             if (perch != null)
             {
@@ -39,17 +46,20 @@ namespace OrnithologistsGuild
             }
         }
 
-        public override bool update(GameTime time, GameLocation environment)
+        public override void drawAboveFrontLayer(SpriteBatch b)
         {
-            var result = base.update(time, environment);
-
-            if (Perch != null && this.yOffset == 0)
+            if (State == BetterBirdieState.FlyingAway)
             {
-                // Bird likely not flying away -- keep stationary
-                this.position = this.startingPosition;
+                base.draw(b);
             }
+        }
 
-            return result;
+        public override void draw(SpriteBatch b)
+        {
+            if (State != BetterBirdieState.FlyingAway)
+            {
+                base.draw(b);
+            }
         }
     }
 }

@@ -14,6 +14,8 @@ namespace OrnithologistsGuild
 {
     public class BetterBirdieSpawner
     {
+        private const bool DEBUG_ALWAYS_SPAWN = true;
+
         public static void AddBirdies(GameLocation location, double chance = 0, bool onlyIfOnScreen = false)
         {
             // No birdies past 8:00 PM (it's their bedtime), in the desert or railroad
@@ -58,11 +60,11 @@ namespace OrnithologistsGuild
 
             // Chance to add another flock
             int flocksAdded = 0;
-            while (Game1.random.NextDouble() < Math.Min(chance, (0.15 / (flocksAdded + 1)))) // Max 15% chance, lowering after every flock
+            while ((DEBUG_ALWAYS_SPAWN && flocksAdded == 0) || Game1.random.NextDouble() < Math.Min(chance, (0.15 / (flocksAdded + 1)))) // Max 15% chance, lowering after every flock
             {
                 // Determine flock parameters
                 flockSpecies = GetRandomBirdie();
-                int flockSize = Game1.random.Next(1, flockSpecies.maxFlockSize + 1);
+                int flockSize = DEBUG_ALWAYS_SPAWN ? 1 : Game1.random.Next(1, flockSpecies.maxFlockSize + 1);
 
                 // Try 50 times to find an empty patch within the location
                 for (int trial = 0; trial < 100; trial++)
@@ -111,7 +113,7 @@ namespace OrnithologistsGuild
 
             // Chance to add another flock
             int flocksAdded = 0;
-            while (flocksAdded < feeder.maxFlocks && Game1.random.NextDouble() < 0.45)
+            while (flocksAdded < feeder.maxFlocks && Game1.random.NextDouble() < 0.35)
             {
                 // Determine flock parameters
                 flockSpecies = GetRandomFeederBirdie(feeder, food);

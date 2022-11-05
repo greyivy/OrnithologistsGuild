@@ -17,7 +17,8 @@
       },
       "weightedFeeders": {
         "Platform": 3
-      }
+      },
+      "flapDuration": 250
     },
     {
       "id": "Blonde",
@@ -36,7 +37,8 @@
       },
       "weightedFeeders": {
         "Hopper": 3
-      }
+      },
+      "flapDuration": 200
     },
     {
       "id": "Bluebird",
@@ -55,7 +57,8 @@
       },
       "weightedFeeders": {
         "Platform": 2
-      }
+      },
+      "flapDuration": 200
     },
     {
       "id": "Brown",
@@ -77,7 +80,8 @@
         "Hopper": 3,
         "Platform": 1,
         "Tube": 5
-      }
+      },
+      "flapDuration": 150
     },
     {
       "id": "Cardinal",
@@ -100,7 +104,8 @@
         "Hopper": 2,
         "Platform": 3,
         "Tube": 1
-      }
+      },
+      "flapDuration": 250
     },
     {
       "id": "Chickadee",
@@ -122,7 +127,8 @@
         "Hopper": 5,
         "Platform": 3,
         "Tube": 5
-      }
+      },
+      "flapDuration": 500
     },
     {
       "id": "Cream",
@@ -144,7 +150,8 @@
       "weightedFeeders": {
         "Hopper": 1,
         "Platform": 2
-      }
+      },
+      "flapDuration": 400
     },
     {
       "id": "Goldfinch",
@@ -165,7 +172,8 @@
         "Hopper": 2,
         "Platform": 1,
         "Tube": 3
-      }
+      },
+      "flapDuration": 150
     },
     {
       "id": "Grey",
@@ -188,7 +196,8 @@
         "Hopper": 2,
         "Platform": 3,
         "Tube": 1
-      }
+      },
+      "flapDuration": 400
     },
     {
       "id": "Honeycreeper",
@@ -207,7 +216,8 @@
       },
       "weightedFeeders": {
         "Hopper": 1
-      }
+      },
+      "flapDuration": 250
     },
     {
       "id": "Jay",
@@ -231,7 +241,8 @@
         "Hopper": 3,
         "Platform": 2,
         "Tube": 1
-      }
+      },
+      "flapDuration": 400
     },
     {
       "id": "Junco",
@@ -253,7 +264,8 @@
       "weightedFeeders": {
         "Hopper": 1,
         "Platform": 3
-      }
+      },
+      "flapDuration": 250
     },
     {
       "id": "Sparrow",
@@ -275,7 +287,8 @@
       "weightedFeeders": {
         "Hopper": 1,
         "Platform": 3
-      }
+      },
+      "flapDuration": 200
     },
     {
       "id": "Starling",
@@ -299,7 +312,8 @@
         "Hopper": 2,
         "Platform": 3,
         "Tube": 1
-      }
+      },
+      "flapDuration": 250
     },
     {
       "id": "Strawberry",
@@ -320,7 +334,8 @@
       },
       "weightedFeeders": {
         "Platform": 3
-      }
+      },
+      "flapDuration": 300
     },
     {
       "id": "Titmouse",
@@ -342,7 +357,8 @@
         "Hopper": 5,
         "Platform": 3,
         "Tube": 5
-      }
+      },
+      "flapDuration": 500
     },
     {
       "id": "White",
@@ -363,7 +379,8 @@
         "Hopper": 1,
         "Platform": 1,
         "Tube": 1
-      }
+      },
+      "flapDuration": 200
     },
     {
       "id": "Wren",
@@ -385,6 +402,7 @@
         "Hopper": 2,
         "Platform": 1,
         "Tube": 2
-      }
+      },
+      "flapDuration": 300
     }
   ]
