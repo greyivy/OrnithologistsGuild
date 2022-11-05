@@ -168,7 +168,9 @@ namespace OrnithologistsGuild
             var weightedUsualSuspects = new List<Models.BirdieModel>();
             foreach (var birdie in usualSuspects)
             {
-                weightedUsualSuspects.AddRange(Enumerable.Repeat(birdie, birdie.weightedRandom));
+                var weight = birdie.weightedRandom * birdie.seasonalMultiplier[Game1.currentSeason];
+
+                weightedUsualSuspects.AddRange(Enumerable.Repeat(birdie, weight));
             }
 
             return weightedUsualSuspects[Game1.random.Next(0, weightedUsualSuspects.Count - 1)];
@@ -182,7 +184,9 @@ namespace OrnithologistsGuild
             var weightedUsualSuspects = new List<Models.BirdieModel>();
             foreach (var birdie in usualSuspects)
             {
-                weightedUsualSuspects.AddRange(Enumerable.Repeat(birdie, birdie.weightedFeeders[feeder.type] + birdie.weightedFoods[food.id]));
+                var weight = (birdie.weightedFeeders[feeder.type] + birdie.weightedFoods[food.id]) * birdie.seasonalMultiplier[Game1.currentSeason];
+
+                weightedUsualSuspects.AddRange(Enumerable.Repeat(birdie, weight));
             }
 
             return weightedUsualSuspects[Game1.random.Next(0, weightedUsualSuspects.Count - 1)];

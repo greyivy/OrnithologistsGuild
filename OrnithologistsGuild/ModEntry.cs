@@ -25,12 +25,11 @@ using HarmonyLib;
 
 // TODO Planned features:
 // - Bird baths
-// - Seasonal rarity
-// - A field guide that gets filled as you see new birds?
 // - Custom mail backgrounds? Or color? https://www.nexusmods.com/stardewvalley/mods/1536
 // - Specific bird behavior/speed/etc. per Birdie
 // - Better bird models / sounds
 // - Better weight/chance system taking luck into account
+// - More sets of binoculars
 
 namespace OrnithologistsGuild
 {

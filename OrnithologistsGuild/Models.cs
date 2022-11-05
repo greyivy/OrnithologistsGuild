@@ -27,6 +27,7 @@ namespace OrnithologistsGuild.Models
         public string name;
         // TODO asset
         public int maxFlockSize;
+        public Dictionary<string, int> seasonalMultiplier;
         public int weightedRandom;
         public int weightedBath;
         public Dictionary<string, int> weightedFoods;
