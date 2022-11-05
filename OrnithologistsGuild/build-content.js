@@ -1,7 +1,7 @@
 ﻿const { promises: fs } = require("fs");
 const path = require("path");
 
-const uniqueId = "Ivy.MoreBirdsPlease";
+const uniqueId = "Ivy.OrnithologistsGuild";
 
 (async () => {
     console.log('Building content.json... ')
@@ -30,7 +30,7 @@ const uniqueId = "Ivy.MoreBirdsPlease";
             "$ItemType": "ShopEntry",
             "Item": {
                 "Type": "DGAItem",
-                "Value": "Ivy.MoreBirdsPlease/Binoculars"
+                "Value": "Ivy.OrnithologistsGuild/Binoculars"
             },
             "ShopId": "TravelingMerchant",
             "MaxSold": 1,
@@ -53,7 +53,7 @@ const uniqueId = "Ivy.MoreBirdsPlease";
             "$ItemType": "ShopEntry",
             "Item": {
                 "Type": "DGAItem",
-                "Value": "Ivy.MoreBirdsPlease/SeedHuller"
+                "Value": "Ivy.OrnithologistsGuild/SeedHuller"
             },
             "ShopId": "AnimalSupplies",
             "MaxSold": 1,
@@ -61,7 +61,7 @@ const uniqueId = "Ivy.MoreBirdsPlease";
         },
         {
             "$ItemType": "MachineRecipe",
-            "MachineId": "Ivy.MoreBirdsPlease/SeedHuller",
+            "MachineId": "Ivy.OrnithologistsGuild/SeedHuller",
             "MinutesToProcess": 30,
             "MachineWorkingTextureOverride": "SeedHuller.png:1",
             "MachinePulseWhileWorking": true,
@@ -77,7 +77,7 @@ const uniqueId = "Ivy.MoreBirdsPlease";
                     "Weight": 1,
                     "Value": {
                         "Type": "DGAItem",
-                        "Value": "Ivy.MoreBirdsPlease/HulledSunflowerSeeds"
+                        "Value": "Ivy.OrnithologistsGuild/HulledSunflowerSeeds"
                     }
                 }
             ]

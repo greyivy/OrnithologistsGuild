@@ -7,7 +7,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
 
-namespace MoreBirdsPlease
+namespace OrnithologistsGuild
 {
     public class BetterBirdie : StardewValley.BellsAndWhistles.Birdie
     {

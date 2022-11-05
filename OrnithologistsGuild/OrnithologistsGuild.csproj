@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GamePath>/Users/ivy/Applications/Stardew Valley Development.app/Contents/MacOS</GamePath>
-    <AssemblyName>MoreBirdsPlease</AssemblyName>
+    <AssemblyName>OrnithologistsGuild</AssemblyName>
     <EnableHarmony>true</EnableHarmony>
   </PropertyGroup>
 

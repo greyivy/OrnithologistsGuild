@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace MoreBirdsPlease.Models
+namespace OrnithologistsGuild.Models
 {
     public class FeederModel
     {

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 
-namespace MoreBirdsPlease
+namespace OrnithologistsGuild
 {
     public class DataManager
     {

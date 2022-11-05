@@ -1,11 +1,11 @@
 ﻿{
-  "Name": "MoreBirdsPlease",
+  "Name": "OrnithologistsGuild",
   "Author": "Ivy",
   "Version": "1.0.0",
   "Description": "Test",
-  "UniqueID": "Ivy.MoreBirdsPlease",
+  "UniqueID": "Ivy.OrnithologistsGuild",
   "MinimumApiVersion": "3.0.0",
-  "EntryDll": "MoreBirdsPlease.dll",
+  "EntryDll": "OrnithologistsGuild.dll",
   "UpdateKeys": [],
   "Dependencies": [
     {

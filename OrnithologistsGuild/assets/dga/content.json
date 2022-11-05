@@ -19,7 +19,7 @@
     "$ItemType": "ShopEntry",
     "Item": {
       "Type": "DGAItem",
-      "Value": "Ivy.MoreBirdsPlease/Binoculars"
+      "Value": "Ivy.OrnithologistsGuild/Binoculars"
     },
     "ShopId": "TravelingMerchant",
     "MaxSold": 1,
@@ -42,7 +42,7 @@
     "$ItemType": "ShopEntry",
     "Item": {
       "Type": "DGAItem",
-      "Value": "Ivy.MoreBirdsPlease/SeedHuller"
+      "Value": "Ivy.OrnithologistsGuild/SeedHuller"
     },
     "ShopId": "AnimalSupplies",
     "MaxSold": 1,
@@ -50,7 +50,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/SeedHuller",
+    "MachineId": "Ivy.OrnithologistsGuild/SeedHuller",
     "MinutesToProcess": 30,
     "MachineWorkingTextureOverride": "SeedHuller.png:1",
     "MachinePulseWhileWorking": true,
@@ -66,7 +66,7 @@
         "Weight": 1,
         "Value": {
           "Type": "DGAItem",
-          "Value": "Ivy.MoreBirdsPlease/HulledSunflowerSeeds"
+          "Value": "Ivy.OrnithologistsGuild/HulledSunflowerSeeds"
         }
       }
     ]
@@ -81,7 +81,7 @@
     "$ItemType": "ShopEntry",
     "Item": {
       "Type": "DGAItem",
-      "Value": "Ivy.MoreBirdsPlease/WoodenHopper"
+      "Value": "Ivy.OrnithologistsGuild/WoodenHopper"
     },
     "ShopId": "AnimalSupplies",
     "MaxSold": 1,
@@ -89,7 +89,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:1",
     "MachinePulseWhileWorking": false,
@@ -127,7 +127,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -165,7 +165,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -203,7 +203,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -241,7 +241,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -279,7 +279,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -317,7 +317,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -355,7 +355,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -393,7 +393,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -431,7 +431,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -469,7 +469,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -507,7 +507,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -545,7 +545,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -583,7 +583,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -621,7 +621,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -659,7 +659,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -697,7 +697,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:2",
     "MachinePulseWhileWorking": false,
@@ -735,7 +735,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:3",
     "MachinePulseWhileWorking": false,
@@ -773,7 +773,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenHopper",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenHopper",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenHopper.png:4",
     "MachinePulseWhileWorking": false,
@@ -781,7 +781,7 @@
     "Ingredients": [
       {
         "Type": "DGAItem",
-        "Value": "Ivy.MoreBirdsPlease/HulledSunflowerSeeds",
+        "Value": "Ivy.OrnithologistsGuild/HulledSunflowerSeeds",
         "Quantity": 1
       }
     ],
@@ -819,7 +819,7 @@
     "$ItemType": "ShopEntry",
     "Item": {
       "Type": "DGAItem",
-      "Value": "Ivy.MoreBirdsPlease/PlasticTube"
+      "Value": "Ivy.OrnithologistsGuild/PlasticTube"
     },
     "ShopId": "AnimalSupplies",
     "MaxSold": 1,
@@ -827,7 +827,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/PlasticTube",
+    "MachineId": "Ivy.OrnithologistsGuild/PlasticTube",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "PlasticTube.png:3",
     "MachinePulseWhileWorking": false,
@@ -865,7 +865,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/PlasticTube",
+    "MachineId": "Ivy.OrnithologistsGuild/PlasticTube",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "PlasticTube.png:4",
     "MachinePulseWhileWorking": false,
@@ -873,7 +873,7 @@
     "Ingredients": [
       {
         "Type": "DGAItem",
-        "Value": "Ivy.MoreBirdsPlease/HulledSunflowerSeeds",
+        "Value": "Ivy.OrnithologistsGuild/HulledSunflowerSeeds",
         "Quantity": 1
       }
     ],
@@ -911,7 +911,7 @@
     "$ItemType": "ShopEntry",
     "Item": {
       "Type": "DGAItem",
-      "Value": "Ivy.MoreBirdsPlease/WoodenPlatform"
+      "Value": "Ivy.OrnithologistsGuild/WoodenPlatform"
     },
     "ShopId": "AnimalSupplies",
     "MaxSold": 1,
@@ -919,7 +919,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:1",
     "MachinePulseWhileWorking": false,
@@ -957,7 +957,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -995,7 +995,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1033,7 +1033,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1071,7 +1071,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1109,7 +1109,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1147,7 +1147,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1185,7 +1185,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1223,7 +1223,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1261,7 +1261,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1299,7 +1299,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1337,7 +1337,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1375,7 +1375,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1413,7 +1413,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1451,7 +1451,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1489,7 +1489,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1527,7 +1527,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:2",
     "MachinePulseWhileWorking": false,
@@ -1565,7 +1565,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:3",
     "MachinePulseWhileWorking": false,
@@ -1603,7 +1603,7 @@
   },
   {
     "$ItemType": "MachineRecipe",
-    "MachineId": "Ivy.MoreBirdsPlease/WoodenPlatform",
+    "MachineId": "Ivy.OrnithologistsGuild/WoodenPlatform",
     "MinutesToProcess": 720,
     "MachineWorkingTextureOverride": "WoodenPlatform.png:4",
     "MachinePulseWhileWorking": false,
@@ -1611,7 +1611,7 @@
     "Ingredients": [
       {
         "Type": "DGAItem",
-        "Value": "Ivy.MoreBirdsPlease/HulledSunflowerSeeds",
+        "Value": "Ivy.OrnithologistsGuild/HulledSunflowerSeeds",
         "Quantity": 1
       }
     ],

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MoreBirdsPlease
+namespace OrnithologistsGuild
 {
     public enum FeederType
     {
