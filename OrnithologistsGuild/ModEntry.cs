@@ -29,7 +29,8 @@ using HarmonyLib;
 // - Specific bird behavior/speed/etc. per Birdie
 // - Better bird models / sounds
 // - Better weight/chance system taking luck into account
-// - More sets of binoculars
+// - More sets of binoculars with different ranges
+// - Binoculars work on Critters.Owl, Woodpecker, etc. (or even customize these)
 
 namespace OrnithologistsGuild
 {

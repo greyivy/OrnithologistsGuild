@@ -15,7 +15,8 @@ namespace OrnithologistsGuild
         Walking,
         Pecking,
         Sleeping,
-        FlyingAway
+        FlyingAway,
+        Relocating
     }
 
     public enum BetterBirdieTrigger
@@ -25,18 +26,79 @@ namespace OrnithologistsGuild
         Stop,
         Hop,
         FlyAway,
-        Sleep
+        Sleep,
+        Relocate
     }
 
     public partial class BetterBirdie : StardewValley.BellsAndWhistles.Critter
     {
-        private int characterCheckTimer = 200;
+        private int CharacterCheckTimer = 200;
 
-        private int walkTimer;
+        private int WalkTimer;
+        private int RelocateFlyAwayTimer;
+
+        private Vector2? RelocateFrom;
+        private Vector2? RelocateTo;
+        private float? RelocateDistance;
+        private int? RelocateDuration;
+        private int? RelocateElapsed;
 
         public Fsm<BetterBirdieState, BetterBirdieTrigger> StateMachine;
 
         private GameLocation Environment;
+
+        float EaseOutSine(float x)
+        {
+            return MathF.Sin((x * MathF.PI) / 2);
+        }
+
+        private List<FarmerSprite.AnimationFrame> GetFlyingAnimation()
+        {
+            return new List<FarmerSprite.AnimationFrame> {
+                    new FarmerSprite.AnimationFrame (baseFrame + 6, (int)MathF.Round(0.27f * Birdie.flapDuration)),
+                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * Birdie.flapDuration), secondaryArm: false, flip, frameBehavior: (Farmer who) =>
+                    {
+                        // Make bird shoot up a bit while flapping for more realistic flight
+                        // e.g. flapDuration = 500, gravityAffectedDY = 4
+                        // e.g. flapDuration = 250, gravityAffectedDY = 2
+                        gravityAffectedDY = -(Birdie.flapDuration * (4f/500f));
+
+                        // Play flapping noise
+                        if (Utility.isOnScreen(position, 64)) Game1.playSound("batFlap");
+                    }),
+                    new FarmerSprite.AnimationFrame (baseFrame + 8, (int)MathF.Round(0.27f * Birdie.flapDuration)),
+                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * Birdie.flapDuration))
+                };
+        }
+
+        private bool IsFlying { get {
+            return StateMachine.Current.Identifier == BetterBirdieState.Relocating || StateMachine.Current.Identifier == BetterBirdieState.FlyingAway;
+        } }
+
+        private void CheckCharacterProximity(GameTime time, GameLocation environment)
+        {
+            CharacterCheckTimer -= time.ElapsedGameTime.Milliseconds;
+            if (CharacterCheckTimer < 0)
+            {
+                CharacterCheckTimer = 200;
+
+                if (!IsFlying && Utility.isThereAFarmerOrCharacterWithinDistance(position / 64f, Birdie.cautiousness, environment) != null)
+                {
+                    StateMachine.Trigger(Game1.random.NextDouble() < 0.75 ? BetterBirdieTrigger.FlyAway : BetterBirdieTrigger.Relocate);
+                }
+            }
+        }
+
+        public override bool update(GameTime time, GameLocation environment)
+        {
+            Environment = environment;
+
+            CheckCharacterProximity(time, environment);
+
+            StateMachine.Update(time.ElapsedGameTime);
+
+            return base.update(time, environment);
+        }
 
         private void InitializeStateMachine()
         {
@@ -65,7 +127,7 @@ namespace OrnithologistsGuild
                     {
                         if (Game1.random.NextDouble() < 0.008)
                         {
-                            switch (Game1.random.Next(6))
+                            switch (Game1.random.Next(7))
                             {
                                 case 0:
                                     StateMachine.Trigger(BetterBirdieTrigger.Sleep);
@@ -83,6 +145,17 @@ namespace OrnithologistsGuild
                                 case 4:
                                 case 5:
                                     StateMachine.Trigger(BetterBirdieTrigger.Walk);
+                                    break;
+                                case 6:
+                                    var random = Game1.random.NextDouble();
+                                    ModEntry.instance.Monitor.Log(random.ToString());
+                                    if (random < 0.15)
+                                    {
+                                        StateMachine.Trigger(BetterBirdieTrigger.FlyAway);
+                                    } else if (random < 0.5)
+                                    {
+                                        StateMachine.Trigger(BetterBirdieTrigger.Relocate);
+                                    }
                                     break;
                             }
                         }
@@ -103,7 +176,8 @@ namespace OrnithologistsGuild
                                 if (!Environment.isCollidingPosition(getBoundingBox(-2, 0), Game1.viewport, isFarmer: false, 0, glider: false, null, pathfinding: false, projectile: false, ignoreCharacterRequirement: true))
                                 {
                                     position.X -= 2f;
-                                } else
+                                }
+                                else
                                 {
                                     // Can't hop left -- flip instead
                                     flip = !flip;
@@ -114,12 +188,14 @@ namespace OrnithologistsGuild
                                 if (!Environment.isCollidingPosition(getBoundingBox(2, 0), Game1.viewport, isFarmer: false, 0, glider: false, null, pathfinding: false, projectile: false, ignoreCharacterRequirement: true))
                                 {
                                     position.X += 2f;
-                                } else
+                                }
+                                else
                                 {
                                     flip = !flip;
                                 }
                             }
-                        } else if (yJumpOffset >= 0)
+                        }
+                        else if (yJumpOffset >= 0)
                         {
                             // Done hopping
                             StateMachine.Trigger(BetterBirdieTrigger.Stop);
@@ -145,7 +221,7 @@ namespace OrnithologistsGuild
                             flip = true;
                         }
 
-                        walkTimer = Game1.random.Next(5, 25) * 100;
+                        WalkTimer = Game1.random.Next(5, 50) * 100;
                     })
                     .OnExit(e =>
                     {
@@ -155,30 +231,34 @@ namespace OrnithologistsGuild
                     })
                     .Update(a =>
                     {
-                        walkTimer -= a.ElapsedTimeSpan.Milliseconds;
+                        WalkTimer -= a.ElapsedTimeSpan.Milliseconds;
 
                         if (!flip)
                         {
                             if (!(Perch != null && position.X < startingPosition.X - 1f) && !Environment.isCollidingPosition(getBoundingBox(-1, 0), Game1.viewport, isFarmer: false, 0, glider: false, null, pathfinding: false, projectile: false, ignoreCharacterRequirement: true))
                             {
                                 position.X -= 1f;
-                            } else
+                            }
+                            else
                             {
                                 // Can't walk left
                                 if (Perch == null)
                                 {
                                     flip = !flip;
-                                } else
+                                }
+                                else
                                 {
                                     StateMachine.Trigger(BetterBirdieTrigger.Stop);
                                 }
                             }
-                        } else
+                        }
+                        else
                         {
                             if (!(Perch != null && position.X > startingPosition.X + 3f) && !Environment.isCollidingPosition(getBoundingBox(1, 0), Game1.viewport, isFarmer: false, 0, glider: false, null, pathfinding: false, projectile: false, ignoreCharacterRequirement: true))
                             {
                                 position.X += 1f;
-                            } else
+                            }
+                            else
                             {
                                 // Can't walk right
                                 if (Perch == null)
@@ -192,7 +272,7 @@ namespace OrnithologistsGuild
                             }
                         }
 
-                        if (walkTimer <= 0)
+                        if (WalkTimer <= 0)
                         {
                             StateMachine.Trigger(BetterBirdieTrigger.Stop);
                         }
@@ -254,82 +334,156 @@ namespace OrnithologistsGuild
                 .State(BetterBirdieState.FlyingAway) // Done! // TODO sounds, fly speed
                     .OnEnter(e =>
                     {
+                        Character character = Utility.isThereAFarmerOrCharacterWithinDistance(position / 64f, Birdie.cautiousness, Environment);
+
+                        // Fly away from nearest character
+                        if (character != null)
+                        {
+                            if (character.Position.X > position.X)
+                            {
+                                flip = false;
+                            }
+                            else
+                            {
+                                flip = true;
+                            }
+                        }
+
                         if (Game1.random.NextDouble() < 0.85)
                         {
                             Game1.playSound("SpringBirds");
                         }
 
-                        sprite.setCurrentAnimation(new List<FarmerSprite.AnimationFrame> {
-                            new FarmerSprite.AnimationFrame (baseFrame + 6, (int)Math.Round(0.27 * (float)Birdie.flapDuration)),
-                            new FarmerSprite.AnimationFrame (baseFrame + 7, (int)Math.Round(0.23 * (float)Birdie.flapDuration), secondaryArm: false, flip, frameBehavior: (Farmer who) =>
-                            {
-                                // Make bird shoot up a bit while flapping for more realistic flight
-                                // e.g. flapDuration = 500, gravityAffectedDY = 4
-                                // e.g. flapDuration = 250, gravityAffectedDY = 2
-                                gravityAffectedDY = (float)Math.Round((float)Birdie.flapDuration * (4f/500f));
-
-                                // Play flapping noise
-                                if (Utility.isOnScreen(position, 64)) Game1.playSound("batFlap");
-                            }),
-                            new FarmerSprite.AnimationFrame (baseFrame + 8, (int)Math.Round(0.27 * (float)Birdie.flapDuration)),
-                            new FarmerSprite.AnimationFrame (baseFrame + 7, (int)Math.Round(0.23 * (float)Birdie.flapDuration))
-                        });
+                        sprite.setCurrentAnimation(GetFlyingAnimation());
                         sprite.loop = true;
                     })
                     .Update(a =>
                     {
                         if (!flip)
                         {
-                            position.X -= 6f;
+                            position.X -= Birdie.flySpeed;
                         }
                         else
                         {
-                            position.X += 6f;
+                            position.X += Birdie.flySpeed;
                         }
                         yOffset -= 2f + flightOffset;
                     })
+                .State(BetterBirdieState.Relocating)
+                    .TransitionTo(BetterBirdieState.Stopping).On(BetterBirdieTrigger.Stop)
+                    .OnEnter(e =>
+                    {
+                        // Try to find clear tile to relocate to
+                        for (int trial = 0; trial < 50; trial++)
+                        {
+                            var randomTile = Environment.getRandomTile();
+
+                            // Get a 3x3 patch around the random tile
+                            var randomRect = new Microsoft.Xna.Framework.Rectangle((int)randomTile.X - 1, (int)randomTile.Y - 1, 3, 3);
+
+                            if (Environment.isAreaClear(randomRect) && Utility.isThereAFarmerOrCharacterWithinDistance(randomTile, Birdie.cautiousness, Environment) == null)
+                            {
+                                RelocateFrom = position;
+                                RelocateTo = new Vector2(randomTile.X * 64, randomTile.Y * 64);
+
+                                RelocateDistance = Vector2.Distance(position, RelocateTo.Value);
+                                if (RelocateDistance.Value < 500 || RelocateDistance.Value > 2500) continue; // Too close/far
+
+                                RelocateDuration = (int)(RelocateDistance.Value / (Birdie.flySpeed / 15f));
+                                RelocateElapsed = 0;
+
+                                if (position.X > RelocateTo.Value.X)
+                                {
+                                    flip = false;
+                                }
+                                else
+                                {
+                                    flip = true;
+                                }
+
+                                break;
+                            }
+                        }
+
+                        if (RelocateTo.HasValue)
+                        {
+                            if (Game1.random.NextDouble() < 0.85)
+                            {
+                                Game1.playSound("SpringBirds");
+                            }
+
+                            sprite.setCurrentAnimation(GetFlyingAnimation());
+                            sprite.loop = true;
+                        }
+                        else
+                        {
+                            // No clear location -- fly away instead
+                            StateMachine.Trigger(BetterBirdieTrigger.FlyAway);
+                        }
+                    })
+                    .OnExit(e =>
+                    {
+                        if (RelocateTo.HasValue) {
+                            // Stop fly animation
+                            sprite.loop = false;
+                            sprite.CurrentAnimation = null;
+
+                            // No longer perched
+                            Perch = null;
+
+                            // Clean up
+                            RelocateFrom = null;
+                            RelocateTo = null;
+
+                            RelocateDistance = null;
+
+                            RelocateDuration = null;
+                            RelocateElapsed = null;
+                        }
+                    })
+                    .Update(a =>
+                    {
+                        if (RelocateTo.HasValue)
+                        {
+                            // Fly to tile
+                            RelocateElapsed += a.ElapsedTimeSpan.Milliseconds;
+                            if (RelocateElapsed <= RelocateDuration)
+                            {
+                                var factor = ((float)RelocateElapsed.Value / (float)RelocateDuration.Value);
+
+                                // Fly in an arc
+                                if (factor < 0.5f)
+                                {
+                                    // Fly up to mid point
+                                    var arcFactor = factor * 2f;
+                                    yOffset = -(Vector2.Lerp(new Vector2(0, 0), new Vector2(0, (RelocateDistance.Value / 6f)), EaseOutSine(arcFactor)).Y);
+                                }
+                                else
+                                {
+                                    // Fly down from mid point
+                                    var arcFactor = (factor - 0.5f) * 2f;
+                                    yOffset = -(Vector2.Lerp(new Vector2(0, RelocateDistance.Value / 6f), new Vector2(0, 0), EaseOutSine(arcFactor)).Y);
+                                }
+
+                                position = Vector2.Lerp(RelocateFrom.Value, RelocateTo.Value, EaseOutSine(factor));
+                            }
+                            else
+                            {
+                                // Relocation complete
+                                position = RelocateTo.Value;
+                                yOffset = 0;
+                                StateMachine.Trigger(BetterBirdieTrigger.Stop);
+                            }
+                        }
+                    })
                 .GlobalTransitionTo(BetterBirdieState.FlyingAway).OnGlobal(BetterBirdieTrigger.FlyAway)
+                .GlobalTransitionTo(BetterBirdieState.Relocating).OnGlobal(BetterBirdieTrigger.Relocate)
                 .Build();
 
             StateMachine.AddStateChangeHandler((state, e) =>
             {
                 ModEntry.instance.Monitor.Log($"{Birdie.id}: {e.From.ToString()} -> {e.To.ToString()}");
             });
-        }
-
-        private void CheckCharacterProximity(GameTime time, GameLocation environment)
-        {
-            characterCheckTimer -= time.ElapsedGameTime.Milliseconds;
-            if (characterCheckTimer < 0)
-            {
-                Character character = Utility.isThereAFarmerOrCharacterWithinDistance(position / 64f, 4, environment);
-                characterCheckTimer = 200;
-
-                if (character != null && StateMachine.Current.Identifier != BetterBirdieState.FlyingAway)
-                {
-                    if (character.Position.X > position.X)
-                    {
-                        flip = false;
-                    }
-                    else
-                    {
-                        flip = true;
-                    }
-
-                    StateMachine.Trigger(BetterBirdieTrigger.FlyAway);
-                }
-            }
-        }
-
-        public override bool update(GameTime time, GameLocation environment)
-        {
-            Environment = environment;
-
-            CheckCharacterProximity(time, environment);
-
-            StateMachine.Update(time.ElapsedGameTime);
-
-            return base.update(time, environment);
         }
     }
 }

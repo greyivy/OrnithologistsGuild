@@ -29,8 +29,8 @@ const uniqueId = "Ivy.OrnithologistsGuild";
         {
             "$ItemType": "ShopEntry",
             "Item": {
-                "Type": "DGAItem",
-                "Value": "Ivy.OrnithologistsGuild/Binoculars"
+                "Type": "Custom",
+                "Value": "OrnithologistsGuild.Game.Items.Binoculars/arg"
             },
             "ShopId": "TravelingMerchant",
             "MaxSold": 1,

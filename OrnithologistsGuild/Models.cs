@@ -33,7 +33,9 @@ namespace OrnithologistsGuild.Models
         public Dictionary<string, int> weightedFoods;
         public Dictionary<string, int> weightedFeeders;
 
-        public int flapDuration;
+        public float flapDuration;
+        public float flySpeed;
+        public int cautiousness;
     }
 
     public class SaveJSONModel

@@ -60,16 +60,19 @@ namespace OrnithologistsGuild
 
             Models.BirdieModel flockSpecies = null;
 
+            // Override chance
+            if (location is Farm) chance = 0.15;
+
             // Chance to add another flock
             int flocksAdded = 0;
-            while ((DEBUG_ALWAYS_SPAWN && flocksAdded == 0) || Game1.random.NextDouble() < Math.Min(chance, (0.125 / (flocksAdded + 1)))) // Max 15% chance, lowering after every flock
+            while ((DEBUG_ALWAYS_SPAWN && flocksAdded == 0) || Game1.random.NextDouble() < chance / (flocksAdded + 1)) // Chance lowers after every flock
             {
                 // Determine flock parameters
                 flockSpecies = GetRandomBirdie();
                 int flockSize = DEBUG_ALWAYS_SPAWN ? 1 : Game1.random.Next(1, flockSpecies.maxFlockSize + 1);
 
                 // Try 50 times to find an empty patch within the location
-                for (int trial = 0; trial < 100; trial++)
+                for (int trial = 0; trial < 50; trial++)
                 {
                     // Get a random tile within the feeder range
                     var randomTile = location.getRandomTile();
@@ -95,37 +98,35 @@ namespace OrnithologistsGuild
                         flocksAdded++;
 
                         break;
-                    } else
-                    {
-
                     }
                 }
             }
         }
 
-        private static void AddBirdsNearFeeder(GameLocation location, Vector2 feederLocation, Models.FeederModel feeder, Models.FoodModel food, bool onlyIfOnScreen)
+        private static void AddBirdsNearFeeder(GameLocation location, Vector2 feederTile, Models.FeederModel feeder, Models.FoodModel food, bool onlyIfOnScreen)
         {
             ModEntry.instance.Monitor.Log("AddBirdsNearFeeder");
 
             // Build a rectangle around the feeder based on the range
-            var feederRect = GetFeederRangeRect(feeder, feederLocation);
-            ModEntry.instance.Monitor.Log("Trying to spawn birds at " + feederRect.ToString());
+            var feederRect = GetFeederRangeRect(feeder, feederTile);
 
             Models.BirdieModel flockSpecies = null;
 
             // Chance to add another flock
             int flocksAdded = 0;
-            while (flocksAdded < feeder.maxFlocks && Game1.random.NextDouble() < 0.35)
+            while (flocksAdded < feeder.maxFlocks && Game1.random.NextDouble() < 0.4)
             {
+                ModEntry.instance.Monitor.Log("Trying to spawn flock within " + feederRect.ToString());
+
                 // Determine flock parameters
                 flockSpecies = GetRandomFeederBirdie(feeder, food);
                 int flockSize = Game1.random.Next(1, flockSpecies.maxFlockSize + 1);
 
-                var shouldAddBirdToFeeder = flocksAdded == 0 && Game1.random.NextDouble() < 0.65;
+                var shouldAddBirdToFeeder = flocksAdded == 0 && Game1.random.NextDouble() < 0.65 && (!onlyIfOnScreen || !Utility.isOnScreen(feederTile * 64f, 64));
                 if (shouldAddBirdToFeeder) flockSize -= 1;
 
                 // Try 50 times to find an empty patch within the feeder range
-                for (int trial = 0; trial < 100; trial++)
+                for (int trial = 0; trial < 50; trial++)
                 {
                     // Get a random tile within the feeder range
                     var randomTile = new Vector2(Game1.random.Next(feederRect.Left, feederRect.Right + 1), Game1.random.Next(feederRect.Top, feederRect.Bottom));
@@ -157,41 +158,45 @@ namespace OrnithologistsGuild
 
                 if (shouldAddBirdToFeeder)
                 {
-                    location.addCritter((Critter)new BetterBirdie(flockSpecies, (int)feederLocation.X, (int)feederLocation.Y, feeder));
+                    location.addCritter((Critter)new BetterBirdie(flockSpecies, (int)feederTile.X, (int)feederTile.Y, feeder));
                 }
             }
         }
 
-        private static Models.BirdieModel GetRandomBirdie()
+        private static T WeightedRandom<T>(IEnumerable<T> values, Func<T, int> getWeight)
         {
-            var usualSuspects = DataManager.Birdies.ToList();
+            IEnumerable<int> weights = values.Select(v => getWeight(v));
 
-            // TODO optimize
-            var weightedUsualSuspects = new List<Models.BirdieModel>();
-            foreach (var birdie in usualSuspects)
+            int random = Game1.random.Next(0, weights.Sum());
+            int sum = 0;
+
+            for (int i = 0; i < values.Count(); i++)
             {
-                var weight = birdie.weightedRandom * birdie.seasonalMultiplier[Game1.currentSeason];
+                var weight = weights.ElementAt(i);
 
-                weightedUsualSuspects.AddRange(Enumerable.Repeat(birdie, weight));
+                if (random < (sum + weight))
+                {
+                    return values.ElementAt(i);
+                }
+                else
+                {
+                    sum += weight;
+                }
             }
 
-            return weightedUsualSuspects[Game1.random.Next(0, weightedUsualSuspects.Count - 1)];
+            return values.Last();
+        }
+
+        private static Models.BirdieModel GetRandomBirdie()
+        {
+            return WeightedRandom<Models.BirdieModel>(DataManager.Birdies, birdie => birdie.weightedRandom * birdie.seasonalMultiplier[Game1.currentSeason]);
         }
 
         private static Models.BirdieModel GetRandomFeederBirdie(Models.FeederModel feeder, Models.FoodModel food)
         {
-            var usualSuspects = DataManager.Birdies.Where(b => b.weightedFeeders.ContainsKey(feeder.type) && b.weightedFoods.ContainsKey(food.id)).ToList();
+            var usualSuspects = DataManager.Birdies.Where(b => b.weightedFeeders.ContainsKey(feeder.type) && b.weightedFoods.ContainsKey(food.id));
 
-            // TODO optimize
-            var weightedUsualSuspects = new List<Models.BirdieModel>();
-            foreach (var birdie in usualSuspects)
-            {
-                var weight = (birdie.weightedFeeders[feeder.type] + birdie.weightedFoods[food.id]) * birdie.seasonalMultiplier[Game1.currentSeason];
-
-                weightedUsualSuspects.AddRange(Enumerable.Repeat(birdie, weight));
-            }
-
-            return weightedUsualSuspects[Game1.random.Next(0, weightedUsualSuspects.Count - 1)];
+            return WeightedRandom<Models.BirdieModel>(usualSuspects, birdie => (birdie.weightedFeeders[feeder.type] + birdie.weightedFoods[food.id]) * birdie.seasonalMultiplier[Game1.currentSeason]);
         }
 
         private static Microsoft.Xna.Framework.Rectangle GetFeederRangeRect(Models.FeederModel feeder, Vector2 feederLocation)

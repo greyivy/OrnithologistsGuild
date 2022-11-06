@@ -26,6 +26,11 @@ namespace OrnithologistsGuild.Game.Items
             this.name = $"{dataPack.ID}_Subclass";
         }
 
+        public Binoculars(string arg) : this()
+        {
+            // Required for DGA
+        }
+
         public override bool performUseAction(GameLocation location)
         {
             if (location == null || !location.IsOutdoors) return false;
@@ -44,19 +49,25 @@ namespace OrnithologistsGuild.Game.Items
                 {
                     var birdie = (BetterBirdie)critter;
 
-                    if (!DataManager.LifeListContains(birdie.Birdie))
+                    if (DataManager.LifeListContains(birdie.Birdie))
+                    {
+                        // TODO this looks different than below... maybe try...
+                        // public HUDMessage(string message, Color color, float timeLeft, bool fadeIn)
+                        Game1.addHUDMessage(new HUDMessage($"{birdie.Birdie.name} identified", ""));
+                    } else
                     {
                         DataManager.AddToLifeList(birdie.Birdie);
 
                         Game1.addHUDMessage(new HUDMessage($"{birdie.Birdie.name} identified", HUDMessage.achievement_type));
-                        anyIdentified = true;
                     }
+
+                    anyIdentified = true;
                 }
             }
 
             if (!anyIdentified)
             {
-                Game1.addHUDMessage(new HUDMessage("Nothing new to identify", ""));
+                Game1.addHUDMessage(new HUDMessage("Nothing to identify in range", ""));
             }
 
             return false;
@@ -71,6 +82,11 @@ namespace OrnithologistsGuild.Game.Items
             ret.ObjectColor = this.ObjectColor;
             ret._GetOneFrom(this);
             return ret;
+        }
+
+        public override bool canStackWith(ISalable other)
+        {
+            return false;
         }
     }
 }

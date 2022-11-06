@@ -52,5 +52,10 @@ namespace OrnithologistsGuild.Game.Items
             ret._GetOneFrom(this);
             return ret;
         }
+
+        public override bool canStackWith(ISalable other)
+        {
+            return false;
+        }
     }
 }

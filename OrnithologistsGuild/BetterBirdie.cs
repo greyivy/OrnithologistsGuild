@@ -43,6 +43,7 @@ namespace OrnithologistsGuild
             startingPosition = position;
 
             flightOffset = (float)Game1.random.NextDouble() - 0.5f;
+            RelocateFlyAwayTimer = Game1.random.Next(10, 120) * 1000;
 
             this.Perch = perch;
             if (perch != null)
@@ -54,7 +55,7 @@ namespace OrnithologistsGuild
 
         public override void drawAboveFrontLayer(SpriteBatch b)
         {
-            if (StateMachine.Current.Identifier == BetterBirdieState.FlyingAway)
+            if (IsFlying)
             {
                 base.draw(b);
             }
@@ -62,7 +63,7 @@ namespace OrnithologistsGuild
 
         public override void draw(SpriteBatch b)
         {
-            if (StateMachine.Current.Identifier != BetterBirdieState.FlyingAway)
+            if (!IsFlying)
             {
                 base.draw(b);
             }
