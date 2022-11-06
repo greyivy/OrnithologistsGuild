@@ -14,7 +14,7 @@ namespace OrnithologistsGuild
         {
             MailDao.SaveLetter(new Letter(
                 "Mods_Ivy_OrnithologistsGuild_ll_none",
-                @"Dear @, ^^Your grandmother, an avid birder of many years, left you this. We hope you find a way to continue his tradition this spring! ^^Good luck and happy birding, ^The Pelican Town Ornithologist's Guild",
+                @"Dear @, ^^Your grandmother, an avid birder of many years, left you this. We hope you find a way to continue her tradition this spring! ^^Good luck and happy birding, ^The Pelican Town Ornithologist's Guild",
                 new List<Item> { new LifeList() },
                 (l) => !Game1.player.mailReceived.Contains(l.Id) && (SDate.From(Game1.Date) >= new SDate(5, "spring", 1) || DataManager.SaveData.lifeList.Length >= 1),
                 (l) => Game1.player.mailReceived.Add(l.Id)));

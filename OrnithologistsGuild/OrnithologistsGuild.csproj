@@ -5,6 +5,7 @@
     <GamePath>/Users/ivy/Applications/Stardew Valley Development.app/Contents/MacOS</GamePath>
     <AssemblyName>OrnithologistsGuild</AssemblyName>
     <EnableHarmony>true</EnableHarmony>
+    <BundleExtraAssemblies>ThirdParty</BundleExtraAssemblies>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -37,9 +38,12 @@
     <None Remove="Game\" />
     <None Remove="Game\Items\" />
     <None Remove="MailFrameworkMod" />
+    <None Remove="SimpleStateMachineLibrary" />
+    <None Remove="StateMachine" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.2" />
+    <PackageReference Include="StateMachine" Version="1.2.4" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />

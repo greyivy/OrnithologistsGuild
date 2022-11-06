@@ -14,7 +14,7 @@ namespace OrnithologistsGuild
 {
     public class BetterBirdieSpawner
     {
-        private const bool DEBUG_ALWAYS_SPAWN = true;
+        private const bool DEBUG_ALWAYS_SPAWN = false;
 
         public static void AddBirdies(GameLocation location, double chance = 0, bool onlyIfOnScreen = false)
         {
@@ -56,11 +56,13 @@ namespace OrnithologistsGuild
         {
             ModEntry.instance.Monitor.Log("AddRandomBirdies");
 
+            if (DEBUG_ALWAYS_SPAWN && location.critters.Count > 0) return;
+
             Models.BirdieModel flockSpecies = null;
 
             // Chance to add another flock
             int flocksAdded = 0;
-            while ((DEBUG_ALWAYS_SPAWN && flocksAdded == 0) || Game1.random.NextDouble() < Math.Min(chance, (0.15 / (flocksAdded + 1)))) // Max 15% chance, lowering after every flock
+            while ((DEBUG_ALWAYS_SPAWN && flocksAdded == 0) || Game1.random.NextDouble() < Math.Min(chance, (0.125 / (flocksAdded + 1)))) // Max 15% chance, lowering after every flock
             {
                 // Determine flock parameters
                 flockSpecies = GetRandomBirdie();
@@ -119,6 +121,9 @@ namespace OrnithologistsGuild
                 flockSpecies = GetRandomFeederBirdie(feeder, food);
                 int flockSize = Game1.random.Next(1, flockSpecies.maxFlockSize + 1);
 
+                var shouldAddBirdToFeeder = flocksAdded == 0 && Game1.random.NextDouble() < 0.65;
+                if (shouldAddBirdToFeeder) flockSize -= 1;
+
                 // Try 50 times to find an empty patch within the feeder range
                 for (int trial = 0; trial < 100; trial++)
                 {
@@ -137,27 +142,22 @@ namespace OrnithologistsGuild
 
                         // Spawn birdies
                         List<Critter> crittersToAdd = new List<Critter>();
-                        bool birdAddedToFeeder = false;
+
                         for (int index = 0; index < flockSize; ++index)
                         {
-                            if (!birdAddedToFeeder && Game1.random.NextDouble() < 0.65)
-                            {
-                                // Maybe a stationary birdie eating at the feeder
-                                location.addCritter((Critter)new BetterBirdie(flockSpecies, (int)feederLocation.X, (int)feederLocation.Y, feeder));
-                                birdAddedToFeeder = true;
-                            }
-                            else
-                            {
-                                crittersToAdd.Add((Critter)new BetterBirdie(flockSpecies, -100, -100));
-                            }
+                            crittersToAdd.Add((Critter)new BetterBirdie(flockSpecies, -100, -100));
                         }
 
                         ModEntry.instance.Helper.Reflection.GetMethod(location, "addCrittersStartingAtTile").Invoke(randomTile, crittersToAdd);
 
                         flocksAdded++;
+                        break;
                     }
+                }
 
-                    break;
+                if (shouldAddBirdToFeeder)
+                {
+                    location.addCritter((Critter)new BetterBirdie(flockSpecies, (int)feederLocation.X, (int)feederLocation.Y, feeder));
                 }
             }
         }

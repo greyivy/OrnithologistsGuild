@@ -16,9 +16,13 @@ namespace OrnithologistsGuild
         public Models.BirdieModel Birdie;
         public Models.FeederModel Perch;
 
+        private float flightOffset;
+
         public BetterBirdie(Models.BirdieModel birdie, int tileX, int tileY, Models.FeederModel perch = null) : base(0, new Vector2(tileX * 64, tileY * 64))
         {
             Birdie = birdie;
+
+            InitializeStateMachine();
 
             if (DataManager.BirdieAssetIds.ContainsKey(birdie.id))
             {
@@ -32,11 +36,13 @@ namespace OrnithologistsGuild
             }
 
             flip = Game1.random.NextDouble() < 0.5;
+
             position.X += 32f;
             position.Y += 32f;
+
             startingPosition = position;
+
             flightOffset = (float)Game1.random.NextDouble() - 0.5f;
-            State = BetterBirdieState.Pecking;
 
             this.Perch = perch;
             if (perch != null)
@@ -48,7 +54,7 @@ namespace OrnithologistsGuild
 
         public override void drawAboveFrontLayer(SpriteBatch b)
         {
-            if (State == BetterBirdieState.FlyingAway)
+            if (StateMachine.Current.Identifier == BetterBirdieState.FlyingAway)
             {
                 base.draw(b);
             }
@@ -56,11 +62,10 @@ namespace OrnithologistsGuild
 
         public override void draw(SpriteBatch b)
         {
-            if (State != BetterBirdieState.FlyingAway)
+            if (StateMachine.Current.Identifier != BetterBirdieState.FlyingAway)
             {
                 base.draw(b);
             }
         }
     }
 }
-
