@@ -6,24 +6,69 @@
     "SellPrice": null,
     "CanTrash": false,
     "IsGiftable": false,
-    "Category": "Junk"
+    "Category": "Junk",
+    "CategoryColorOverride": "255, 255, 0, 255"
   },
   {
     "$ItemType": "Object",
-    "ID": "Binoculars",
+    "ID": "JojaBinoculars",
     "Texture": "Binoculars.png:0",
     "SellPrice": 100,
-    "Category": "Junk"
+    "Category": "Junk",
+    "CategoryColorOverride": "255, 255, 0, 255"
   },
   {
     "$ItemType": "ShopEntry",
     "Item": {
       "Type": "Custom",
-      "Value": "OrnithologistsGuild.Game.Items.Binoculars/arg"
+      "Value": "OrnithologistsGuild.Game.Items.JojaBinoculars/arg"
+    },
+    "ShopId": "Joja",
+    "Cost": 625
+  },
+  {
+    "$ItemType": "ShopEntry",
+    "Item": {
+      "Type": "Custom",
+      "Value": "OrnithologistsGuild.Game.Items.JojaBinoculars/arg"
+    },
+    "ShopId": "AnimalSupplies",
+    "Cost": 1000
+  },
+  {
+    "$ItemType": "Object",
+    "ID": "AntiqueBinoculars",
+    "Texture": "Binoculars.png:1",
+    "SellPrice": 25,
+    "Category": "Junk",
+    "CategoryColorOverride": "255, 255, 0, 255"
+  },
+  {
+    "$ItemType": "ShopEntry",
+    "Item": {
+      "Type": "Custom",
+      "Value": "OrnithologistsGuild.Game.Items.AntiqueBinoculars/arg"
     },
     "ShopId": "TravelingMerchant",
     "MaxSold": 1,
     "Cost": 250
+  },
+  {
+    "$ItemType": "Object",
+    "ID": "ProBinoculars",
+    "Texture": "Binoculars.png:2",
+    "SellPrice": 1000,
+    "Category": "Junk",
+    "CategoryColorOverride": "255, 255, 0, 255"
+  },
+  {
+    "$ItemType": "ShopEntry",
+    "Item": {
+      "Type": "Custom",
+      "Value": "OrnithologistsGuild.Game.Items.ProBinoculars/arg"
+    },
+    "ShopId": "AnimalSupplies",
+    "Cost": 10000
   },
   {
     "$ItemType": "Object",

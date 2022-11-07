@@ -18,7 +18,7 @@ namespace OrnithologistsGuild
 
         private float flightOffset;
 
-        public BetterBirdie(Models.BirdieModel birdie, int tileX, int tileY, Models.FeederModel perch = null) : base(0, new Vector2(tileX * 64, tileY * 64))
+        public BetterBirdie(Models.BirdieModel birdie, int tileX, int tileY, Models.FeederModel perch = null) : base(0, new Vector2(tileX * Game1.tileSize, tileY * Game1.tileSize))
         {
             Birdie = birdie;
 

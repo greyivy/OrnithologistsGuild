@@ -40,10 +40,12 @@
     <None Remove="MailFrameworkMod" />
     <None Remove="SimpleStateMachineLibrary" />
     <None Remove="StateMachine" />
+    <None Remove="MonoGame.Primitives2D" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.2" />
     <PackageReference Include="StateMachine" Version="1.2.4" />
+    <PackageReference Include="MonoGame.Primitives2D" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />

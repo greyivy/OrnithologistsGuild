@@ -77,7 +77,7 @@ namespace OrnithologistsGuild
                     // Get a random tile within the feeder range
                     var randomTile = location.getRandomTile();
 
-                    if (!onlyIfOnScreen || !Utility.isOnScreen(randomTile * 64f, 64))
+                    if (!onlyIfOnScreen || !Utility.isOnScreen(randomTile * Game1.tileSize, Game1.tileSize))
                     {
                         // Get a 3x3 patch around the random tile
                         var randomRect = new Microsoft.Xna.Framework.Rectangle((int)randomTile.X - 1, (int)randomTile.Y - 1, 3, 3);
@@ -108,7 +108,9 @@ namespace OrnithologistsGuild
             ModEntry.instance.Monitor.Log("AddBirdsNearFeeder");
 
             // Build a rectangle around the feeder based on the range
-            var feederRect = GetFeederRangeRect(feeder, feederTile);
+            var feederRect = Utility.getRectangleCenteredAt(feederTile, (feeder.range * 2) + 1);
+
+            ModEntry.instance.Monitor.Log(feederRect.ToString() + " / " + feederRect.ToString());
 
             Models.BirdieModel flockSpecies = null;
 
@@ -122,16 +124,16 @@ namespace OrnithologistsGuild
                 flockSpecies = GetRandomFeederBirdie(feeder, food);
                 int flockSize = Game1.random.Next(1, flockSpecies.maxFlockSize + 1);
 
-                var shouldAddBirdToFeeder = flocksAdded == 0 && Game1.random.NextDouble() < 0.65 && (!onlyIfOnScreen || !Utility.isOnScreen(feederTile * 64f, 64));
+                var shouldAddBirdToFeeder = flocksAdded == 0 && Game1.random.NextDouble() < 0.65 && (!onlyIfOnScreen || !Utility.isOnScreen(feederTile * Game1.tileSize, Game1.tileSize));
                 if (shouldAddBirdToFeeder) flockSize -= 1;
 
                 // Try 50 times to find an empty patch within the feeder range
                 for (int trial = 0; trial < 50; trial++)
                 {
                     // Get a random tile within the feeder range
-                    var randomTile = new Vector2(Game1.random.Next(feederRect.Left, feederRect.Right + 1), Game1.random.Next(feederRect.Top, feederRect.Bottom));
+                    var randomTile = Utility.getRandomPositionInThisRectangle(feederRect, Game1.random);
 
-                    if (location.isTileOnMap(randomTile) && (!onlyIfOnScreen || !Utility.isOnScreen(randomTile * 64f, 64)))
+                    if (location.isTileOnMap(randomTile) && (!onlyIfOnScreen || !Utility.isOnScreen(randomTile * Game1.tileSize, Game1.tileSize)))
                     {
                         // Get a 3x3 patch around the random tile 
                         // var randomRect = new Microsoft.Xna.Framework.Rectangle((int)randomTile.X - 2, (int)randomTile.Y - 2, 5, 5); // TODO revert to 5x5 if needed
@@ -189,6 +191,8 @@ namespace OrnithologistsGuild
 
         private static Models.BirdieModel GetRandomBirdie()
         {
+            if (DEBUG_ALWAYS_SPAWN) return DataManager.Birdies.First(b => b.id == "Chickadee");
+
             return WeightedRandom<Models.BirdieModel>(DataManager.Birdies, birdie => birdie.weightedRandom * birdie.seasonalMultiplier[Game1.currentSeason]);
         }
 
@@ -197,11 +201,6 @@ namespace OrnithologistsGuild
             var usualSuspects = DataManager.Birdies.Where(b => b.weightedFeeders.ContainsKey(feeder.type) && b.weightedFoods.ContainsKey(food.id));
 
             return WeightedRandom<Models.BirdieModel>(usualSuspects, birdie => (birdie.weightedFeeders[feeder.type] + birdie.weightedFoods[food.id]) * birdie.seasonalMultiplier[Game1.currentSeason]);
-        }
-
-        private static Microsoft.Xna.Framework.Rectangle GetFeederRangeRect(Models.FeederModel feeder, Vector2 feederLocation)
-        {
-            return new Microsoft.Xna.Framework.Rectangle((int)feederLocation.X - feeder.range, (int)feederLocation.Y - feeder.range, (feeder.range * 2) + 1, (feeder.range * 2) + 1);
         }
     }
 }

@@ -47,7 +47,8 @@ namespace OrnithologistsGuild
 
         private GameLocation Environment;
 
-        float EaseOutSine(float x)
+        // TODO Helpers class
+        public static float EaseOutSine(float x)
         {
             return MathF.Sin((x * MathF.PI) / 2);
         }
@@ -64,14 +65,14 @@ namespace OrnithologistsGuild
                         gravityAffectedDY = -(Birdie.flapDuration * (4f/500f));
 
                         // Play flapping noise
-                        if (Utility.isOnScreen(position, 64)) Game1.playSound("batFlap");
+                        if (Utility.isOnScreen(position, Game1.tileSize)) Game1.playSound("batFlap");
                     }),
                     new FarmerSprite.AnimationFrame (baseFrame + 8, (int)MathF.Round(0.27f * Birdie.flapDuration)),
                     new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * Birdie.flapDuration))
                 };
         }
 
-        private bool IsFlying { get {
+        public bool IsFlying { get {
             return StateMachine.Current.Identifier == BetterBirdieState.Relocating || StateMachine.Current.Identifier == BetterBirdieState.FlyingAway;
         } }
 
@@ -82,7 +83,7 @@ namespace OrnithologistsGuild
             {
                 CharacterCheckTimer = 200;
 
-                if (!IsFlying && Utility.isThereAFarmerOrCharacterWithinDistance(position / 64f, Birdie.cautiousness, environment) != null)
+                if (!IsFlying && Utility.isThereAFarmerOrCharacterWithinDistance(position / Game1.tileSize, Birdie.cautiousness, environment) != null)
                 {
                     StateMachine.Trigger(Game1.random.NextDouble() < 0.75 ? BetterBirdieTrigger.FlyAway : BetterBirdieTrigger.Relocate);
                 }
@@ -148,7 +149,6 @@ namespace OrnithologistsGuild
                                     break;
                                 case 6:
                                     var random = Game1.random.NextDouble();
-                                    ModEntry.instance.Monitor.Log(random.ToString());
                                     if (random < 0.15)
                                     {
                                         StateMachine.Trigger(BetterBirdieTrigger.FlyAway);
@@ -295,7 +295,7 @@ namespace OrnithologistsGuild
                                 list.Add(new FarmerSprite.AnimationFrame((short)(baseFrame + 4), 100, secondaryArm: false, flip, (Farmer who) =>
                                 {
                                     // Play pecking noise
-                                    if (Utility.isOnScreen(position, 64))
+                                    if (Utility.isOnScreen(position, Game1.tileSize))
                                     {
                                         Game1.playSound("shiny4");
                                     }
@@ -334,7 +334,7 @@ namespace OrnithologistsGuild
                 .State(BetterBirdieState.FlyingAway) // Done! // TODO sounds, fly speed
                     .OnEnter(e =>
                     {
-                        Character character = Utility.isThereAFarmerOrCharacterWithinDistance(position / 64f, Birdie.cautiousness, Environment);
+                        Character character = Utility.isThereAFarmerOrCharacterWithinDistance(position / Game1.tileSize, Birdie.cautiousness, Environment);
 
                         // Fly away from nearest character
                         if (character != null)
@@ -383,11 +383,15 @@ namespace OrnithologistsGuild
 
                             if (Environment.isAreaClear(randomRect) && Utility.isThereAFarmerOrCharacterWithinDistance(randomTile, Birdie.cautiousness, Environment) == null)
                             {
-                                RelocateFrom = position;
-                                RelocateTo = new Vector2(randomTile.X * 64, randomTile.Y * 64);
+                                var randomPosition = new Vector2(randomTile.X * Game1.tileSize, randomTile.Y * Game1.tileSize);
 
-                                RelocateDistance = Vector2.Distance(position, RelocateTo.Value);
-                                if (RelocateDistance.Value < 500 || RelocateDistance.Value > 2500) continue; // Too close/far
+                                var distance = Vector2.Distance(position, randomPosition);
+                                if (distance < 500 || distance > 2500) continue; // Too close/far
+
+                                RelocateFrom = position;
+                                RelocateTo = randomPosition;
+
+                                RelocateDistance = distance;
 
                                 RelocateDuration = (int)(RelocateDistance.Value / (Birdie.flySpeed / 15f));
                                 RelocateElapsed = 0;
@@ -456,13 +460,17 @@ namespace OrnithologistsGuild
                                 {
                                     // Fly up to mid point
                                     var arcFactor = factor * 2f;
-                                    yOffset = -(Vector2.Lerp(new Vector2(0, 0), new Vector2(0, (RelocateDistance.Value / 6f)), EaseOutSine(arcFactor)).Y);
+                                    yOffset = -(Utility.Lerp(0, (RelocateDistance.Value / 6f), EaseOutSine(arcFactor)));
+
+                                    //yOffset = -(Vector2.Lerp(new Vector2(0, 0), new Vector2(0, (RelocateDistance.Value / 6f)), EaseOutSine(arcFactor)).Y);
                                 }
                                 else
                                 {
                                     // Fly down from mid point
                                     var arcFactor = (factor - 0.5f) * 2f;
-                                    yOffset = -(Vector2.Lerp(new Vector2(0, RelocateDistance.Value / 6f), new Vector2(0, 0), EaseOutSine(arcFactor)).Y);
+                                    yOffset = -(Utility.Lerp(RelocateDistance.Value / 6f, 0, EaseOutSine(arcFactor)));
+
+                                    //yOffset = -(Vector2.Lerp(new Vector2(0, RelocateDistance.Value / 6f), new Vector2(0, 0), EaseOutSine(arcFactor)).Y);
                                 }
 
                                 position = Vector2.Lerp(RelocateFrom.Value, RelocateTo.Value, EaseOutSine(factor));

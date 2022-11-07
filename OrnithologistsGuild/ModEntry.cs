@@ -29,8 +29,8 @@ using HarmonyLib;
 // - Specific bird behavior/speed/etc. per Birdie
 // - Better bird models / sounds
 // - Better weight/chance system taking luck into account
-// - More sets of binoculars with different ranges
-// - Binoculars work on Critters.Owl, Woodpecker, etc. (or even customize these)
+// - Binoculars work on Critters.Owl, Woodpecker, Crow/Magpie etc. (or even customize these)
+// - Sleep bubbles above sleeping birds, new state: Doze
 
 namespace OrnithologistsGuild
 {
@@ -95,7 +95,9 @@ namespace OrnithologistsGuild
             dgaPack = DynamicGameAssets.Mod.GetPacks().First(cp => cp.GetManifest().UniqueID == ModManifest.UniqueID);
 
             var sc = Helper.ModRegistry.GetApi<ISpaceCoreApi>("spacechase0.SpaceCore");
-            sc.RegisterSerializerType(typeof(Binoculars));
+            sc.RegisterSerializerType(typeof(JojaBinoculars));
+            sc.RegisterSerializerType(typeof(AntiqueBinoculars));
+            sc.RegisterSerializerType(typeof(ProBinoculars));
             sc.RegisterSerializerType(typeof(LifeList));
 
             Helper.ConsoleCommands.Add("og_debug", "Adds debug items to inventory", OnDebugCommand);
@@ -121,7 +123,9 @@ namespace OrnithologistsGuild
             Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("PlasticTube").ToItem());
             Game1.player.addItemByMenuIfNecessary((Item)dgaPack.Find("SeedHuller").ToItem());
             Game1.player.addItemByMenuIfNecessary((Item)new LifeList());
-            Game1.player.addItemByMenuIfNecessary((Item)new Binoculars());
+            Game1.player.addItemByMenuIfNecessary((Item)new JojaBinoculars());
+            Game1.player.addItemByMenuIfNecessary((Item)new AntiqueBinoculars());
+            Game1.player.addItemByMenuIfNecessary((Item)new ProBinoculars());
         }
     }
 }
