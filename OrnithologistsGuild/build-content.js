@@ -24,7 +24,7 @@ const uniqueId = "Ivy.OrnithologistsGuild";
             "$ItemType": "Object",
             "ID": "JojaBinoculars",
             "Texture": "Binoculars.png:0",
-            "SellPrice": 100,
+            "SellPrice": 250,
             "Category": "Junk",
             "CategoryColorOverride": "255, 255, 0, 255"
         },
@@ -35,7 +35,7 @@ const uniqueId = "Ivy.OrnithologistsGuild";
                 "Value": "OrnithologistsGuild.Game.Items.JojaBinoculars/arg"
             },
             "ShopId": "Joja",
-            "Cost": 625
+            "Cost": 1500
         },
         {
             "$ItemType": "ShopEntry",
@@ -44,13 +44,13 @@ const uniqueId = "Ivy.OrnithologistsGuild";
                 "Value": "OrnithologistsGuild.Game.Items.JojaBinoculars/arg"
             },
             "ShopId": "AnimalSupplies",
-            "Cost": 1000
+            "Cost": 2500
         },
         {
             "$ItemType": "Object",
             "ID": "AntiqueBinoculars",
             "Texture": "Binoculars.png:1",
-            "SellPrice": 25,
+            "SellPrice": 50,
             "Category": "Junk",
             "CategoryColorOverride": "255, 255, 0, 255"
         },
@@ -62,13 +62,13 @@ const uniqueId = "Ivy.OrnithologistsGuild";
             },
             "ShopId": "TravelingMerchant",
             "MaxSold": 1,
-            "Cost": 250
+            "Cost": 500
         },
         {
             "$ItemType": "Object",
             "ID": "ProBinoculars",
             "Texture": "Binoculars.png:2",
-            "SellPrice": 1000,
+            "SellPrice": 2500,
             "Category": "Junk",
             "CategoryColorOverride": "255, 255, 0, 255"
         },
@@ -79,7 +79,7 @@ const uniqueId = "Ivy.OrnithologistsGuild";
                 "Value": "OrnithologistsGuild.Game.Items.ProBinoculars/arg"
             },
             "ShopId": "AnimalSupplies",
-            "Cost": 10000
+            "Cost": 25000
         },
         {
             "$ItemType": "Object",
