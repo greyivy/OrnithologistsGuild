@@ -1,16 +1,8 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
-using Netcode;
 using StardewValley;
 using System.Xml.Serialization;
-using Microsoft.Xna.Framework;
 using DynamicGameAssets.Game;
 using DynamicGameAssets.PackData;
-using StardewValley.BellsAndWhistles;
-using StardewValley.Monsters;
-using System.Collections.Generic;
-using MailFrameworkMod;
-using SpaceShared;
 using System.Linq;
 
 namespace OrnithologistsGuild.Game.Items

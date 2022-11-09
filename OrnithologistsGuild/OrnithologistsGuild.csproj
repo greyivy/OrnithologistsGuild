@@ -41,11 +41,12 @@
     <None Remove="SimpleStateMachineLibrary" />
     <None Remove="StateMachine" />
     <None Remove="MonoGame.Primitives2D" />
+    <None Remove="Utilities\" />
+    <None Remove="Game\Critters\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.2" />
     <PackageReference Include="StateMachine" Version="1.2.4" />
-    <PackageReference Include="MonoGame.Primitives2D" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />
@@ -54,6 +55,8 @@
     <Folder Include="assets\dga\i18n\" />
     <Folder Include="Game\" />
     <Folder Include="Game\Items\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="Game\Critters\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="DynamicGameAssets">

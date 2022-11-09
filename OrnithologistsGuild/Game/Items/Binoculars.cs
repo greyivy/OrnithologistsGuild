@@ -1,19 +1,12 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
-using Netcode;
+﻿using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using DynamicGameAssets.Game;
 using DynamicGameAssets.PackData;
 using StardewValley.BellsAndWhistles;
-using StardewValley.Monsters;
 using System.Collections.Generic;
-using MailFrameworkMod;
-using SpaceShared;
 using System.Linq;
-using NVorbis;
-using xTile.Dimensions;
+using System;
 
 namespace OrnithologistsGuild.Game.Items
 {
@@ -67,7 +60,21 @@ namespace OrnithologistsGuild.Game.Items
 
                         newlyIdentified.Add(birdie.Birdie.name);
                     }
+                } else if (critter is Woodpecker && Vector2.Distance(midPoint, critter.position) <= actualRange)
+                {
+                    
+                } else if (critter is Seagull && Vector2.Distance(midPoint, critter.position) <= actualRange)
+                {
+
+                } else if (critter is Crow && Vector2.Distance(midPoint, critter.position) <= actualRange)
+                {
+
+                } else if (critter is Owl)
+                {
+                    // TODO
                 }
+
+                // ... other critter types? Bird? PerchingBird?
             }
 
             if (alreadyIdentified.Any() || newlyIdentified.Any())
@@ -85,13 +92,32 @@ namespace OrnithologistsGuild.Game.Items
             return false;
         }
 
+        public override void actionWhenBeingHeld(Farmer who)
+        {
+            who.setRunning(false);
+            who.canOnlyWalk = true;
+
+            base.actionWhenBeingHeld(who);
+        }
+
+        public override void actionWhenStopBeingHeld(Farmer who)
+        {
+            who.canOnlyWalk = false;
+            if (Game1.options.autoRun)
+            {
+                who.setRunning(true);
+            }
+
+            base.actionWhenStopBeingHeld(who);
+        }
+
         public override void drawWhenHeld(SpriteBatch spriteBatch, Vector2 objectPosition, Farmer f)
         {
             if (AnimateElapsed.HasValue) {
                 AnimateElapsed += Game1.currentGameTime.ElapsedGameTime.Milliseconds;
                 if (AnimateElapsed <= AnimateDuration)
                 {
-                    var factor = BetterBirdie.EaseOutSine(((float)AnimateElapsed.Value / (float)AnimateDuration));
+                    var factor = Utilities.EaseOutSine(((float)AnimateElapsed.Value / (float)AnimateDuration));
 
                     var animatedRange = Utility.Lerp(0, Range * Game1.tileSize, factor);
                     var opacity = Utility.Lerp(0.7f, 0.1f, factor);

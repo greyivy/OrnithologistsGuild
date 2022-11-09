@@ -3,10 +3,7 @@ using StardewValley;
 using StardewValley.BellsAndWhistles;
 using StardewValley.Locations;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Channels;
 using System.Linq;
-using xTile.Dimensions;
 using DynamicGameAssets.Game;
 using Microsoft.Xna.Framework;
 
@@ -14,7 +11,7 @@ namespace OrnithologistsGuild
 {
     public class BetterBirdieSpawner
     {
-        private const bool DEBUG_ALWAYS_SPAWN = false;
+        private const bool DEBUG_ALWAYS_SPAWN = true;
 
         public static void AddBirdies(GameLocation location, double chance = 0, bool onlyIfOnScreen = false)
         {
@@ -165,42 +162,18 @@ namespace OrnithologistsGuild
             }
         }
 
-        private static T WeightedRandom<T>(IEnumerable<T> values, Func<T, int> getWeight)
-        {
-            IEnumerable<int> weights = values.Select(v => getWeight(v));
-
-            int random = Game1.random.Next(0, weights.Sum());
-            int sum = 0;
-
-            for (int i = 0; i < values.Count(); i++)
-            {
-                var weight = weights.ElementAt(i);
-
-                if (random < (sum + weight))
-                {
-                    return values.ElementAt(i);
-                }
-                else
-                {
-                    sum += weight;
-                }
-            }
-
-            return values.Last();
-        }
-
         private static Models.BirdieModel GetRandomBirdie()
         {
             if (DEBUG_ALWAYS_SPAWN) return DataManager.Birdies.First(b => b.id == "Chickadee");
 
-            return WeightedRandom<Models.BirdieModel>(DataManager.Birdies, birdie => birdie.weightedRandom * birdie.seasonalMultiplier[Game1.currentSeason]);
+            return Utilities.WeightedRandom<Models.BirdieModel>(DataManager.Birdies, birdie => birdie.weightedRandom * birdie.seasonalMultiplier[Game1.currentSeason]);
         }
 
         private static Models.BirdieModel GetRandomFeederBirdie(Models.FeederModel feeder, Models.FoodModel food)
         {
             var usualSuspects = DataManager.Birdies.Where(b => b.weightedFeeders.ContainsKey(feeder.type) && b.weightedFoods.ContainsKey(food.id));
 
-            return WeightedRandom<Models.BirdieModel>(usualSuspects, birdie => (birdie.weightedFeeders[feeder.type] + birdie.weightedFoods[food.id]) * birdie.seasonalMultiplier[Game1.currentSeason]);
+            return Utilities.WeightedRandom<Models.BirdieModel>(usualSuspects, birdie => (birdie.weightedFeeders[feeder.type] + birdie.weightedFoods[food.id]) * birdie.seasonalMultiplier[Game1.currentSeason]);
         }
     }
 }

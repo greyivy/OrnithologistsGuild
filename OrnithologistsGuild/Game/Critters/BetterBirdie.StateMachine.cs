@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using StardewValley;
 using System.Collections.Generic;
-using StardewValley.BellsAndWhistles;
 using StateMachine;
 
 namespace OrnithologistsGuild
@@ -46,12 +45,6 @@ namespace OrnithologistsGuild
         public Fsm<BetterBirdieState, BetterBirdieTrigger> StateMachine;
 
         private GameLocation Environment;
-
-        // TODO Helpers class
-        public static float EaseOutSine(float x)
-        {
-            return MathF.Sin((x * MathF.PI) / 2);
-        }
 
         private List<FarmerSprite.AnimationFrame> GetFlyingAnimation()
         {
@@ -98,6 +91,8 @@ namespace OrnithologistsGuild
 
             StateMachine.Update(time.ElapsedGameTime);
 
+            updateEmote(time);
+
             return base.update(time, environment);
         }
 
@@ -131,7 +126,7 @@ namespace OrnithologistsGuild
                             switch (Game1.random.Next(7))
                             {
                                 case 0:
-                                    StateMachine.Trigger(BetterBirdieTrigger.Sleep);
+                                    StateMachine.Trigger(Perch == null ? BetterBirdieTrigger.Sleep : BetterBirdieTrigger.Peck);
                                     break;
                                 case 1:
                                     StateMachine.Trigger(BetterBirdieTrigger.Peck);
@@ -326,7 +321,13 @@ namespace OrnithologistsGuild
                     })
                     .Update(a =>
                     {
+                        if (isEmoting) return;
+
                         if (Game1.random.NextDouble() < 0.003)
+                        {
+                            doEmote(Character.sleepEmote);
+                        }
+                        else if (Game1.random.NextDouble() < 0.005)
                         {
                             StateMachine.Trigger(BetterBirdieTrigger.Stop);
                         }
@@ -460,7 +461,7 @@ namespace OrnithologistsGuild
                                 {
                                     // Fly up to mid point
                                     var arcFactor = factor * 2f;
-                                    yOffset = -(Utility.Lerp(0, (RelocateDistance.Value / 6f), EaseOutSine(arcFactor)));
+                                    yOffset = -(Utility.Lerp(0, (RelocateDistance.Value / 6f), Utilities.EaseOutSine(arcFactor)));
 
                                     //yOffset = -(Vector2.Lerp(new Vector2(0, 0), new Vector2(0, (RelocateDistance.Value / 6f)), EaseOutSine(arcFactor)).Y);
                                 }
@@ -468,12 +469,12 @@ namespace OrnithologistsGuild
                                 {
                                     // Fly down from mid point
                                     var arcFactor = (factor - 0.5f) * 2f;
-                                    yOffset = -(Utility.Lerp(RelocateDistance.Value / 6f, 0, EaseOutSine(arcFactor)));
+                                    yOffset = -(Utility.Lerp(RelocateDistance.Value / 6f, 0, Utilities.EaseOutSine(arcFactor)));
 
                                     //yOffset = -(Vector2.Lerp(new Vector2(0, RelocateDistance.Value / 6f), new Vector2(0, 0), EaseOutSine(arcFactor)).Y);
                                 }
 
-                                position = Vector2.Lerp(RelocateFrom.Value, RelocateTo.Value, EaseOutSine(factor));
+                                position = Vector2.Lerp(RelocateFrom.Value, RelocateTo.Value, Utilities.EaseOutSine(factor));
                             }
                             else
                             {

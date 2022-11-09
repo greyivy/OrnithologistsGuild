@@ -1,7 +1,5 @@
-﻿using System;
-using MailFrameworkMod;
+﻿using MailFrameworkMod;
 using StardewValley;
-using StardewValley.BellsAndWhistles;
 using System.Collections.Generic;
 using StardewModdingAPI.Utilities;
 using OrnithologistsGuild.Game.Items;

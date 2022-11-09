@@ -88,7 +88,7 @@
         "Tube": 5
       },
       "flapDuration": 150,
-      "flySpeed": 8,
+      "flySpeed": 7,
       "cautiousness": 5
     },
     {
@@ -188,7 +188,7 @@
         "Tube": 3
       },
       "flapDuration": 150,
-      "flySpeed": 8,
+      "flySpeed": 7,
       "cautiousness": 6
     },
     {
@@ -390,7 +390,7 @@
       },
       "flapDuration": 500,
       "flySpeed": 4,
-      "cautiousness": 3
+      "cautiousness": 4
     },
     {
       "id": "White",

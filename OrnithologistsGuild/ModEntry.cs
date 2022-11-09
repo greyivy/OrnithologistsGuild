@@ -1,21 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using System.Linq;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using StardewModdingAPI.Utilities;
 using StardewValley;
-using StardewValley.BellsAndWhistles;
-using StardewValley.Locations;
-using xTile.Dimensions;
 using DynamicGameAssets.PackData;
 using System.IO;
-using System.Collections;
-using DynamicGameAssets.Game;
 using SpaceShared.APIs;
-using System.Threading.Channels;
-using Microsoft.Xna.Framework.Graphics;
 using OrnithologistsGuild.Game.Items;
 using HarmonyLib;
 
@@ -28,9 +17,9 @@ using HarmonyLib;
 // - Custom mail backgrounds? Or color? https://www.nexusmods.com/stardewvalley/mods/1536
 // - Specific bird behavior/speed/etc. per Birdie
 // - Better bird models / sounds
-// - Better weight/chance system taking luck into account
+// - Better weight/chance system taking luck into account (Game1.player.LuckLevel)
 // - Binoculars work on Critters.Owl, Woodpecker, Crow/Magpie etc. (or even customize these)
-// - Sleep bubbles above sleeping birds, new state: Doze
+// - disable tooltip for birdhouses
 
 namespace OrnithologistsGuild
 {
@@ -41,8 +30,6 @@ namespace OrnithologistsGuild
         internal static ContentPack dgaPack;
 
         public static Mod instance;
-
-        private List<string> previousActiveLocations = new List<string>();
 
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
