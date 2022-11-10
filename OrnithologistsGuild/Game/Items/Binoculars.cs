@@ -7,6 +7,7 @@ using StardewValley.BellsAndWhistles;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using OrnithologistsGuild.Game.Critters;
 
 namespace OrnithologistsGuild.Game.Items
 {
@@ -42,7 +43,7 @@ namespace OrnithologistsGuild.Game.Items
             var actualRange = (Range + 0.5) * Game1.tileSize;
             var midPoint = f.position + new Vector2(0.5f * Game1.tileSize, -0.25f * Game1.tileSize);
 
-            foreach (var critter in location.critters)
+            foreach (var critter in location.critters.OrderBy(c => Vector2.Distance(midPoint, c.position)))
             {
                 if (critter is BetterBirdie && Vector2.Distance(midPoint, critter.position) <= actualRange)
                 {

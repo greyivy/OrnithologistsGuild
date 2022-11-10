@@ -1,0 +1,23 @@
+﻿{
+  "Name": "[CP] OrnithologistsGuild",
+  "Author": "Ivy",
+  "Version": "1.0.0",
+  "Description": "Test",
+  "UniqueID": "Ivy.OrnithologistsGuild.CP",
+  "MinimumApiVersion": "3.0.0",
+  "UpdateKeys": [],
+  "Dependencies": [
+    {
+      "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    {
+      "UniqueID": "Ivy.OrnithologistsGuild"
+    }
+  ],
+  "RequiredForEveryone": true,
+  "DGA.FormatVersion": 2,
+  "DGA.ConditionsFormatVersion": "1.28.3",
+  "ContentPackFor": {
+    "UniqueID": "Pathoschild.ContentPatcher"
+  }
+}

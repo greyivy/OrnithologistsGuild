@@ -1,0 +1,43 @@
+﻿{
+  "Format": "1.28.0",
+  "CustomLocations": [
+    {
+      "Name": "Custom_Ivy_OrnithologistsGuild",
+      "FromMapFile": "assets/orinthologists_guild.tmx"
+    }
+  ],
+
+  "Changes": [
+    {
+      "Action": "EditMap",
+      "Target": "Maps/Backwoods",
+      "FromFile": "assets/backwoods_orinthologists_guild.tmx",
+      "FromArea": {
+        "X": 30,
+        "Y": 4,
+        "Width": 9,
+        "Height": 9
+      },
+      "ToArea": {
+        "X": 30,
+        "Y": 4,
+        "Width": 9,
+        "Height": 9
+      }
+    },
+    {
+      "Action": "EditData",
+      "Target": "Strings/StringsFromMaps",
+      "Entries": {
+        "Ivy_OrnithologistsGuild.1": "Joja Bioculars (4x)",
+        "Ivy_OrnithologistsGuild.2": "Antique Bioculars (6x)",
+        "Ivy_OrnithologistsGuild.3": "Pro Bioculars (10x)",
+        "Ivy_OrnithologistsGuild.4": "Hopper Feeder", // TODO expand on these. What food do they take?
+        "Ivy_OrnithologistsGuild.5": "Tube Feeder",
+        "Ivy_OrnithologistsGuild.6": "Platform Feeder",
+        "Ivy_OrnithologistsGuild.7": "Bird calls play quietly in the background.",
+        "Ivy_OrnithologistsGuild.8": "It's a perch made of solid gold."
+      }
+    }
+  ]
+}

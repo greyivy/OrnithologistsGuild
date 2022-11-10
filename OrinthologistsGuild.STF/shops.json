@@ -1,0 +1,37 @@
+﻿{
+  "Shops": [
+    {
+      "ShopName": "Ivy_OrnithologistsGuild",
+      "StoreCurrency": "festivalScore", //uses festival score as the currency for the whole shop
+      "CategoriesToSellHere": [ //player can sell Forage and Vegetables to this store
+        -81,
+        -75
+      ],
+      "PortraitPath": "assets/Bouncer.png",
+      "Quote": "This is a store!",
+      "ShopPrice": 80,
+      "MaxNumItemsSoldInStore": 30, //if all items total over 30, a random 30 will be picked each day
+      "ItemStocks": [
+        {
+          "ItemType": "Clothing",
+          "StockPrice": 500,
+          "ItemIDs": [
+            5,
+            10,
+            1015
+          ],
+          "ItemNames": [
+            "Prismatic Shirt",
+            "Prismatic Pants"
+          ],
+          "Stock": 4,
+          "MaxNumItemsSoldInItemStock": 5
+        }
+      ]
+      //"When": [ //only open the store from 8AM to 6PM
+      //  "t 800 1800"
+      //],
+      //"ClosedMessage": "This store is open daily from 8AM to 6PM" //the message displayed if the store is closed
+    }
+  ]
+}

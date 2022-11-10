@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DynamicGameAssets.Game;
 using Microsoft.Xna.Framework;
+using OrnithologistsGuild.Game.Critters;
 
 namespace OrnithologistsGuild
 {

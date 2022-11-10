@@ -20,6 +20,7 @@ using HarmonyLib;
 // - Better weight/chance system taking luck into account (Game1.player.LuckLevel)
 // - Binoculars work on Critters.Owl, Woodpecker, Crow/Magpie etc. (or even customize these)
 // - disable tooltip for birdhouses
+// - raven named kyle with one wing working at the shop! and birds inside
 
 namespace OrnithologistsGuild
 {
@@ -48,31 +49,6 @@ namespace OrnithologistsGuild
             DataManager.InitializeSaveData();
             Mail.Initialize();
         }
-
-        /*
-        private void GameLoop_UpdateTicked(object sender, UpdateTickedEventArgs e)
-        {
-
-        RESPAWNS BIRDS REGULARLY WHEN OFF SCREEN
-
-            if (e.IsMultipleOf(60 * 5 /* 5s ))
-            {
-
-                            // see if any critters remain in their original position, else respawn Game1.player.currentLocation.critters[0].startingPosition
-
-  
-                            if (Utility.isOnScreen(bc.TileLocation * (float)Game1.tileSize, Game1.tileSize * feeder.range)) {
-                                this.Monitor.Log("onsc");
-                            } else
-                            {
-                                this.Monitor.Log("offsc");
-
-                            }
-                        }
-                }
-            }
-        }
-        */
 
         private void GameLoop_GameLaunched(object sender, GameLaunchedEventArgs e)
         {

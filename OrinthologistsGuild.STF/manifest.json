@@ -1,0 +1,23 @@
+﻿{
+  "Name": "[STF] OrnithologistsGuild",
+  "Author": "Ivy",
+  "Version": "1.0.0",
+  "Description": "Test",
+  "UniqueID": "Ivy.OrnithologistsGuild.STF",
+  "MinimumApiVersion": "3.0.0",
+  "UpdateKeys": [],
+  "Dependencies": [
+    {
+      "UniqueID": "Cherry.ShopTileFramework"
+    },
+    {
+      "UniqueID": "Ivy.OrnithologistsGuild"
+    }
+  ],
+  "RequiredForEveryone": true,
+  "DGA.FormatVersion": 2,
+  "DGA.ConditionsFormatVersion": "1.28.3",
+  "ContentPackFor": {
+    "UniqueID": "Cherry.ShopTileFramework"
+  }
+}

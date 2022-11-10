@@ -4,7 +4,7 @@ using StardewValley;
 using System.Collections.Generic;
 using StateMachine;
 
-namespace OrnithologistsGuild
+namespace OrnithologistsGuild.Game.Critters
 {
     public enum BetterBirdieState
     {

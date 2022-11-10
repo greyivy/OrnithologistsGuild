@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 
-namespace OrnithologistsGuild
+namespace OrnithologistsGuild.Game.Critters
 {
     public partial class BetterBirdie : StardewValley.BellsAndWhistles.Critter
     {
@@ -74,68 +74,7 @@ namespace OrnithologistsGuild
         public Vector2 getLocalPosition(xTile.Dimensions.Rectangle viewport)
         {
             Vector2 vector = position;
-            return new Vector2(vector.X - (float)viewport.X - (0.5f * Game1.tileSize), vector.Y - (float)viewport.Y + (float)yJumpOffset) /*+ drawOffset*/;
-        }
-
-        // Emotes
-        public bool isEmoting;
-
-        public int currentEmote;
-
-        public int currentEmoteFrame;
-
-        public float emoteInterval;
-
-        private bool emoteFading;
-
-        public void updateEmote(GameTime time)
-        {
-            if (!isEmoting)
-            {
-                return;
-            }
-            emoteInterval += time.ElapsedGameTime.Milliseconds;
-            if (emoteFading && emoteInterval > 20f)
-            {
-                emoteInterval = 0f;
-                currentEmoteFrame--;
-                if (currentEmoteFrame < 0)
-                {
-                    emoteFading = false;
-                    isEmoting = false;
-                }
-            }
-            else if (!emoteFading && emoteInterval > 20f && currentEmoteFrame <= 3)
-            {
-                emoteInterval = 0f;
-                currentEmoteFrame++;
-                if (currentEmoteFrame == 4)
-                {
-                    currentEmoteFrame = currentEmote;
-                }
-            }
-            else if (!emoteFading && emoteInterval > 250f)
-            {
-                emoteInterval = 0f;
-                currentEmoteFrame++;
-                if (currentEmoteFrame >= currentEmote + 4)
-                {
-                    emoteFading = true;
-                    currentEmoteFrame = 3;
-                }
-            }
-        }
-
-        public virtual void doEmote(int whichEmote)
-        {
-            if (!isEmoting)
-            {
-                isEmoting = true;
-                currentEmote = whichEmote;
-                currentEmoteFrame = 0;
-                emoteInterval = 0f;
-                //nextEventcommandAfterEmote = nextEventCommand;
-            }
+            return new Vector2(vector.X - (float)viewport.X - (0.5f * Game1.tileSize), vector.Y - (float)viewport.Y + (float)yJumpOffset);
         }
     }
 }

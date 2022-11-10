@@ -26,3 +26,5 @@
   "big-craftable.PlasticTube.name": "Plastic Tube Birdfeeder",
   "big-craftable.PlasticTube.description": "Medium range, low capacity. Holds Mixed Seeds and Hulled Sunflower Seeds."
 }
+
+Action Letter <string messageKey>
