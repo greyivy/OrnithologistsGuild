@@ -22,6 +22,23 @@ const uniqueId = "Ivy.OrnithologistsGuild";
         },
         {
             "$ItemType": "Object",
+            "ID": "HulledSunflowerSeeds",
+            "Texture": "HulledSunflowerSeeds.png:0",
+            "SellPrice": 30,
+            "Category": "Seeds"
+        },
+        {
+            "$ItemType": "ShopEntry",
+            "Item": {
+                "Type": "DGAItem",
+                "Value": "Ivy.OrnithologistsGuild/HulledSunflowerSeeds"
+            },
+            "ShopId": "STF.Ivy_OrnithologistsGuild",
+            "MaxSold": 25,
+            "Cost": 300
+        },
+        {
+            "$ItemType": "Object",
             "ID": "JojaBinoculars",
             "Texture": "Binoculars.png:0",
             "SellPrice": 250,
@@ -44,7 +61,6 @@ const uniqueId = "Ivy.OrnithologistsGuild";
               "Value": "OrnithologistsGuild.Game.Items.JojaBinoculars/arg"
             },
             "ShopId": "STF.Ivy_OrnithologistsGuild",
-            "MaxSold": 1,
             "Cost": 2500
         },
         {
@@ -63,7 +79,19 @@ const uniqueId = "Ivy.OrnithologistsGuild";
             },
             "ShopId": "TravelingMerchant",
             "MaxSold": 1,
-            "Cost": 500
+            "Cost": 500,
+            "EnableConditions": {
+                "Query: {{DailyLuck}} > 0": true // spirits happy today
+            }
+        },
+        {
+            "$ItemType": "ShopEntry",
+            "Item": {
+              "Type": "Custom",
+              "Value": "OrnithologistsGuild.Game.Items.AntiqueBinoculars/arg"
+            },
+            "ShopId": "STF.Ivy_OrnithologistsGuild",
+            "Cost": 5000
         },
         {
             "$ItemType": "Object",
@@ -76,18 +104,11 @@ const uniqueId = "Ivy.OrnithologistsGuild";
         {
             "$ItemType": "ShopEntry",
             "Item": {
-                "Type": "Custom",
-                "Value": "OrnithologistsGuild.Game.Items.ProBinoculars/arg"
+              "Type": "Custom",
+              "Value": "OrnithologistsGuild.Game.Items.ProBinoculars/arg"
             },
-            "ShopId": "AnimalSupplies",
+            "ShopId": "STF.Ivy_OrnithologistsGuild",
             "Cost": 25000
-        },
-        {
-            "$ItemType": "Object",
-            "ID": "HulledSunflowerSeeds",
-            "Texture": "HulledSunflowerSeeds.png:0",
-            "SellPrice": 20,
-            "Category": "Seeds"
         },
         {
             "$ItemType": "BigCraftable",
@@ -101,7 +122,7 @@ const uniqueId = "Ivy.OrnithologistsGuild";
                 "Type": "DGAItem",
                 "Value": "Ivy.OrnithologistsGuild/SeedHuller"
             },
-            "ShopId": "AnimalSupplies",
+            "ShopId": "STF.Ivy_OrnithologistsGuild",
             "MaxSold": 1,
             "Cost": 2500
         },
