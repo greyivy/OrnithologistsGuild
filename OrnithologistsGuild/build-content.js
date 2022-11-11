@@ -40,19 +40,11 @@ const uniqueId = "Ivy.OrnithologistsGuild";
         {
             "$ItemType": "ShopEntry",
             "Item": {
-                "Type": "Custom",
-                "Value": "OrnithologistsGuild.Game.Items.JojaBinoculars/arg"
+              "Type": "Custom",
+              "Value": "OrnithologistsGuild.Game.Items.JojaBinoculars/arg"
             },
             "ShopId": "STF.Ivy_OrnithologistsGuild",
-            "Cost": 1500
-        },
-        {
-            "$ItemType": "ShopEntry",
-            "Item": {
-                "Type": "Custom",
-                "Value": "OrnithologistsGuild.Game.Items.JojaBinoculars/arg"
-            },
-            "ShopId": "AnimalSupplies",
+            "MaxSold": 1,
             "Cost": 2500
         },
         {

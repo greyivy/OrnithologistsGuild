@@ -16,15 +16,9 @@
   "big-craftable.SeedHuller.name": "Seed Huller",
   "big-craftable.SeedHuller.description": "Hulls Sunflower Seeds to make bird food.",
   "big-craftable.WoodenHopper.name": "Wooden Hopper Birdfeeder",
-  "big-craftable.WoodenHopper.description": "Small range, low capacity. Holds Corn, Mixed Seeds, Hulled Sunflower Seeds, and Fruit.",
-  "big-craftable.IronHopper.name": "Iron Hopper Birdfeeder",
-  "big-craftable.IronHopper.description": "Small range, medium capacity. Holds Corn, Mixed Seeds, Hulled Sunflower Seeds, and Fruit.",
+  "big-craftable.WoodenHopper.description": "Small range, low capacity.",
   "big-craftable.WoodenPlatform.name": "Wooden Platform Birdfeeder",
-  "big-craftable.WoodenPlatform.description": "Large range, low capacity. Holds Corn, Hulled Sunflower Seeds, and Fruit.",
-  "big-craftable.IronPlatform.name": "Iron Platform Birdfeeder",
-  "big-craftable.IronPlatform.description": "Large range, medium capacity. Holds Corn, Hulled Sunflower Seeds, and Fruit.",
+  "big-craftable.WoodenPlatform.description": "Large range, low capacity.",
   "big-craftable.PlasticTube.name": "Plastic Tube Birdfeeder",
-  "big-craftable.PlasticTube.description": "Medium range, low capacity. Holds Mixed Seeds and Hulled Sunflower Seeds."
+  "big-craftable.PlasticTube.description": "Medium range, low capacity."
 }
-
-Action Letter <string messageKey>

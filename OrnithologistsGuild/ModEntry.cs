@@ -21,6 +21,7 @@ using HarmonyLib;
 // - Binoculars work on Critters.Owl, Woodpecker, Crow/Magpie etc. (or even customize these)
 // - disable tooltip for birdhouses
 // - raven named kyle with one wing working at the shop! and birds inside
+// - can kyle read and write? are the letters from him? does he have a translation device so he can talk?
 
 namespace OrnithologistsGuild
 {
@@ -43,6 +44,17 @@ namespace OrnithologistsGuild
 
             DataManager.Initialize(this);
         }
+
+        //private void Player_Warped(object sender, WarpedEventArgs e)
+        //{
+        //    var kyle = e.NewLocation.characters.FirstOrDefault(c => c.Name == "OrinothlogistsGuild_Kyle");
+
+        //    if (kyle != null)
+        //    {
+        //        // Increase width of character sprite
+        //        kyle.Sprite = new AnimatedSprite(kyle.Sprite.loadedTexture, 0, 32, 32);
+        //    }
+        //}
 
         private void GameLoop_SaveLoaded(object sender, SaveLoadedEventArgs e)
         {
