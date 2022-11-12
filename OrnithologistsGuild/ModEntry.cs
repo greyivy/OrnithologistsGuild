@@ -20,8 +20,9 @@ using HarmonyLib;
 // - Better weight/chance system taking luck into account (Game1.player.LuckLevel)
 // - Binoculars work on Critters.Owl, Woodpecker, Crow/Magpie etc. (or even customize these)
 // - disable tooltip for birdhouses
-// - raven named kyle with one wing working at the shop! and birds inside
 // - can kyle read and write? are the letters from him? does he have a translation device so he can talk?
+// - open the guild at 7, kyle wakes up at 8 and the store opens then. close before he goes to sleep. idk why the animation in isn't working!
+// - emote position for kyle not in the right place. can chance animation name from sleep -> whatever to remove the sleep emote
 
 namespace OrnithologistsGuild
 {

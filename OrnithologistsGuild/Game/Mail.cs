@@ -10,6 +10,7 @@ namespace OrnithologistsGuild
     {
         public static void Initialize()
         {
+            // TODO put these in a file instead to translation can happen
             MailDao.SaveLetter(new Letter(
                 "Mods_Ivy_OrnithologistsGuild_ll_none",
                 @"Dear @, ^^Your grandmother, an avid birder of many years, left you this. We hope you find a way to continue her tradition this spring! ^^Good luck and happy birding, ^The Pelican Town Ornithologist's Guild",
