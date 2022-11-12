@@ -1,3 +1,10 @@
 {
-  "Custom_Ivy_OrnithologistsGuild": "Caw...$0#$b#*pecks wildly*$1#$b#...$2#$b#CAW! CAW!$3"
+  "Custom_Ivy_OrnithologistsGuild_Mon": "CAW! CAW!$3",
+  "Custom_Ivy_OrnithologistsGuild_Tue": "Caw!$1",
+  "Custom_Ivy_OrnithologistsGuild_Wed": "Bok... %noun?$2",
+  "Custom_Ivy_OrnithologistsGuild_Thu": "...$0",
+  "Custom_Ivy_OrnithologistsGuild_Fri": "* pecks *$0",
+  "Custom_Ivy_OrnithologistsGuild_Sat": "Croak...$1",
+  "Custom_Ivy_OrnithologistsGuild_Sun": "Bok bok bok!$0",
+  "Custom_Ivy_OrnithologistsGuild_15_14": "%Kyle is sleeping peacefully. Ssh, don't wake him!"
 }

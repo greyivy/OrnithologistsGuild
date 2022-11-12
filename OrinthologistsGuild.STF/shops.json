@@ -19,10 +19,10 @@
           "Stock": 25
         }
       ],
-      "When": [ //only open the store from 8AM to 6PM
-       "t 800 1800"
+      "When": [
+       "t 800 1300"
       ],
-      "ClosedMessage": "This store is open daily from 8AM to 6PM"
+      "ClosedMessage": "This store is open daily from 8AM to 1PM."
     }
   ]
 }

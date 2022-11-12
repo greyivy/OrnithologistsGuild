@@ -1573,7 +1573,7 @@
  <objectgroup id="7" name="Buildings">
   <object id="4" name="TileData" x="544" y="112" width="16" height="16">
    <properties>
-    <property name="Action" value="LockedDoorWarp 15 29 Custom_Ivy_OrnithologistsGuild 700 1300"/>
+    <property name="Action" value="LockedDoorWarp 15 29 Custom_Ivy_OrnithologistsGuild 700 1600"/>
    </properties>
   </object>
  </objectgroup>

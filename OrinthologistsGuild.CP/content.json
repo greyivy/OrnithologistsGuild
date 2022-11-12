@@ -34,7 +34,7 @@
         "Ivy_OrnithologistsGuild.4": "Hopper Feeder. Small range. Holds Corn, Mixed Seeds, Hulled Sunflower Seeds, and Fruit.",
         "Ivy_OrnithologistsGuild.5": "Tube Feeder. Medium range. Holds Mixed Seeds and Hulled Sunflower Seeds.",
         "Ivy_OrnithologistsGuild.6": "Platform Feeder. Large range. Holds Corn, Mixed Seeds, Hulled Sunflower Seeds, and Fruit.",
-        "Ivy_OrnithologistsGuild.7": "Bird calls play quietly in the background.",
+        "Ivy_OrnithologistsGuild.7": "Birdsongs play quietly in the background.",
         "Ivy_OrnithologistsGuild.8": "A warm, cozy nest, perfect for a small raven.",
         "Ivy_OrnithologistsGuild.9": "\"Nadia Nightingale's Summoning Birds With Magic, Third Edition\"",
         "Ivy_OrnithologistsGuild.10": "\"Humans often assume that corvids are unintelligent but new research shows that avian brains actually share similarities with humans. In trials, crows have been shown to be as intelligent as human children.\"",
@@ -52,7 +52,7 @@
         "Ivy_OrnithologistsGuild.22": "Fruit and bird seed are displayed neatly in bins.",
         "Ivy_OrnithologistsGuild.23": "A painting of a beautiful, fat, fluffy chicken.",
         "Ivy_OrnithologistsGuild.24": "Boxes of Hulled Sunflower Seeds ready to be shipped.",
-        "Ivy_OrnithologistsGuild.25": "INTAKE RECORD: KYLE^^A YOUNG RAVEN, SMALLER THAN MOST OTHERS AND UNABLE TO FLY, WAS FOUND UNRESPONSIVE AT THE SIDE OF THE ROAD. UPON MEDICAL EXAMINATION, IT WAS DETERMINED THAT ONE OF HIS WINGS HAD BEEN BROKEN AFTER HE HAD BEEN HIT BY A CAR. DESPITE OUR BEST ATTEMPTS, HE WILL LIKELY NEVER FLY AGAIN.^^THE PELICAN TOWN ORNITHOLOGIST'S GUILD"
+        "Ivy_OrnithologistsGuild.25": "INTAKE RECORD: KYLE^^A YOUNG RAVEN, SMALLER THAN MOST OTHERS AND UNABLE TO FLY, WAS FOUND UNRESPONSIVE AT THE SIDE OF THE ROAD. UPON MEDICAL EXAMINATION, IT WAS DETERMINED THAT ONE OF HIS WINGS HAD BEEN BROKEN AFTER HE HAD BEEN HIT BY A CAR. DESPITE OUR BEST ATTEMPTS AT SAVING THE WING HE WILL LIKELY NEVER FLY AGAIN.^^THE PELICAN TOWN ORNITHOLOGIST'S GUILD"
       }
     },
     {
@@ -72,7 +72,7 @@
       "Target": "Data/AnimationDescriptions",
       "Entries": {
         "OrinothlogistsGuild_Kyle_perch": "16/16 16 16 17 17 17 18 18 18 19 19 19/16",
-        "OrinothlogistsGuild_Kyle_sleep": "20 20 20 21 21 21 22 22 22 23/23/23 22 22 22 21 21 21 20 20 20"
+        "OrinothlogistsGuild_Kyle_doze": "20 20 20 21 21 21 22 22 22 23/23/23 22 22 22 21 21 21 20 20 20" // naming this "sleep" causes issues because of the non-standard sprite size and emotes
       }
     },
     {
