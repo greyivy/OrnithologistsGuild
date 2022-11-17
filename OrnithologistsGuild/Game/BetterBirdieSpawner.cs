@@ -12,7 +12,7 @@ namespace OrnithologistsGuild
 {
     public class BetterBirdieSpawner
     {
-        private const bool DEBUG_ALWAYS_SPAWN = true;
+        private const bool DEBUG_ALWAYS_SPAWN = false;
 
         public static void AddBirdies(GameLocation location, double chance = 0, bool onlyIfOnScreen = false)
         {

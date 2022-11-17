@@ -15,13 +15,13 @@ using HarmonyLib;
 // TODO Planned features:
 // - Bird baths
 // - Custom mail backgrounds? Or color? https://www.nexusmods.com/stardewvalley/mods/1536
-// - Specific bird behavior/speed/etc. per Birdie
 // - Better bird models / sounds
 // - Better weight/chance system taking luck into account (Game1.player.LuckLevel)
 // - Binoculars work on Critters.Owl, Woodpecker, Crow/Magpie etc. (or even customize these)
 // - disable tooltip for birdhouses
 // - can kyle read and write? are the letters from him?
 // - emote position for kyle not in the right place. this affects a few things but i'm not sure how to patch the draw method.
+// ridgeside village map issues
 
 namespace OrnithologistsGuild
 {

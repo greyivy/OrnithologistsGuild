@@ -155,7 +155,7 @@
  <objectgroup id="5" name="Buildings" opacity="0.17">
   <object id="5" name="TileData" x="240" y="320" width="16" height="16">
    <properties>
-    <property name="Action" value="Door"/>
+    <property name="Action" value="Door OrinothlogistsGuild_Kyle"/>
    </properties>
   </object>
   <object id="9" name="TileData" x="128" y="400" width="16" height="16">

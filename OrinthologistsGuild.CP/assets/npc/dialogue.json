@@ -1,10 +1,10 @@
 {
   "Custom_Ivy_OrnithologistsGuild_Mon": "CAW! CAW!$3",
   "Custom_Ivy_OrnithologistsGuild_Tue": "Caw!$1",
-  "Custom_Ivy_OrnithologistsGuild_Wed": "Bok... %noun?$2",
+  "Custom_Ivy_OrnithologistsGuild_Wed": "Bok bok bok... %adj %noun!$2#$b#%Kyle has a... colorful vocabulary.",
   "Custom_Ivy_OrnithologistsGuild_Thu": "...$0",
-  "Custom_Ivy_OrnithologistsGuild_Fri": "* pecks *$0",
+  "Custom_Ivy_OrnithologistsGuild_Fri": "%Kyle pecks the ground nervously.",
   "Custom_Ivy_OrnithologistsGuild_Sat": "Croak...$1",
-  "Custom_Ivy_OrnithologistsGuild_Sun": "Bok bok bok!$0",
+  "Custom_Ivy_OrnithologistsGuild_Sun": "Bok... %noun?$2#$b#%Kyle is talkative today!",
   "Custom_Ivy_OrnithologistsGuild_15_14": "%Kyle is sleeping peacefully. Ssh, don't wake him!"
 }
