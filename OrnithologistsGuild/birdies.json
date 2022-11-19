@@ -45,28 +45,6 @@
       "cautiousness": 5
     },
     {
-      "id": "Bluebird",
-      "name": "Eastern Bluebird",
-      "maxFlockSize": 4,
-      "seasonalMultiplier": {
-        "spring": 2,
-        "summer": 1,
-        "fall": 1,
-        "winter": 1
-      },
-      "weightedRandom": 5,
-      "weightedBath": 3,
-      "weightedFoods": {
-        "Fruit": 3
-      },
-      "weightedFeeders": {
-        "Platform": 2
-      },
-      "flapDuration": 200,
-      "flySpeed": 6,
-      "cautiousness": 4
-    },
-    {
       "id": "Brown",
       "name": "House Finch",
       "maxFlockSize": 2,
@@ -240,33 +218,6 @@
       "cautiousness": 8
     },
     {
-      "id": "Jay",
-      "name": "Blue Jay",
-      "maxFlockSize": 5,
-      "seasonalMultiplier": {
-        "spring": 2,
-        "summer": 1,
-        "fall": 2,
-        "winter": 1
-      },
-      "weightedRandom": 10,
-      "weightedBath": 3,
-      "weightedFoods": {
-        "Corn": 3,
-        "Fruit": 2,
-        "MixedSeeds": 2,
-        "SunflowerSeeds": 3
-      },
-      "weightedFeeders": {
-        "Hopper": 3,
-        "Platform": 2,
-        "Tube": 1
-      },
-      "flapDuration": 400,
-      "flySpeed": 6,
-      "cautiousness": 4
-    },
-    {
       "id": "Junco",
       "name": "Dark-eyed Junco",
       "maxFlockSize": 1,
@@ -290,31 +241,6 @@
       "flapDuration": 250,
       "flySpeed": 4,
       "cautiousness": 3
-    },
-    {
-      "id": "Sparrow",
-      "name": "House Sparrow",
-      "maxFlockSize": 3,
-      "seasonalMultiplier": {
-        "spring": 2,
-        "summer": 2,
-        "fall": 2,
-        "winter": 3
-      },
-      "weightedRandom": 100,
-      "weightedBath": 3,
-      "weightedFoods": {
-        "Corn": 2,
-        "MixedSeeds": 3,
-        "SunflowerSeeds": 3
-      },
-      "weightedFeeders": {
-        "Hopper": 1,
-        "Platform": 3
-      },
-      "flapDuration": 200,
-      "flySpeed": 4,
-      "cautiousness": 4
     },
     {
       "id": "Starling",

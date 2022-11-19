@@ -15,11 +15,11 @@
 
       "BaseWt": 0, // Only spawns naturally in Town, Custom_EastScarpe
       "FeederBaseWts": {
-        "Platform": 0.1
+        "Platform": 0.05
       },
       "FoodBaseWts": {
-        "MixedSeeds": 0.1,
-        "SunflowerSeeds": 0.1
+        "MixedSeeds": 0.05,
+        "SunflowerSeeds": 0.05
       },
       "Conditions": [
         {
@@ -33,6 +33,116 @@
             "LocationName": "Town, Custom_EastScarpe"
           },
           "AddWt": 0.75
+        }
+      ]
+    },
+    {
+      "ID": "BlueJay",
+      "AssetPath": "assets/BlueJay.png",
+
+      "Attributes": 2,
+
+      "ShouldUseBath": true,
+      "MaxFlockSize": 5,
+      "Cautiousness": 4,
+      "FlapDuration": 400,
+      "FlySpeed": 6,
+
+      "BaseWt": 0.1,
+      "FeederBaseWts": {
+        "Hopper": 0.3,
+        "Platform": 0.2,
+        "Tube": 0.1
+      },
+      "FoodBaseWts": {
+        "Corn": 0.3,
+        "Fruit": 0.2,
+        "MixedSeeds": 0.2,
+        "SunflowerSeeds": 0.3
+      },
+      "Conditions": [
+        {
+          "When": {
+            "Time": "{{Range: 1800, 2600}}"
+          },
+          "NilWt": true
+        },
+        {
+          "When": {
+            "Season": "Spring, Summer"
+          },
+          "AddWt": 0.2
+        }
+      ]
+    },
+    {
+      "ID": "TreeSparrow",
+      "AssetPath": "assets/TreeSparrow.png",
+
+      "Attributes": 3,
+
+      "ShouldUseBath": true,
+      "MaxFlockSize": 3,
+      "Cautiousness": 4,
+      "FlapDuration": 400,
+      "FlySpeed": 4,
+
+      "BaseWt": 0.8,
+      "FeederBaseWts": {
+        "Hopper": 0.1,
+        "Platform": 0.3
+      },
+      "FoodBaseWts": {
+        "Corn": 0.2,
+        "MixedSeeds": 0.3,
+        "SunflowerSeeds": 0.3
+      },
+      "Conditions": [
+        {
+          "When": {
+            "Time": "{{Range: 1800, 2600}}"
+          },
+          "NilWt": true
+        },
+        {
+          "When": {
+            "Season": "Winter"
+          },
+          "AddWt": 0.2
+        }
+      ]
+    },
+    {
+      "ID": "EasternBluebird",
+      "AssetPath": "assets/EasternBluebird.png",
+
+      "Attributes": 4,
+
+      "ShouldUseBath": true,
+      "MaxFlockSize": 4,
+      "Cautiousness": 4,
+      "FlapDuration": 200,
+      "FlySpeed": 6,
+
+      "BaseWt": 0.05,
+      "FeederBaseWts": {
+        "Platform": 0.2
+      },
+      "FoodBaseWts": {
+        "Fruit": 0.3
+      },
+      "Conditions": [
+        {
+          "When": {
+            "Time": "{{Range: 1800, 2600}}"
+          },
+          "NilWt": true
+        },
+        {
+          "When": {
+            "Season": "Spring"
+          },
+          "AddWt": 0.2
         }
       ]
     }
