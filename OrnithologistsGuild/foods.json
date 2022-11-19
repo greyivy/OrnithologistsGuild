@@ -1,6 +1,6 @@
 [
     {
-        "id": "Corn",
+        "type": "Corn",
         "feederAssetIndex": 1,
         "feedersTypes": [
             "Hopper",
@@ -11,7 +11,7 @@
         ]
     },
     {
-        "id": "Fruit",
+        "type": "Fruit",
         "feederAssetIndex": 2,
         "feedersTypes": [
             "Hopper",
@@ -37,7 +37,7 @@
         ]
     },
     {
-        "id": "MixedSeeds",
+        "type": "MixedSeeds",
         "feederAssetIndex": 3,
         "feedersTypes": [
             "Hopper",
@@ -49,7 +49,7 @@
         ]
     },
     {
-        "id": "SunflowerSeeds",
+        "type": "SunflowerSeeds",
         "feederAssetIndex": 4,
         "feedersTypes": [
             "Hopper",

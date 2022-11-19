@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using System.Collections.Generic;
 using StateMachine;
 
 namespace OrnithologistsGuild.Game.Critters
@@ -49,19 +49,19 @@ namespace OrnithologistsGuild.Game.Critters
         private List<FarmerSprite.AnimationFrame> GetFlyingAnimation()
         {
             return new List<FarmerSprite.AnimationFrame> {
-                    new FarmerSprite.AnimationFrame (baseFrame + 6, (int)MathF.Round(0.27f * Birdie.flapDuration)),
-                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * Birdie.flapDuration), secondaryArm: false, flip, frameBehavior: (Farmer who) =>
+                    new FarmerSprite.AnimationFrame (baseFrame + 6, (int)MathF.Round(0.27f * BirdieDef.FlapDuration)),
+                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * BirdieDef.FlapDuration), secondaryArm: false, flip, frameBehavior: (Farmer who) =>
                     {
                         // Make bird shoot up a bit while flapping for more realistic flight
                         // e.g. flapDuration = 500, gravityAffectedDY = 4
                         // e.g. flapDuration = 250, gravityAffectedDY = 2
-                        gravityAffectedDY = -(Birdie.flapDuration * (4f/500f));
+                        gravityAffectedDY = -(BirdieDef.FlapDuration * (4f/500f));
 
                         // Play flapping noise
                         if (Utility.isOnScreen(position, Game1.tileSize)) Game1.playSound("batFlap");
                     }),
-                    new FarmerSprite.AnimationFrame (baseFrame + 8, (int)MathF.Round(0.27f * Birdie.flapDuration)),
-                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * Birdie.flapDuration))
+                    new FarmerSprite.AnimationFrame (baseFrame + 8, (int)MathF.Round(0.27f * BirdieDef.FlapDuration)),
+                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * BirdieDef.FlapDuration))
                 };
         }
 
@@ -76,7 +76,7 @@ namespace OrnithologistsGuild.Game.Critters
             {
                 CharacterCheckTimer = 200;
 
-                if (!IsFlying && Utility.isThereAFarmerOrCharacterWithinDistance(position / Game1.tileSize, Birdie.cautiousness, environment) != null)
+                if (!IsFlying && Utility.isThereAFarmerOrCharacterWithinDistance(position / Game1.tileSize, BirdieDef.GetContextualCautiousness(), environment) != null)
                 {
                     StateMachine.Trigger(Game1.random.NextDouble() < 0.75 ? BetterBirdieTrigger.FlyAway : BetterBirdieTrigger.Relocate);
                 }
@@ -335,7 +335,7 @@ namespace OrnithologistsGuild.Game.Critters
                 .State(BetterBirdieState.FlyingAway) // Done! // TODO sounds, fly speed
                     .OnEnter(e =>
                     {
-                        Character character = Utility.isThereAFarmerOrCharacterWithinDistance(position / Game1.tileSize, Birdie.cautiousness, Environment);
+                        Character character = Utility.isThereAFarmerOrCharacterWithinDistance(position / Game1.tileSize, BirdieDef.GetContextualCautiousness(), Environment);
 
                         // Fly away from nearest character
                         if (character != null)
@@ -362,13 +362,13 @@ namespace OrnithologistsGuild.Game.Critters
                     {
                         if (!flip)
                         {
-                            position.X -= Birdie.flySpeed;
+                            position.X -= BirdieDef.FlySpeed;
                         }
                         else
                         {
-                            position.X += Birdie.flySpeed;
+                            position.X += BirdieDef.FlySpeed;
                         }
-                        yOffset -= 2f + flightOffset;
+                        yOffset -= 2f + FlightOffset;
                     })
                 .State(BetterBirdieState.Relocating)
                     .TransitionTo(BetterBirdieState.Stopping).On(BetterBirdieTrigger.Stop)
@@ -382,7 +382,7 @@ namespace OrnithologistsGuild.Game.Critters
                             // Get a 3x3 patch around the random tile
                             var randomRect = new Microsoft.Xna.Framework.Rectangle((int)randomTile.X - 1, (int)randomTile.Y - 1, 3, 3);
 
-                            if (Environment.isAreaClear(randomRect) && Utility.isThereAFarmerOrCharacterWithinDistance(randomTile, Birdie.cautiousness, Environment) == null)
+                            if (Environment.isAreaClear(randomRect) && Utility.isThereAFarmerOrCharacterWithinDistance(randomTile, BirdieDef.GetContextualCautiousness(), Environment) == null)
                             {
                                 var randomPosition = new Vector2(randomTile.X * Game1.tileSize, randomTile.Y * Game1.tileSize);
 
@@ -394,7 +394,7 @@ namespace OrnithologistsGuild.Game.Critters
 
                                 RelocateDistance = distance;
 
-                                RelocateDuration = (int)(RelocateDistance.Value / (Birdie.flySpeed / 15f));
+                                RelocateDuration = (int)(RelocateDistance.Value / (BirdieDef.FlySpeed / 15f));
                                 RelocateElapsed = 0;
 
                                 if (position.X > RelocateTo.Value.X)
@@ -491,7 +491,7 @@ namespace OrnithologistsGuild.Game.Critters
 
             StateMachine.AddStateChangeHandler((state, e) =>
             {
-                ModEntry.instance.Monitor.Log($"{Birdie.id}: {e.From.ToString()} -> {e.To.ToString()}");
+                ModEntry.Instance.Monitor.Log($"{BirdieDef.ID}: {e.From.ToString()} -> {e.To.ToString()}");
             });
         }
     }

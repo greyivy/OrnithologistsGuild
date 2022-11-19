@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrinthologistsGuild.CP", "O
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrinthologistsGuild.STF", "OrinthologistsGuild.STF\OrinthologistsGuild.STF.csproj", "{83788DCA-08E1-4238-9970-48F68E575806}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EastScarpe.OG", "EastScarpe.OG\EastScarpe.OG.csproj", "{42C3449B-810B-4B9D-99CD-B7CCE1B227D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{83788DCA-08E1-4238-9970-48F68E575806}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83788DCA-08E1-4238-9970-48F68E575806}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83788DCA-08E1-4238-9970-48F68E575806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42C3449B-810B-4B9D-99CD-B7CCE1B227D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42C3449B-810B-4B9D-99CD-B7CCE1B227D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42C3449B-810B-4B9D-99CD-B7CCE1B227D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42C3449B-810B-4B9D-99CD-B7CCE1B227D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

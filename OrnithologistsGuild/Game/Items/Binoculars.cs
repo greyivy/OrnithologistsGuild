@@ -1,13 +1,13 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using StardewValley;
-using Microsoft.Xna.Framework;
-using DynamicGameAssets.Game;
-using DynamicGameAssets.PackData;
-using StardewValley.BellsAndWhistles;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using DynamicGameAssets.Game;
+using DynamicGameAssets.PackData;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using OrnithologistsGuild.Game.Critters;
+using StardewValley;
+using StardewValley.BellsAndWhistles;
 
 namespace OrnithologistsGuild.Game.Items
 {
@@ -43,24 +43,66 @@ namespace OrnithologistsGuild.Game.Items
             var actualRange = (Range + 0.5) * Game1.tileSize;
             var midPoint = f.position + new Vector2(0.5f * Game1.tileSize, -0.25f * Game1.tileSize);
 
+            List<string> spottedBirdieUniqueIds = new List<string>();
+
             foreach (var critter in location.critters.OrderBy(c => Vector2.Distance(midPoint, c.position)))
             {
                 if (critter is BetterBirdie && Vector2.Distance(midPoint, critter.position) <= actualRange)
                 {
                     var birdie = (BetterBirdie)critter;
+                    var id = birdie.BirdieDef.ID;
 
-                    if (birdie.IsFlying) continue;
-
-                    if (DataManager.LifeListContains(birdie.Birdie))
+                    if (birdie.IsFlying || birdie.Spotted) continue;
+                    if (spottedBirdieUniqueIds.Contains(birdie.BirdieDef.UniqueID))
                     {
-                        alreadyIdentified.Add(birdie.Birdie.name);
+                        birdie.Spotted = true;
+                        continue;
                     }
-                    else
-                    {
-                        DataManager.AddToLifeList(birdie.Birdie);
 
-                        newlyIdentified.Add(birdie.Birdie.name);
+                    int? newAttribute;
+                    var sighting = SaveDataManager.SaveData.LifeList.GetOrAddEntry(birdie.BirdieDef, out newAttribute);
+
+                    var contentPack = birdie.BirdieDef.ContentPackDef.ContentPack;
+
+                    // Translations
+                    var commonNameString = contentPack.Translation.Get($"birdie.{id}.commonName");
+                    var scientificNameString = contentPack.Translation.Get($"birdie.{id}.scientificName");
+                    var funFactString = contentPack.Translation.Get($"birdie.{id}.funFact");
+                    var attributeStrings = Enumerable.Range(1, birdie.BirdieDef.Attributes).ToDictionary(i => i, i => contentPack.Translation.Get($"birdie.{id}.attribute.{i}"));
+
+                    var lines = new List<string>();
+
+                    if (sighting.Identified)
+                    {
+                        lines.Add(newAttribute.HasValue ? "Newly identified:" : "Already identified:");
+                        lines.Add(commonNameString.ToString().ToUpper());
+                        if (scientificNameString.HasValue()) lines.Add(scientificNameString.ToString());
+
+                        if (newAttribute.HasValue)
+                        {
+                            lines.Add(string.Empty);
+                            lines.Add(string.Join(", ", attributeStrings.Values));
+
+                            if (funFactString.HasValue())
+                            {
+                                lines.Add(string.Empty);
+                                lines.Add(funFactString);
+                            }
+                        }
+                    } else
+                    {
+                        lines.Add("Not yet identified:");
+                        lines.Add("???");
+                        lines.Add("???");
+                        lines.Add(string.Empty);
+                        lines.Add(string.Join(", ", attributeStrings.Select(a => sighting.Sightings.Select(s => s.Attribute).Contains(a.Key) ? a.Value : "???")));
                     }
+
+                    Game1.drawObjectDialogue(string.Join("^", lines));
+
+                    // Ignore the birds on consecutive uses of the binoculars
+                    birdie.Spotted = true;
+                    spottedBirdieUniqueIds.Add(birdie.BirdieDef.UniqueID);
                 } else if (critter is Woodpecker && Vector2.Distance(midPoint, critter.position) <= actualRange)
                 {
                     
@@ -72,19 +114,10 @@ namespace OrnithologistsGuild.Game.Items
 
                 } else if (critter is Owl)
                 {
-                    // TODO
+
                 }
 
                 // ... other critter types? Bird? PerchingBird?
-            }
-
-            if (alreadyIdentified.Any() || newlyIdentified.Any())
-            {
-                List<string> lines = new List<string>();
-                if (newlyIdentified.Any()) lines.Add($"Newly identified: {string.Join(", ", newlyIdentified)}");
-                if (alreadyIdentified.Any()) lines.Add($"Already identified: {string.Join(", ", alreadyIdentified)}");
-
-                Game1.drawObjectDialogue(string.Join("^", lines));
             }
         }
 

@@ -1,0 +1,40 @@
+﻿{
+  "FormatVersion": 1,
+  "Birdies": [
+    {
+      "ID": "CityPigeon",
+      "AssetPath": "assets/CityPigeon.png",
+
+      "Attributes": 3,
+
+      "ShouldUseBath": false,
+      "MaxFlockSize": 5,
+      "Cautiousness": 2,
+      "FlapDuration": 250,
+      "FlySpeed": 4.5,
+
+      "BaseWt": 0, // Only spawns naturally in Town, Custom_EastScarpe
+      "FeederBaseWts": {
+        "Platform": 0.1
+      },
+      "FoodBaseWts": {
+        "MixedSeeds": 0.1,
+        "SunflowerSeeds": 0.1
+      },
+      "Conditions": [
+        {
+          "When": {
+            "Time": "{{Range: 1800, 2600}}"
+          },
+          "NilWt": true
+        },
+        {
+          "When": {
+            "LocationName": "Town, Custom_EastScarpe"
+          },
+          "AddWt": 0.75
+        }
+      ]
+    }
+  ]
+}

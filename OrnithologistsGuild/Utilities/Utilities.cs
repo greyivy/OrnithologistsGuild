@@ -1,22 +1,23 @@
 ﻿using System;
-using StardewValley;
 using System.Collections.Generic;
 using System.Linq;
+using StardewValley;
 
 namespace OrnithologistsGuild
 {
     public class Utilities
     {
-        public static T WeightedRandom<T>(IEnumerable<T> values, Func<T, int> getWeight)
+        public static T WeightedRandom<T>(IEnumerable<T> values, Func<T, float> getWeight)
         {
-            IEnumerable<int> weights = values.Select(v => getWeight(v));
+            List<float> weights = values.Select(v => getWeight(v)).ToList();
 
-            int random = Game1.random.Next(0, weights.Sum());
-            int sum = 0;
+            float random = Utility.RandomFloat(0, weights.Sum());
+            float sum = 0;
 
             for (int i = 0; i < values.Count(); i++)
             {
                 var weight = weights.ElementAt(i);
+                if (weight == 0) continue;
 
                 if (random < (sum + weight))
                 {
@@ -28,7 +29,7 @@ namespace OrnithologistsGuild
                 }
             }
 
-            return values.Last();
+            return default;
         }
 
         public static float EaseOutSine(float x)

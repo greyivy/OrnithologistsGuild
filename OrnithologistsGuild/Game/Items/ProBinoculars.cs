@@ -6,7 +6,7 @@ namespace OrnithologistsGuild.Game.Items
     [XmlType("Mods_Ivy_OrnithologistsGuild_ProBinoculars")]
     public class ProBinoculars : Binoculars
     {
-        public ProBinoculars(): base(ModEntry.dgaPack.Find("ProBinoculars"), 10)
+        public ProBinoculars(): base(ModEntry.DGAContentPack.Find("ProBinoculars"), 10)
         {
         }
 

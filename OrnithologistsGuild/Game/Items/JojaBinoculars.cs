@@ -6,7 +6,7 @@ namespace OrnithologistsGuild.Game.Items
     [XmlType("Mods_Ivy_OrnithologistsGuild_JojaBinoculars")]
     public class JojaBinoculars : Binoculars
     {
-        public JojaBinoculars(): base(ModEntry.dgaPack.Find("JojaBinoculars"), 4)
+        public JojaBinoculars(): base(ModEntry.DGAContentPack.Find("JojaBinoculars"), 4)
         {
         }
 

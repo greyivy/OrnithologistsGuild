@@ -6,6 +6,7 @@
     <AssemblyName>OrnithologistsGuild</AssemblyName>
     <EnableHarmony>true</EnableHarmony>
     <BundleExtraAssemblies>ThirdParty</BundleExtraAssemblies>
+    <ModFolderName>Orinthologists Guild</ModFolderName>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -43,6 +44,11 @@
     <None Remove="MonoGame.Primitives2D" />
     <None Remove="Utilities\" />
     <None Remove="Game\Critters\" />
+    <None Remove="ContentPatcher" />
+    <None Remove="Content\" />
+    <None Remove="content-pack\" />
+    <None Remove="content-pack\i18n\" />
+    <None Remove="Models\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.2" />
@@ -57,13 +63,20 @@
     <Folder Include="Game\Items\" />
     <Folder Include="Utilities\" />
     <Folder Include="Game\Critters\" />
+    <Folder Include="Content\" />
+    <Folder Include="content-pack\" />
+    <Folder Include="content-pack\i18n\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="DynamicGameAssets">
+    <Reference Include="DynamicGameAssets" Private="False">
       <HintPath>lib\DynamicGameAssets.dll</HintPath>
     </Reference>
-    <Reference Include="MailFrameworkMod">
+    <Reference Include="MailFrameworkMod" Private="False">
       <HintPath>lib\MailFrameworkMod.dll</HintPath>
+    </Reference>
+    <Reference Include="ContentPatcher" Private="False">
+      <HintPath>lib\ContentPatcher.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -82,7 +95,10 @@
     <None Update="birdies.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="assets\birdies\Copy pngs here.txt">
+    <None Update="content-pack\content.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="content-pack\i18n\default.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

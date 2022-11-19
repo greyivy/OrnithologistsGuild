@@ -3,21 +3,25 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GamePath>/Users/ivy/Applications/Stardew Valley Development.app/Contents/MacOS</GamePath>
-    <ModFolderName>[STF] Orinthologists Guild</ModFolderName>
+    <ModFolderName>[OG] East Scarpe</ModFolderName>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Pathoschild.Stardew.ModBuildConfig" />
     <None Remove="assets\" />
+    <None Remove="i18n\" />
+    <None Remove="assets\TODO\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets\" />
+    <Folder Include="i18n\" />
+    <Folder Include="assets\TODO\" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="shops.json">
+    <None Update="content.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

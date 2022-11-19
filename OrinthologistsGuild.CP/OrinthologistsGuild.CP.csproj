@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GamePath>/Users/ivy/Applications/Stardew Valley Development.app/Contents/MacOS</GamePath>
-    <ModFolderName>[CP] OrinthologistsGuild</ModFolderName>
+    <ModFolderName>[CP] Orinthologists Guild</ModFolderName>
   </PropertyGroup>
 
   <ItemGroup>

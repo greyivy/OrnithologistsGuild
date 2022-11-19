@@ -1,0 +1,14 @@
+﻿{
+  "Name": "[OG] East Scarpe",
+  "Author": "Ivy",
+  "Version": "0.2.0-alpha",
+  "Description": "An East Scarpe bird pack for Orinthologist's Guild.",
+  "UniqueID": "Ivy.EastScarpe.OG",
+  "MinimumApiVersion": "3.0.0",
+  "UpdateKeys": [ "Nexus:14510" ],
+  "RequiredForEveryone": true,
+  "OG.FormatVersion": 2,
+  "ContentPackFor": {
+    "UniqueID": "Ivy.OrnithologistsGuild"
+  }
+}

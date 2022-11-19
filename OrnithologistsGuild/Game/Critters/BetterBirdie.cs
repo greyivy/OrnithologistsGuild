@@ -1,32 +1,32 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using OrnithologistsGuild.Content;
 using StardewValley;
 
 namespace OrnithologistsGuild.Game.Critters
 {
     public partial class BetterBirdie : StardewValley.BellsAndWhistles.Critter
     {
-        public readonly int[] FallbackBirdTypes = new int[] { StardewValley.BellsAndWhistles.Birdie.blueBird, StardewValley.BellsAndWhistles.Birdie.brownBird };
+        public BirdieDef BirdieDef;
 
-        public Models.BirdieModel Birdie;
-        public Models.FeederModel Perch;
+        public Models.FeederDef Perch;
+        public bool Spotted;
 
-        private float flightOffset;
+        private float FlightOffset;
 
-        public BetterBirdie(Models.BirdieModel birdie, int tileX, int tileY, Models.FeederModel perch = null) : base(0, new Vector2(tileX * Game1.tileSize, tileY * Game1.tileSize))
+        public BetterBirdie(BirdieDef birdieDef, int tileX, int tileY, Models.FeederDef perch = null) : base(0, new Vector2(tileX * Game1.tileSize, tileY * Game1.tileSize))
         {
-            Birdie = birdie;
+            BirdieDef = birdieDef;
 
             InitializeStateMachine();
 
-            if (DataManager.BirdieAssetIds.ContainsKey(birdie.id))
+            if (birdieDef.InternalAssetName != null)
             {
-                baseFrame = 0;
-                sprite = new AnimatedSprite(DataManager.BirdieAssetIds[birdie.id], baseFrame, 32, 32);
+                baseFrame = birdieDef.InternalAssetBaseFrame;
+                sprite = new AnimatedSprite(birdieDef.InternalAssetName, baseFrame, 32, 32);
             } else
             {
-                // Fallback to random vanilla bird
-                baseFrame = FallbackBirdTypes[Game1.random.Next(0, FallbackBirdTypes.Length)];
+                baseFrame = birdieDef.InternalAssetBaseFrame;
                 sprite = new AnimatedSprite(critterTexture, baseFrame, 32, 32);
             }
 
@@ -37,7 +37,7 @@ namespace OrnithologistsGuild.Game.Critters
 
             startingPosition = position;
 
-            flightOffset = (float)Game1.random.NextDouble() - 0.5f;
+            FlightOffset = (float)Game1.random.NextDouble() - 0.5f;
             RelocateFlyAwayTimer = Game1.random.Next(10, 120) * 1000;
 
             this.Perch = perch;
