@@ -1,10 +1,10 @@
 ﻿namespace OrnithologistsGuild.Models
 {
-    public class SaveJSON
+    public class SaveData
     {
         public LifeList LifeList;
 
-        public SaveJSON()
+        public SaveData()
         {
             this.LifeList = new LifeList();
         }

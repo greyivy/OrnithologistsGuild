@@ -64,7 +64,6 @@ namespace OrnithologistsGuild.Content
                 {
                     birdieDef.UniqueID = $"{contentPack.Manifest.UniqueID}.birdie.{birdieDef.ID}";
                     birdieDef.ContentPackDef = contentPackDef;
-                    birdieDef.LoadAssets(contentPack);
 
                     BirdieDefs.Add(birdieDef.UniqueID, birdieDef);
                 }

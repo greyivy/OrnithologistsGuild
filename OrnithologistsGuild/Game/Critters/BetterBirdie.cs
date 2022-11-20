@@ -20,13 +20,15 @@ namespace OrnithologistsGuild.Game.Critters
 
             InitializeStateMachine();
 
-            if (birdieDef.InternalAssetName != null)
+            if (birdieDef.AssetPath != null)
             {
-                baseFrame = birdieDef.InternalAssetBaseFrame;
-                sprite = new AnimatedSprite(birdieDef.InternalAssetName, baseFrame, 32, 32);
+                var internalAssetName = birdieDef.ContentPackDef.ContentPack.ModContent.GetInternalAssetName(birdieDef.AssetPath).BaseName;
+
+                baseFrame = birdieDef.BaseFrame;
+                sprite = new AnimatedSprite(internalAssetName, baseFrame, 32, 32);
             } else
             {
-                baseFrame = birdieDef.InternalAssetBaseFrame;
+                baseFrame = birdieDef.BaseFrame;
                 sprite = new AnimatedSprite(critterTexture, baseFrame, 32, 32);
             }
 

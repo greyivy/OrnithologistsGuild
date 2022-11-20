@@ -10,16 +10,11 @@ namespace OrnithologistsGuild.Content
 {
     public class BirdieDef
     {
-        public void LoadAssets(IContentPack contentPack)
+        public void LoadAssets()
         {
             if (this.AssetPath != null)
             {
-                var asset = contentPack.ModContent.Load<Texture2D>(this.AssetPath);
-                this.InternalAssetName = contentPack.ModContent.GetInternalAssetName(this.AssetPath).BaseName;
-            }
-            {
-                // Built-in asset
-                this.InternalAssetName = null;
+                this.ContentPackDef.ContentPack.ModContent.Load<Texture2D>(this.AssetPath);
             }
         }
 
@@ -44,8 +39,7 @@ namespace OrnithologistsGuild.Content
         public string UniqueID; // Generated
         public string AssetPath;
 
-        public string InternalAssetName; // Generated
-        public int InternalAssetBaseFrame = 0;
+        public int BaseFrame = 0;
 
         public ContentPackDef ContentPackDef; // Generated
 
@@ -119,7 +113,7 @@ namespace OrnithologistsGuild.Content
         {
             var modifier = -Math.Clamp((int)Math.Round(Game1.player.DailyLuck * 10), -1, 1);
             // TODO verify
-            ModEntry.Instance.Monitor.Log($"Luck level: {Game1.player.DailyLuck} / Cautiousness modifier: {modifier}");
+            //ModEntry.Instance.Monitor.Log($"Luck level: {Game1.player.DailyLuck} / Cautiousness modifier: {modifier}");
 
             return this.Cautiousness + modifier;
         }

@@ -23,6 +23,7 @@ using StardewValley;
 // - ridgeside village map issues
 // - i18n for strings
 // - fix up logging
+// - test when bird packs are removed
 // - mod. Book: all crows are beautiful. Shoutout to the raptors for kyles inspiration. Bottle of blackberries as his favorite gift
 
 namespace OrnithologistsGuild
@@ -64,12 +65,18 @@ namespace OrnithologistsGuild
 
         private void GameLoop_GameLaunched(object sender, GameLaunchedEventArgs e)
         {
+            // Config
+            ConfigManager.Initialize();
+
             // Internal content
             ContentManager.Initialize();
 
             // Ornithologist's Guild content packs
             ContentPackManager.Initialize();
-            ContentPackManager.LoadBuiltIn(); // TODO option
+            if (ConfigManager.Config.LoadBuiltInPack)
+            {
+                ContentPackManager.LoadBuiltIn();
+            }
             ContentPackManager.LoadAll();
 
             // Dynamic Game Assets content pack
