@@ -28,7 +28,14 @@ namespace OrnithologistsGuild
             configMenu.AddSectionTitle(mod: manifest, text: () => "General options");
             configMenu.AddBoolOption(
                 mod: manifest,
-                name: () => "Use built-in birds *",
+                name: () => "Use vanilla birds *",
+                tooltip: () => "* Requires restart",
+                getValue: () => Config.LoadVanillaPack,
+                setValue: value => Config.LoadVanillaPack = value
+            );
+            configMenu.AddBoolOption(
+                mod: manifest,
+                name: () => "Use built-in bird pack *",
                 tooltip: () => "* Requires restart",
                 getValue: () => Config.LoadBuiltInPack,
                 setValue: value => Config.LoadBuiltInPack = value

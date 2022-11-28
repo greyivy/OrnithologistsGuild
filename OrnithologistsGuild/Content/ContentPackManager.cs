@@ -22,7 +22,7 @@ namespace OrnithologistsGuild.Content
             ModEntry.Instance.Helper.Events.GameLoop.UpdateTicked += GameLoop_UpdateTicked;
         }
 
-        public static void LoadAll()
+        public static void LoadExternal()
         {
             foreach (IContentPack contentPack in ModEntry.Instance.Helper.ContentPacks.GetOwned())
             {
@@ -78,8 +78,22 @@ namespace OrnithologistsGuild.Content
         public static void LoadBuiltIn()
         {
             IContentPack contentPack = ModEntry.Instance.Helper.ContentPacks.CreateTemporary(
-               directoryPath: Path.Combine(ModEntry.Instance.Helper.DirectoryPath, "content-pack"),
+               directoryPath: Path.Combine(ModEntry.Instance.Helper.DirectoryPath, "assets", "content-pack"),
                id: "BuiltIn",
+               name: "Ornithologist's Guild birds",
+               description: "A variety of North American birds created specifically for Ornithologist's Guild.",
+               author: "Ivy",
+               version: ModEntry.Instance.ModManifest.Version
+            );
+
+            Load(contentPack);
+        }
+
+        public static void LoadVanilla()
+        {
+            IContentPack contentPack = ModEntry.Instance.Helper.ContentPacks.CreateTemporary(
+               directoryPath: Path.Combine(ModEntry.Instance.Helper.DirectoryPath, "assets", "content-pack-vanilla"),
+               id: "Vanilla",
                name: "Stardew Valley birds",
                description: "Built-in Stardew Valley birds.",
                author: "ConcernedApe",

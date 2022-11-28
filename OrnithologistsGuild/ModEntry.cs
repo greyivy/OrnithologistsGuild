@@ -24,7 +24,11 @@ using StardewValley;
 // - i18n for strings
 // - fix up logging
 // - test when bird packs are removed
-// - mod. Book: all crows are beautiful. Shoutout to the raptors for kyles inspiration. Bottle of blackberries as his favorite gift
+// - birds sleeping in trees
+// - birds more likely to sleep at night
+// - prevent birds spawing on top of each other
+// - enforce a min x and y distance when relocating so the birds don't go straight up/down/left/right
+// - Shoutout to the raptors for kyles inspiration. blackberries as his favorite gift
 
 namespace OrnithologistsGuild
 {
@@ -73,11 +77,9 @@ namespace OrnithologistsGuild
 
             // Ornithologist's Guild content packs
             ContentPackManager.Initialize();
-            if (ConfigManager.Config.LoadBuiltInPack)
-            {
-                ContentPackManager.LoadBuiltIn();
-            }
-            ContentPackManager.LoadAll();
+            if (ConfigManager.Config.LoadVanillaPack) ContentPackManager.LoadVanilla();
+            if (ConfigManager.Config.LoadBuiltInPack) ContentPackManager.LoadBuiltIn();
+            ContentPackManager.LoadExternal();
 
             // Dynamic Game Assets content pack
             DGA = Helper.ModRegistry.GetApi<DynamicGameAssets.IDynamicGameAssetsApi>("spacechase0.DynamicGameAssets");

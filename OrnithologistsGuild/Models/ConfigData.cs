@@ -2,6 +2,7 @@
 {
     public class ConfigData
     {
-        public bool LoadBuiltInPack = false;
+        public bool LoadVanillaPack = false;
+        public bool LoadBuiltInPack = true;
     }
 }
