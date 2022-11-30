@@ -11,25 +11,6 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
-// Notes:
-// Automate mod support (see dynamic assets readme)
-// Multiplayer... works! Each player gets their own birds, but they can be scared away by the other player. Not bad. Adding synced birds will take A LOT of work.
-
-// Planned features:
-// - Bird baths
-// - Custom mail backgrounds? Or color? https://www.nexusmods.com/stardewvalley/mods/1536
-// - Binoculars work on Critters.Owl, Woodpecker, Crow/Magpie etc. (or even customize these)
-// - disable tooltip for birdhouses
-// - can kyle read and write? are the letters from him?
-// - emote position for kyle not in the right place. this affects a few things but i'm not sure how to patch the draw method.
-// - ridgeside village map issues
-// - i18n for strings
-// - fix up logging
-// - test when bird packs are removed
-// - birds sleeping in trees
-// - conditions for birds to leave? sleep?
-// - Shoutout to the raptors for kyles inspiration. blackberries as his favorite gift
-
 namespace OrnithologistsGuild
 {
     /// <summary>The mod entry point.</summary>

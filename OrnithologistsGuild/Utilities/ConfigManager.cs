@@ -44,6 +44,10 @@ namespace OrnithologistsGuild
             configMenu.AddSectionTitle(mod: manifest, text: () => "Save our birds!");
             configMenu.AddParagraph(mod: manifest, text: () => "The world has lost nearly 3 BILLION birds since 1970. For information on the many ways you can help, please visit:");
             configMenu.AddParagraph(mod: manifest, text: () => "https://www.birds.cornell.edu/home/seven-simple-actions-to-help-birds/");
+
+            configMenu.AddSectionTitle(mod: manifest, text: () => "About Kyle");
+            configMenu.AddParagraph(mod: manifest, text: () => "Kyle the raven was inspired by Kyle, a rescued, one-winged raven I met at The Raptors in Duncan, BC, Canada.");
+            configMenu.AddParagraph(mod: manifest, text: () => "https://the-raptors.com");
         }
     }
 }
