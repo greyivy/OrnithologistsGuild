@@ -31,6 +31,12 @@
         },
         {
           "When": {
+            "LocationName": "Desert, Railroad"
+          },
+          "NilWt": true
+        },
+        {
+          "When": {
             "Season": "Spring, Fall"
           },
           "AddWt": 0.05
@@ -67,6 +73,12 @@
         {
           "When": {
             "Time": "{{Range: 1800, 2600}}"
+          },
+          "NilWt": true
+        },
+        {
+          "When": {
+            "LocationName": "Desert, Railroad"
           },
           "NilWt": true
         },
@@ -109,6 +121,12 @@
         },
         {
           "When": {
+            "LocationName": "Desert, Railroad"
+          },
+          "NilWt": true
+        },
+        {
+          "When": {
             "Season": "Winter"
           },
           "AddWt": 0.1
@@ -124,7 +142,7 @@
       "ShouldUseBath": true,
       "MaxFlockSize": 9,
       "Cautiousness": 5,
-      "FlapDuration": 500,
+      "FlapDuration": 400,
       "FlySpeed": 4,
 
       "BaseWt": 0.05,
@@ -140,6 +158,12 @@
         {
           "When": {
             "Time": "{{Range: 1800, 2600}}"
+          },
+          "NilWt": true
+        },
+        {
+          "When": {
+            "LocationName": "Desert, Railroad"
           },
           "NilWt": true
         },
@@ -186,6 +210,12 @@
             "Time": "{{Range: 1800, 2600}}"
           },
           "NilWt": true
+        },
+        {
+          "When": {
+            "LocationName": "Desert, Railroad"
+          },
+          "NilWt": true
         }
       ]
     },
@@ -221,6 +251,12 @@
         },
         {
           "When": {
+            "LocationName": "Desert, Railroad"
+          },
+          "NilWt": true
+        },
+        {
+          "When": {
             "LocationName": "Town, Custom_EastScarpe"
           },
           "AddWt": 0.4
@@ -235,7 +271,7 @@
 
       "ShouldUseBath": true,
       "MaxFlockSize": 1,
-      "Cautiousness": 6,
+      "Cautiousness": 4,
       "FlapDuration": 400,
       "FlySpeed": 5,
 
@@ -251,6 +287,12 @@
         {
           "When": {
             "Time": "{{Range: 1800, 2600}}"
+          },
+          "NilWt": true
+        },
+        {
+          "When": {
+            "LocationName": "Desert, Railroad"
           },
           "NilWt": true
         },
@@ -288,6 +330,12 @@
         {
           "When": {
             "Time": "{{Range: 1800, 2600}}"
+          },
+          "NilWt": true
+        },
+        {
+          "When": {
+            "LocationName": "Desert, Railroad"
           },
           "NilWt": true
         },

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using DynamicGameAssets.PackData;
 using HarmonyLib;
@@ -26,9 +27,7 @@ using StardewValley.TerrainFeatures;
 // - fix up logging
 // - test when bird packs are removed
 // - birds sleeping in trees
-// - birds more likely to sleep at night
-// - prevent birds spawing on top of each other
-// - enforce a min x and y distance when relocating so the birds don't go straight up/down/left/right
+// - conditions for birds to leave? sleep?
 // - Shoutout to the raptors for kyles inspiration. blackberries as his favorite gift
 
 namespace OrnithologistsGuild
@@ -73,8 +72,6 @@ namespace OrnithologistsGuild
             // Config
             ConfigManager.Initialize();
 
-            Tree r = null;
-
             // Internal content
             ContentManager.Initialize();
 
@@ -107,23 +104,32 @@ namespace OrnithologistsGuild
 
             // Console commands
             Helper.ConsoleCommands.Add("og_debug", "Adds debug items to inventory", OnDebugCommand);
+            Helper.ConsoleCommands.Add("og_spawn", "Consistently spawns specified creature ID", OnDebugCommand);
         }
 
         private void OnDebugCommand(string cmd, string[] args)
         {
-            // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(270, 32)); // Corn
-            // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(770, 32)); // Mixed Seeds
-            Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(431, 32)); // Sunflower Seeds
-            // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(832, 32)); // Pineapple
+            if (cmd.Equals("og_debug"))
+            {
+                // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(270, 32)); // Corn
+                // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(770, 32)); // Mixed Seeds
+                Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(431, 32)); // Sunflower Seeds
+                                                                                                // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(832, 32)); // Pineapple
 
-            Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("WoodenHopper").ToItem());
-            Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("WoodenPlatform").ToItem());
-            Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("PlasticTube").ToItem());
-            Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("SeedHuller").ToItem());
-            Game1.player.addItemByMenuIfNecessary((Item)new LifeList());
-            Game1.player.addItemByMenuIfNecessary((Item)new JojaBinoculars());
-            Game1.player.addItemByMenuIfNecessary((Item)new AntiqueBinoculars());
-            Game1.player.addItemByMenuIfNecessary((Item)new ProBinoculars());
+                Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("WoodenHopper").ToItem());
+                Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("WoodenPlatform").ToItem());
+                Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("PlasticTube").ToItem());
+                Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("SeedHuller").ToItem());
+                Game1.player.addItemByMenuIfNecessary((Item)new LifeList());
+                Game1.player.addItemByMenuIfNecessary((Item)new JojaBinoculars());
+                Game1.player.addItemByMenuIfNecessary((Item)new AntiqueBinoculars());
+                Game1.player.addItemByMenuIfNecessary((Item)new ProBinoculars());
+            } else if (cmd.Equals("og_spawn"))
+            {
+                BirdieDef birdieDef = ContentPackManager.BirdieDefs.Values.FirstOrDefault(birdieDef => birdieDef.ID.Equals(args[0], StringComparison.OrdinalIgnoreCase));
+
+                BetterBirdieSpawner.debugAlwaysSpawn = birdieDef;
+            }
         }
     }
 }

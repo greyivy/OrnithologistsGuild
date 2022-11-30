@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using DynamicGameAssets.Game;
@@ -12,11 +13,30 @@ namespace OrnithologistsGuild.Game.Items
     [XmlType("Mods_Ivy_OrnithologistsGuild_LifeList")]
     public class LifeList : CustomObject
     {
+        private const int PAGE_SIZE = 5;
+        private const string ACTION_NEXT = "ACTION_NEXT";
+
         public LifeList() : base((ObjectPackData)ModEntry.DGAContentPack.Find("LifeList"))
         {
             var dataPack = ModEntry.DGAContentPack.Find("LifeList");
 
             this.name = $"{dataPack.ID}_Subclass";
+        }
+
+        private void drawBirdieList(Models.LifeList lifeList, List<Response> choices, int page = 1)
+        {
+            var totalPages = (int)Math.Floor((double)lifeList.Count / (double)PAGE_SIZE);
+
+            var title = $"{Game1.player.Name}'s Life List ({lifeList.IdentifiedCount}/{ContentPackManager.BirdieDefs.Count} birds)^Page {page} of {totalPages}";
+            var action = new GameLocation.afterQuestionBehavior((_, choice) => {
+                if (choice.Equals(ACTION_NEXT)) drawBirdieList(lifeList, choices, page + 1);
+                else drawBirdieDialogue(ContentPackManager.BirdieDefs[choice], lifeList[choice]);
+            });
+
+            var pageChoices = choices.Skip(page * PAGE_SIZE).Take(PAGE_SIZE).ToList();
+            if (page < totalPages) pageChoices.Add(new Response(ACTION_NEXT, "Next page"));
+
+            Game1.currentLocation.createQuestionDialogue(title, pageChoices.ToArray(), action);
         }
 
         private void drawBirdieDialogue(BirdieDef birdieDef, Models.LifeListEntry lifeListEntry)
@@ -55,7 +75,6 @@ namespace OrnithologistsGuild.Game.Items
             Game1.drawObjectDialogue(string.Join("^", lines));
         }
 
-        // TODO paging?
         public override bool performUseAction(GameLocation location)
         {
             var lifeList = SaveDataManager.SaveData.LifeList;
@@ -64,19 +83,26 @@ namespace OrnithologistsGuild.Game.Items
             {
                 var identified = ContentPackManager.BirdieDefs.Values.Where(birdieDef => lifeList.ContainsKey(birdieDef.UniqueID) && lifeList[birdieDef.UniqueID].Identified).ToList();
 
-                List<Response> choices = identified.Select(birdieDef => {
-                    var id = birdieDef.ID;
+                List<Response> choices = identified
+                    .OrderBy(birdieDef =>
+                    {
+                        var id = birdieDef.ID;
+                        var contentPack = birdieDef.ContentPackDef.ContentPack;
 
-                    var contentPack = birdieDef.ContentPackDef.ContentPack;
+                        return contentPack.Translation.Get($"birdie.{id}.commonName").ToString();
+                    }).Select(birdieDef =>
+                    {
+                        var id = birdieDef.ID;
+                        var contentPack = birdieDef.ContentPackDef.ContentPack;
 
-                    var commonNameString = contentPack.Translation.Get($"birdie.{id}.commonName");
-                    var scientificNameString = contentPack.Translation.Get($"birdie.{id}.scientificName");
+                        var commonNameString = contentPack.Translation.Get($"birdie.{id}.commonName");
+                        var scientificNameString = contentPack.Translation.Get($"birdie.{id}.scientificName");
 
-                    if (scientificNameString.HasValue()) return new Response(birdieDef.UniqueID, $"{commonNameString.ToString().ToUpper()} ({scientificNameString})");
-                    else return new Response(birdieDef.UniqueID, commonNameString.ToString().ToUpper());
-                }).ToList();
+                        if (scientificNameString.HasValue()) return new Response(birdieDef.UniqueID, $"{commonNameString.ToString().ToUpper()} ({scientificNameString})");
+                        else return new Response(birdieDef.UniqueID, commonNameString.ToString().ToUpper());
+                    }).ToList();
 
-                Game1.currentLocation.createQuestionDialogue($"- {Game1.player.Name}'s Life List ({lifeList.IdentifiedCount}/{ContentPackManager.BirdieDefs.Count}) -", choices.ToArray(), new GameLocation.afterQuestionBehavior((_, choice) => drawBirdieDialogue(ContentPackManager.BirdieDefs[choice], lifeList[choice])));
+                drawBirdieList(lifeList, choices, 1);
             }
             else
             {

@@ -73,6 +73,7 @@ namespace OrnithologistsGuild.Content
                 }
             }
 
+            ModEntry.Instance.Monitor.Log($"Read {contentPackDef.Birdies.Length} birdies from {contentPack.Manifest.Name} {contentPack.Manifest.Version}");
         }
 
         public static void LoadBuiltIn()

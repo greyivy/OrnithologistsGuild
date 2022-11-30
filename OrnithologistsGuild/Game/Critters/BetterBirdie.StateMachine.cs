@@ -228,40 +228,64 @@ namespace OrnithologistsGuild.Game.Critters
                     {
                         WalkTimer -= a.ElapsedTimeSpan.Milliseconds;
 
-                        if (!flip)
+                        if (Perch == null)
                         {
-                            if (!(Perch != null && position.X < startingPosition.X - 1f) && !Environment.isCollidingPosition(getBoundingBox(-1, 0), Game1.viewport, isFarmer: false, 0, glider: false, null, pathfinding: false, projectile: false, ignoreCharacterRequirement: true))
+                            var canWalkLeft = !Environment.isCollidingPosition(getBoundingBox(-1, 0), Game1.viewport, isFarmer: false, 0, glider: false, null, pathfinding: false, projectile: false, ignoreCharacterRequirement: true);
+                            var canWalkRight = !Environment.isCollidingPosition(getBoundingBox(1, 0), Game1.viewport, isFarmer: false, 0, glider: false, null, pathfinding: false, projectile: false, ignoreCharacterRequirement: true);
+
+                            if (!canWalkLeft && !canWalkRight)
                             {
-                                position.X -= 1f;
+                                StateMachine.Trigger(BetterBirdieTrigger.Stop);
+                            }
+
+                            if (!flip)
+                            {
+                                if (canWalkLeft) position.X -= 1f;
+                                else flip = !flip;
                             }
                             else
                             {
-                                // Can't walk left
-                                if (Perch == null)
-                                {
-                                    flip = !flip;
-                                }
+                                if (canWalkRight) position.X += 1f;
+                                else flip = !flip;
+                            }
+
+                            switch(Game1.random.Next(3))
+                            {
+                                case 0:
+                                    break;
+                                case 1:
+                                    position.Y += 0.5f;
+                                    break;
+                                case 2:
+                                    position.Y -= 0.5f;
+                                    break;
+                            }
+                        }
+                        else if (Perch != null)
+                        {
+                            var canWalkLeft = position.X >= startingPosition.X - 1f;
+                            var canWalkRight = position.X <= startingPosition.X + 3f;
+
+                            if (!canWalkLeft && !canWalkRight)
+                            {
+                                StateMachine.Trigger(BetterBirdieTrigger.Stop);
+                            }
+
+                            if (!flip)
+                            {
+                                if (canWalkLeft) position.X -= 1f;
                                 else
                                 {
+                                    flip = !flip;
                                     StateMachine.Trigger(BetterBirdieTrigger.Stop);
                                 }
                             }
-                        }
-                        else
-                        {
-                            if (!(Perch != null && position.X > startingPosition.X + 3f) && !Environment.isCollidingPosition(getBoundingBox(1, 0), Game1.viewport, isFarmer: false, 0, glider: false, null, pathfinding: false, projectile: false, ignoreCharacterRequirement: true))
-                            {
-                                position.X += 1f;
-                            }
                             else
                             {
-                                // Can't walk right
-                                if (Perch == null)
-                                {
-                                    flip = !flip;
-                                }
+                                if (canWalkRight) position.X += 1f;
                                 else
                                 {
+                                    flip = !flip;
                                     StateMachine.Trigger(BetterBirdieTrigger.Stop);
                                 }
                             }
@@ -388,6 +412,10 @@ namespace OrnithologistsGuild.Game.Critters
 
                                 var distance = Vector2.Distance(position, randomPosition);
                                 if (distance < 500 || distance > 2500) continue; // Too close/far
+
+                                var distanceX = MathF.Abs(position.X - randomPosition.X);
+                                var distanceY = MathF.Abs(position.Y - randomPosition.Y);
+                                if (distanceX < 250 || distanceY < 250) continue; // Too straight (lol)
 
                                 RelocateFrom = position;
                                 RelocateTo = randomPosition;

@@ -4,8 +4,8 @@
   "birdie.AmericanGoldfinch.attribute.1": "bright yellow plumage",
   "birdie.AmericanGoldfinch.attribute.2": "orange beak",
   "birdie.AmericanGoldfinch.attribute.3": "black crest",
-
   "birdie.AmericanGoldfinch.funFact": "American Goldfinches are the only species of finch to molt (replace their feathers) twice a year!",
+  
   "birdie.AmericanRobin.commonName": "American Robin",
   "birdie.AmericanRobin.scientificName": "Turdus Migratorius",
   "birdie.AmericanRobin.attribute.1": "red breast",
@@ -14,7 +14,7 @@
   
   "birdie.BlackCappedChickadee.commonName": "Black-capped Chickadee",
   "birdie.BlackCappedChickadee.scientificName": "Poecile Atricapillus",
-  "birdie.BlackCappedChickadee.attribute.1": "tiny, plump body",
+  "birdie.BlackCappedChickadee.attribute.1": "plump body",
   "birdie.BlackCappedChickadee.attribute.2": "big head",
   "birdie.BlackCappedChickadee.attribute.3": "black crest",
   "birdie.BlackCappedChickadee.funFact": "Black-capped Chickadees have 15 unique calls, each meaning something different!",
@@ -27,7 +27,7 @@
   
   "birdie.HouseFinch.commonName": "House Finch",
   "birdie.HouseFinch.scientificName": "Haemorhous Mexicanus",
-  "birdie.HouseFinch.attribute.1": "red head, neck, and shoulders",
+  "birdie.HouseFinch.attribute.1": "red head",
   "birdie.HouseFinch.attribute.2": "brown body",
   "birdie.HouseFinch.funFact": "Females prefer redder males: a sign of a fat, well-fed mate!",
   

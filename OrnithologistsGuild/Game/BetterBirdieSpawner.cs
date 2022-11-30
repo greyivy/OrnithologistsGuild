@@ -13,7 +13,7 @@ namespace OrnithologistsGuild
 {
     public class BetterBirdieSpawner
     {
-        private const bool DEBUG_ALWAYS_SPAWN = true;
+        public static BirdieDef debugAlwaysSpawn = null;
 
         public static void AddBirdies(GameLocation location, double chance = 0, bool onlyIfOnScreen = false)
         {
@@ -36,8 +36,7 @@ namespace OrnithologistsGuild
                 return;
             }
 
-            // No birdies past 8:00 PM (it's their bedtime), in the desert or railroad
-            if (Game1.timeOfDay >= 1800 || !location.IsOutdoors || location is Desert || (location is Railroad)) return;
+            if (!location.IsOutdoors) return;
 
             ModEntry.Instance.Monitor.Log("AddBirdies");
 
@@ -81,10 +80,10 @@ namespace OrnithologistsGuild
 
             // Chance to add another flock
             int flocksAdded = 0;
-            while ((DEBUG_ALWAYS_SPAWN && flocksAdded == 0) || Game1.random.NextDouble() < chance / (flocksAdded + 1)) // Chance lowers after every flock
+            while ((debugAlwaysSpawn != null && flocksAdded == 0) || Game1.random.NextDouble() < chance / (flocksAdded + 1)) // Chance lowers after every flock
             {
                 // Determine flock parameters
-                flockBirdieDef = GetRandomBirdieDef();
+                flockBirdieDef = debugAlwaysSpawn == null ? GetRandomBirdieDef() : debugAlwaysSpawn;
                 if (flockBirdieDef == null) return;
 
                 int flockSize = Game1.random.Next(1, flockBirdieDef.MaxFlockSize + 1);
