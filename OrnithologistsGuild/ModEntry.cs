@@ -8,6 +8,7 @@ using SpaceShared.APIs;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.TerrainFeatures;
 
 // Notes:
 // Automate mod support (see dynamic assets readme)
@@ -71,6 +72,8 @@ namespace OrnithologistsGuild
         {
             // Config
             ConfigManager.Initialize();
+
+            Tree r = null;
 
             // Internal content
             ContentManager.Initialize();
