@@ -131,7 +131,7 @@ namespace OrnithologistsGuild
 
             // Chance to add another flock
             int flocksAdded = 0;
-            while (flocksAdded < feeder.maxFlocks && Game1.random.NextDouble() < 0.4)
+            while (flocksAdded < feeder.maxFlocks && Game1.random.NextDouble() < 0.3)
             {
                 ModEntry.Instance.Monitor.Log("Trying to spawn flock within " + feederRect.ToString());
 

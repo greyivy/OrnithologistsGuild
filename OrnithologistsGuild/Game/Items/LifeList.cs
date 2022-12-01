@@ -15,6 +15,7 @@ namespace OrnithologistsGuild.Game.Items
     {
         private const int PAGE_SIZE = 5;
         private const string ACTION_NEXT = "ACTION_NEXT";
+        private const string ACTION_CLOSE = "ACTION_CLOSE";
 
         public LifeList() : base((ObjectPackData)ModEntry.DGAContentPack.Find("LifeList"))
         {
@@ -25,16 +26,18 @@ namespace OrnithologistsGuild.Game.Items
 
         private void drawBirdieList(Models.LifeList lifeList, List<Response> choices, int page = 1)
         {
-            var totalPages = (int)Math.Floor((double)lifeList.Count / (double)PAGE_SIZE);
+            var totalPages = Math.Ceiling((decimal)choices.Count / PAGE_SIZE);
 
             var title = $"{Game1.player.Name}'s Life List ({lifeList.IdentifiedCount}/{ContentPackManager.BirdieDefs.Count} birds)^Page {page} of {totalPages}";
             var action = new GameLocation.afterQuestionBehavior((_, choice) => {
                 if (choice.Equals(ACTION_NEXT)) drawBirdieList(lifeList, choices, page + 1);
+                else if (choice.Equals(ACTION_CLOSE)) { }
                 else drawBirdieDialogue(ContentPackManager.BirdieDefs[choice], lifeList[choice]);
             });
 
-            var pageChoices = choices.Skip(page * PAGE_SIZE).Take(PAGE_SIZE).ToList();
+            var pageChoices = choices.Skip((page - 1) * PAGE_SIZE).Take(PAGE_SIZE).ToList();
             if (page < totalPages) pageChoices.Add(new Response(ACTION_NEXT, "Next page"));
+            pageChoices.Add(new Response(ACTION_CLOSE, "Close life list"));
 
             Game1.currentLocation.createQuestionDialogue(title, pageChoices.ToArray(), action);
         }
