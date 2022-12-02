@@ -93,6 +93,7 @@
     {
       "ID": "BlackCappedChickadee",
       "AssetPath": "assets/BlackCappedChickadee.png",
+      "SoundAssetPath": "assets/BlackCappedChickadee.wav",
 
       "Attributes": 3,
 

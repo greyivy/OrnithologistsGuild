@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using ContentPatcher;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
@@ -10,11 +12,24 @@ namespace OrnithologistsGuild.Content
 {
     public class BirdieDef
     {
-        public void LoadAssets()
+        public void LoadSoundAssets()
         {
-            if (this.AssetPath != null)
+            if (SoundAssetPath != null)
             {
-                this.ContentPackDef.ContentPack.ModContent.Load<Texture2D>(this.AssetPath);
+                SoundID = $"{UniqueID}_Sound";
+
+                CueDefinition cueDef = new CueDefinition();
+
+                cueDef.name = SoundID;
+                cueDef.instanceLimit = 1;
+                cueDef.limitBehavior = CueDefinition.LimitBehavior.FailToPlay;
+
+                string filePathCombined = Path.Combine(ContentPackDef.ContentPack.DirectoryPath, SoundAssetPath);
+                SoundEffect audio = SoundEffect.FromFile(filePathCombined);
+
+                cueDef.SetSound(audio, Game1.audioEngine.GetCategoryIndex("Sound"), false);
+
+                Game1.soundBank.AddCue(cueDef);
             }
         }
 
@@ -38,6 +53,9 @@ namespace OrnithologistsGuild.Content
         public string ID;
         public string UniqueID; // Generated
         public string AssetPath;
+
+        public string SoundAssetPath;
+        public string SoundID; // Generated
 
         public int BaseFrame = 0;
 

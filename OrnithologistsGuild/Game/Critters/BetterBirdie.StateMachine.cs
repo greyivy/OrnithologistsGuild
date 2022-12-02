@@ -332,7 +332,7 @@ namespace OrnithologistsGuild.Game.Critters
 
                         if (Game1.random.NextDouble() < 0.85)
                         {
-                            Game1.playSound("SpringBirds");
+                            Game1.playSound(BirdieDef.SoundID == null ? "SpringBirds" : BirdieDef.SoundID);
                         }
 
                         sprite.setCurrentAnimation(GetFlyingAnimation());
@@ -382,7 +382,7 @@ namespace OrnithologistsGuild.Game.Critters
 
                             if (Game1.random.NextDouble() < 0.85)
                             {
-                                Game1.playSound("SpringBirds");
+                                Game1.playSound(BirdieDef.SoundID == null ? "SpringBirds" : BirdieDef.SoundID);
                             }
 
                             sprite.setCurrentAnimation(GetFlyingAnimation());
