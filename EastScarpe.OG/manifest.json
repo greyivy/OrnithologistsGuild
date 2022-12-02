@@ -7,7 +7,6 @@
   "MinimumApiVersion": "3.0.0",
   "UpdateKeys": [ "Nexus:14510" ],
   "RequiredForEveryone": true,
-  "OG.FormatVersion": 2,
   "ContentPackFor": {
     "UniqueID": "Ivy.OrnithologistsGuild"
   }
