@@ -19,11 +19,11 @@
   "birdie.BlackCappedChickadee.attribute.3": "black crest",
   "birdie.BlackCappedChickadee.funFact": "Black-capped Chickadees have 15 unique calls, each meaning something different!",
   
-  "birdie.Bushtit.commonName": "Bushtit",
-  "birdie.Bushtit.scientificName": "Psaltriparus Minimus",
-  "birdie.Bushtit.attribute.1": "very tiny",
-  "birdie.Bushtit.attribute.2": "grey body",
-  "birdie.Bushtit.funFact": "On cold nights, these little puffballs huddle together in a big bundle of joy to keep warm!",
+  "birdie.AmericanBushtit.commonName": "Bushtit",
+  "birdie.AmericanBushtit.scientificName": "Psaltriparus Minimus",
+  "birdie.AmericanBushtit.attribute.1": "very tiny",
+  "birdie.AmericanBushtit.attribute.2": "grey body",
+  "birdie.AmericanBushtit.funFact": "On cold nights, these little puffballs huddle together in a big bundle of joy to keep warm!",
   
   "birdie.HouseFinch.commonName": "House Finch",
   "birdie.HouseFinch.scientificName": "Haemorhous Mexicanus",

@@ -4,6 +4,7 @@
     {
       "ID": "AmericanGoldfinch",
       "AssetPath": "assets/AmericanGoldfinch.png",
+      "SoundAssetPath": "assets/AmericanGoldfinch.wav",
 
       "Attributes": 3,
 
@@ -52,6 +53,7 @@
     {
       "ID": "AmericanRobin",
       "AssetPath": "assets/AmericanRobin.png",
+      "SoundAssetPath": "assets/AmericanRobin.wav",
 
       "Attributes": 2,
 
@@ -135,8 +137,9 @@
       ]
     },
     {
-      "ID": "Bushtit",
-      "AssetPath": "assets/Bushtit.png",
+      "ID": "AmericanBushtit",
+      "AssetPath": "assets/AmericanBushtit.png",
+      "SoundAssetPath": "assets/AmericanBushtit.wav",
 
       "Attributes": 2,
 
@@ -185,6 +188,7 @@
     {
       "ID": "HouseFinch",
       "AssetPath": "assets/HouseFinch.png",
+      "SoundAssetPath": "assets/HouseFinch.wav",
 
       "Attributes": 2,
 
@@ -223,6 +227,7 @@
     {
       "ID": "HouseSparrow",
       "AssetPath": "assets/HouseSparrow.png",
+      "SoundAssetPath": "assets/HouseSparrow.wav",
 
       "Attributes": 2,
 
@@ -267,6 +272,7 @@
     {
       "ID": "RedWingedBlackbird",
       "AssetPath": "assets/RedWingedBlackbird.png",
+      "SoundAssetPath": "assets/RedWingedBlackbird.wav",
 
       "Attributes": 3,
 
@@ -309,6 +315,7 @@
     {
       "ID": "SpottedTowhee",
       "AssetPath": "assets/SpottedTowhee.png",
+      "SoundAssetPath": "assets/SpottedTowhee.wav",
 
       "Attributes": 3,
 
