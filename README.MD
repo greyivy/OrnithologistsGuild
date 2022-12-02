@@ -4,4 +4,4 @@
 
 ## Mod developer?
 
-See [content pack documentation](docs/DEVELOPERS.MD).
+See [content pack documentation](https://github.com/greyivy/OrnithologistsGuild/blob/main/docs/DEVELOPERS.md).
