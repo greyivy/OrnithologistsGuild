@@ -4,10 +4,10 @@ using System.Linq;
 using DynamicGameAssets.Game;
 using Microsoft.Xna.Framework;
 using OrnithologistsGuild.Content;
+using OrnithologistsGuild.Game;
 using OrnithologistsGuild.Game.Critters;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
-using StardewValley.Locations;
 
 namespace OrnithologistsGuild
 {
@@ -120,23 +120,23 @@ namespace OrnithologistsGuild
             }
         }
 
-        private static void AddBirdiesNearFeeder(GameLocation location, Vector2 feederTile, Models.FeederDef feeder, Models.FoodDef food, bool onlyIfOnScreen)
+        private static void AddBirdiesNearFeeder(GameLocation location, Vector2 feederTile, Models.FeederDef feederDef, Models.FoodDef food, bool onlyIfOnScreen)
         {
             ModEntry.Instance.Monitor.Log("AddBirdiesNearFeeder");
 
             // Build a rectangle around the feeder based on the range
-            var feederRect = Utility.getRectangleCenteredAt(feederTile, (feeder.range * 2) + 1);
+            var feederRect = Utility.getRectangleCenteredAt(feederTile, (feederDef.range * 2) + 1);
 
             BirdieDef flockBirdieDef = null;
 
             // Chance to add another flock
             int flocksAdded = 0;
-            while (flocksAdded < feeder.maxFlocks && Game1.random.NextDouble() < 0.3)
+            while (flocksAdded < feederDef.maxFlocks && Game1.random.NextDouble() < 0.3)
             {
                 ModEntry.Instance.Monitor.Log("Trying to spawn flock within " + feederRect.ToString());
 
                 // Determine flock parameters
-                flockBirdieDef = GetRandomFeederBirdieDef(feeder, food);
+                flockBirdieDef = GetRandomFeederBirdieDef(feederDef, food);
                 if (flockBirdieDef == null) return;
 
                 int flockSize = Game1.random.Next(1, flockBirdieDef.MaxFlockSize + 1);
@@ -175,9 +175,9 @@ namespace OrnithologistsGuild
                     }
                 }
 
-                if (shouldAddBirdToFeeder)
+                if (shouldAddBirdToFeeder && Perch.IsPerchAvailable(location, feederTile))
                 {
-                    location.addCritter((Critter)new BetterBirdie(flockBirdieDef, (int)feederTile.X, (int)feederTile.Y, feeder));
+                    location.addCritter((Critter)new BetterBirdie(flockBirdieDef, (int)feederTile.X, (int)feederTile.Y, new Game.Perch(feederTile, feederDef)));
                 }
             }
         }

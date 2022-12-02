@@ -4,12 +4,14 @@ using System.Linq;
 using DynamicGameAssets.PackData;
 using HarmonyLib;
 using OrnithologistsGuild.Content;
+using OrnithologistsGuild.Game;
+using OrnithologistsGuild.Game.Critters;
 using OrnithologistsGuild.Game.Items;
 using SpaceShared.APIs;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.TerrainFeatures;
+using StardewValley.BellsAndWhistles;
 
 namespace OrnithologistsGuild
 {
@@ -95,7 +97,7 @@ namespace OrnithologistsGuild
                 // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(270, 32)); // Corn
                 // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(770, 32)); // Mixed Seeds
                 Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(431, 32)); // Sunflower Seeds
-                                                                                                // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(832, 32)); // Pineapple
+                // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(832, 32)); // Pineapple
 
                 Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("WoodenHopper").ToItem());
                 Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("WoodenPlatform").ToItem());

@@ -52,10 +52,10 @@ namespace OrnithologistsGuild.Game.Items
                     var birdie = (BetterBirdie)critter;
                     var id = birdie.BirdieDef.ID;
 
-                    if (birdie.IsFlying || birdie.Spotted) continue;
+                    if (birdie.IsFlying || birdie.IsSpotted) continue;
                     if (spottedBirdieUniqueIds.Contains(birdie.BirdieDef.UniqueID))
                     {
-                        birdie.Spotted = true;
+                        birdie.IsSpotted = true;
                         continue;
                     }
 
@@ -101,7 +101,7 @@ namespace OrnithologistsGuild.Game.Items
                     Game1.drawObjectDialogue(string.Join("^", lines));
 
                     // Ignore the birds on consecutive uses of the binoculars
-                    birdie.Spotted = true;
+                    birdie.IsSpotted = true;
                     spottedBirdieUniqueIds.Add(birdie.BirdieDef.UniqueID);
                 } else if (critter is Woodpecker && Vector2.Distance(midPoint, critter.position) <= actualRange)
                 {

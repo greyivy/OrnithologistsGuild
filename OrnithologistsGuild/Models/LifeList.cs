@@ -26,13 +26,13 @@ namespace OrnithologistsGuild.Models
             if (lifeListEntry.Identified) return lifeListEntry; // Already added
 
             var attributes = Enumerable.Range(1, birdieDef.Attributes);
-            var undiscoveredAttributes = attributes.Except(lifeListEntry.Sightings.Select(logEntry => logEntry.Attribute));
-            if (undiscoveredAttributes.Count() == 1)
+            var undiscoveredAttributes = attributes.Except(lifeListEntry.Sightings.Select(logEntry => logEntry.Attribute)).ToList();
+            if (undiscoveredAttributes.Count == 1)
             {
                 lifeListEntry.Identified = true;
             }
 
-            newAttribute = undiscoveredAttributes.ElementAt(Game1.random.Next(0, undiscoveredAttributes.Count()));
+            newAttribute = Utility.GetRandom<int>(undiscoveredAttributes);
             lifeListEntry.AddSighting(newAttribute.Value);
 
             SaveDataManager.Save();

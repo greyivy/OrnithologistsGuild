@@ -62,6 +62,12 @@ namespace OrnithologistsGuild.Game.Critters
                 emoteInterval = 0f;
             }
         }
+
+        public void stopEmote()
+        {
+            emoteFading = false;
+            isEmoting = false;
+        }
 	}
 }
 
