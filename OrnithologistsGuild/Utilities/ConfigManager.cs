@@ -25,28 +25,28 @@ namespace OrnithologistsGuild
                 save: () => ModEntry.Instance.Helper.WriteConfig(Config)
             );
 
-            configMenu.AddSectionTitle(mod: manifest, text: () => "General options");
+            configMenu.AddSectionTitle(mod: manifest, text: () => I18n.Config_GeneralOptions());
             configMenu.AddBoolOption(
                 mod: manifest,
-                name: () => "Use vanilla birds *",
-                tooltip: () => "* Requires restart",
+                name: () => I18n.Config_UseVanilla_Name(),
+                tooltip: () => I18n.Config_UseVanilla_Tooltip(),
                 getValue: () => Config.LoadVanillaPack,
                 setValue: value => Config.LoadVanillaPack = value
             );
             configMenu.AddBoolOption(
                 mod: manifest,
-                name: () => "Use built-in bird pack *",
-                tooltip: () => "* Requires restart",
+                name: () => I18n.Config_UseBuiltIn_Name(),
+                tooltip: () => I18n.Config_UseBuiltIn_Tooltip(),
                 getValue: () => Config.LoadBuiltInPack,
                 setValue: value => Config.LoadBuiltInPack = value
             );
 
-            configMenu.AddSectionTitle(mod: manifest, text: () => "Save our birds!");
-            configMenu.AddParagraph(mod: manifest, text: () => "The world has lost nearly 3 BILLION birds since 1970. For information on the many ways you can help, please visit:");
+            configMenu.AddSectionTitle(mod: manifest, text: () => I18n.Config_SaveOurBirds_Title());
+            configMenu.AddParagraph(mod: manifest, text: () => I18n.Config_SaveOurBirds_Content());
             configMenu.AddParagraph(mod: manifest, text: () => "https://www.birds.cornell.edu/home/seven-simple-actions-to-help-birds/");
 
-            configMenu.AddSectionTitle(mod: manifest, text: () => "About Kyle");
-            configMenu.AddParagraph(mod: manifest, text: () => "Kyle the raven was inspired by Kyle, a rescued, one-winged raven I met at The Raptors in Duncan, BC, Canada.");
+            configMenu.AddSectionTitle(mod: manifest, text: () => I18n.Config_AboutKyle_Title());
+            configMenu.AddParagraph(mod: manifest, text: () => I18n.Config_AboutKyle_Content());
             configMenu.AddParagraph(mod: manifest, text: () => "https://the-raptors.com");
         }
     }

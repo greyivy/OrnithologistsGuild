@@ -74,14 +74,15 @@ namespace OrnithologistsGuild.Game.Items
 
                     if (sighting.Identified)
                     {
-                        lines.Add(newAttribute.HasValue ? "Newly identified:" : "Already identified:");
-                        lines.Add(commonNameString.ToString().ToUpper());
+                        lines.Add(newAttribute.HasValue ? I18n.Items_Binoculars_NewlyIdentified() : I18n.Items_Binoculars_AlreadyIdentified());
+                        lines.Add(Utilities.LocaleToUpper(commonNameString.ToString()));
+
                         if (scientificNameString.HasValue()) lines.Add(scientificNameString.ToString());
 
                         if (newAttribute.HasValue)
                         {
                             lines.Add(string.Empty);
-                            lines.Add(string.Join(", ", attributeStrings.Values));
+                            lines.Add(string.Join(Utilities.GetLocaleSeparator(), attributeStrings.Values));
 
                             if (funFactString.HasValue())
                             {
@@ -91,11 +92,11 @@ namespace OrnithologistsGuild.Game.Items
                         }
                     } else
                     {
-                        lines.Add("Not yet identified:");
-                        lines.Add("???");
-                        lines.Add("???");
+                        lines.Add(I18n.Items_Binoculars_NotYetIdentified());
+                        lines.Add(I18n.Items_Binoculars_Placeholder());
+                        lines.Add(I18n.Items_Binoculars_Placeholder());
                         lines.Add(string.Empty);
-                        lines.Add(string.Join(", ", attributeStrings.Select(a => sighting.Sightings.Select(s => s.Attribute).Contains(a.Key) ? a.Value : "???")));
+                        lines.Add(string.Join(Utilities.GetLocaleSeparator(), attributeStrings.Select(a => sighting.Sightings.Select(s => s.Attribute).Contains(a.Key) ? a.Value : I18n.Items_Binoculars_Placeholder())));
                     }
 
                     Game1.drawObjectDialogue(string.Join("^", lines));

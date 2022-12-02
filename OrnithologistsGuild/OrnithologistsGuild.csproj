@@ -49,10 +49,13 @@
     <None Remove="content-pack\" />
     <None Remove="content-pack\i18n\" />
     <None Remove="Models\" />
+    <None Remove="i18n\" />
+    <None Remove="Pathoschild.Stardew.ModTranslationClassBuilder" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.2" />
     <PackageReference Include="StateMachine" Version="1.2.4" />
+    <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />
@@ -67,6 +70,7 @@
     <Folder Include="content-pack\" />
     <Folder Include="content-pack\i18n\" />
     <Folder Include="Models\" />
+    <Folder Include="i18n\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="DynamicGameAssets" Private="False">

@@ -28,7 +28,9 @@ namespace OrnithologistsGuild.Game.Items
         {
             var totalPages = Math.Ceiling((decimal)choices.Count / PAGE_SIZE);
 
-            var title = $"{Game1.player.Name}'s Life List ({lifeList.IdentifiedCount}/{ContentPackManager.BirdieDefs.Count} birds)^Page {page} of {totalPages}";
+            var title = I18n.Items_LifeList_Title(playerName: Game1.player.Name, identified: lifeList.IdentifiedCount, total: ContentPackManager.BirdieDefs.Count);
+            var pagination = I18n.Items_LifeList_Pagination(page: page, total: totalPages);
+
             var action = new GameLocation.afterQuestionBehavior((_, choice) => {
                 if (choice.Equals(ACTION_NEXT)) drawBirdieList(lifeList, choices, page + 1);
                 else if (choice.Equals(ACTION_CLOSE)) { }
@@ -36,10 +38,10 @@ namespace OrnithologistsGuild.Game.Items
             });
 
             var pageChoices = choices.Skip((page - 1) * PAGE_SIZE).Take(PAGE_SIZE).ToList();
-            if (page < totalPages) pageChoices.Add(new Response(ACTION_NEXT, "Next page"));
-            pageChoices.Add(new Response(ACTION_CLOSE, "Close life list"));
+            if (page < totalPages) pageChoices.Add(new Response(ACTION_NEXT, I18n.Items_LifeList_ActionNext()));
+            pageChoices.Add(new Response(ACTION_CLOSE, I18n.Items_LifeList_ActionClose()));
 
-            Game1.currentLocation.createQuestionDialogue(title, pageChoices.ToArray(), action);
+            Game1.currentLocation.createQuestionDialogue($"{title}^{pagination}", pageChoices.ToArray(), action);
         }
 
         private void drawBirdieDialogue(BirdieDef birdieDef, Models.LifeListEntry lifeListEntry)
@@ -56,7 +58,7 @@ namespace OrnithologistsGuild.Game.Items
 
             var lines = new List<string>();
 
-            lines.Add(commonNameString.ToString().ToUpper());
+            lines.Add(Utilities.LocaleToUpper(commonNameString.ToString()));
             if (scientificNameString.HasValue()) lines.Add(scientificNameString.ToString());
 
             lines.Add(string.Empty);
@@ -65,8 +67,13 @@ namespace OrnithologistsGuild.Game.Items
                 var dateSpotted = SDate.FromDaysSinceStart(lifeListEntry.Sightings.Last().DaysSinceStart);
                 var location = Game1.getLocationFromName(lifeListEntry.Sightings.Last().LocationName).Name;
 
-                var adj = lifeListEntry.Sightings.IndexOf(sighting) == lifeListEntry.Sightings.Count - 1 ? "Identified" : "Sighted";
-                lines.Add($"{adj} {dateSpotted} ({location}): {attributeStrings[sighting.Attribute]}");
+                if (lifeListEntry.Sightings.IndexOf(sighting) == lifeListEntry.Sightings.Count - 1)
+                {
+                    lines.Add(I18n.Items_LifeList_Identified(date: dateSpotted, location: location, attribute: attributeStrings[sighting.Attribute]));
+                } else
+                {
+                    lines.Add(I18n.Items_LifeList_Sighted(date: dateSpotted, location: location, attribute: attributeStrings[sighting.Attribute]));
+                }
             }
 
             if (funFactString.HasValue())
@@ -101,15 +108,18 @@ namespace OrnithologistsGuild.Game.Items
                         var commonNameString = contentPack.Translation.Get($"birdie.{id}.commonName");
                         var scientificNameString = contentPack.Translation.Get($"birdie.{id}.scientificName");
 
-                        if (scientificNameString.HasValue()) return new Response(birdieDef.UniqueID, $"{commonNameString.ToString().ToUpper()} ({scientificNameString})");
-                        else return new Response(birdieDef.UniqueID, commonNameString.ToString().ToUpper());
+                        var commonName = Utilities.LocaleToUpper(commonNameString.ToString());
+
+                        if (scientificNameString.HasValue()) return new Response(birdieDef.UniqueID, $"{commonName} ({scientificNameString})");
+                        else return new Response(birdieDef.UniqueID, commonName);
                     }).ToList();
 
                 drawBirdieList(lifeList, choices, 1);
             }
             else
             {
-                Game1.drawObjectDialogue($"- {Game1.player.Name}'s Life List (0/{ContentPackManager.BirdieDefs.Count}) -^empty^^Tip: binoculars can help you identify the birds around you.");
+                var title = I18n.Items_LifeList_Title(playerName: Game1.player.Name, identified: 0, total: ContentPackManager.BirdieDefs.Count);
+                Game1.drawObjectDialogue($"{title}^{I18n.Items_LifeList_Empty()}^^{I18n.Items_LifeList_EmptyTip()}");
             }
 
             return false;

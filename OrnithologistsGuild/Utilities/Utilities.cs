@@ -36,6 +36,24 @@ namespace OrnithologistsGuild
         {
             return MathF.Sin((x * MathF.PI) / 2);
         }
+
+        public static string GetLocaleSeparator()
+        {
+            try
+            {
+                var locale = ModEntry.Instance.Helper.Translation.Locale;
+                return $"{System.Globalization.CultureInfo.GetCultureInfo(locale).TextInfo.ListSeparator} ";
+            } catch
+            {
+                return ", ";
+            }
+        }
+
+        public static string LocaleToUpper(string value)
+        {
+            var locale = ModEntry.Instance.Helper.Translation.Locale;
+            return System.Globalization.CultureInfo.GetCultureInfo(locale).TextInfo.ToUpper(value);
+        }
     }
 }
 

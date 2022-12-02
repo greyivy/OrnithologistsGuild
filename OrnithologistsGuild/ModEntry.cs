@@ -55,6 +55,9 @@ namespace OrnithologistsGuild
             // Config
             ConfigManager.Initialize();
 
+            // Translation
+            I18n.Init(Helper.Translation);
+
             // Internal content
             ContentManager.Initialize();
 
