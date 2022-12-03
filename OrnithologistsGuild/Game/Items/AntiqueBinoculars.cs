@@ -19,7 +19,7 @@ namespace OrnithologistsGuild.Game.Items
         {
             if (Game1.random.NextDouble() < 0.025)
             {
-                Game1.addHUDMessage(new HUDMessage("Binoculars fell apart in your hands", HUDMessage.error_type));
+                Game1.addHUDMessage(new HUDMessage(I18n.Items_AntiqueBinoculars_Message(), HUDMessage.error_type));
 
                 return true;
             }

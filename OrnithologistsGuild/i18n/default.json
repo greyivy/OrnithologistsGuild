@@ -28,5 +28,8 @@
     "items.Binoculars.newlyIdentified": "Newly identified:",
     "items.Binoculars.alreadyIdentified": "Already identified:",
     "items.Binoculars.notYetIdentified": "Not yet identified:",
-    "items.Binoculars.placeholder": "???"
+    "items.Binoculars.placeholder": "???",
+
+    "items.AntiqueBinoculars.message": "Binoculars fell apart in your hands",
+    "items.JojaBinoculars.message": "Binoculars jammed when you tried to focus them"
 }

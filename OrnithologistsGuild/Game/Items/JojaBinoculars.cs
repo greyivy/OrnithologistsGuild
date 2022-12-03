@@ -19,7 +19,7 @@ namespace OrnithologistsGuild.Game.Items
         {
             if (Game1.random.NextDouble() < 0.1)
             {
-                Game1.drawObjectDialogue("Binoculars jammed when you tried to focus them");
+                Game1.drawObjectDialogue(I18n.Items_JojaBinoculars_Message());
 
                 return false;
             }
