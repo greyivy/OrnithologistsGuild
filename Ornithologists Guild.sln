@@ -5,9 +5,9 @@ VisualStudioVersion = 25.0.1703.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrnithologistsGuild", "OrnithologistsGuild\OrnithologistsGuild.csproj", "{CEF6B6C8-5644-4667-A031-196A395EEB3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrinthologistsGuild.CP", "OrinthologistsGuild.CP\OrinthologistsGuild.CP.csproj", "{26BFD301-759D-4C15-954B-26EA70CA7019}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrnithologistsGuild.CP", "OrnithologistsGuild.CP\OrnithologistsGuild.CP.csproj", "{26BFD301-759D-4C15-954B-26EA70CA7019}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrinthologistsGuild.STF", "OrinthologistsGuild.STF\OrinthologistsGuild.STF.csproj", "{83788DCA-08E1-4238-9970-48F68E575806}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrnithologistsGuild.STF", "OrnithologistsGuild.STF\OrnithologistsGuild.STF.csproj", "{83788DCA-08E1-4238-9970-48F68E575806}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EastScarpe.OG", "EastScarpe.OG\EastScarpe.OG.csproj", "{42C3449B-810B-4B9D-99CD-B7CCE1B227D0}"
 EndProject

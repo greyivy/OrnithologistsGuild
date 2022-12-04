@@ -3,14 +3,14 @@
   "CustomLocations": [
     {
       "Name": "Custom_Ivy_OrnithologistsGuild",
-      "FromMapFile": "assets/map/orinthologists_guild.tmx"
+      "FromMapFile": "assets/map/ornithologists_guild.tmx"
     }
   ],
   "Changes": [
     {
       "Action": "EditMap",
       "Target": "Maps/Backwoods",
-      "FromFile": "assets/map/backwoods_orinthologists_guild.tmx",
+      "FromFile": "assets/map/backwoods_ornithologists_guild.tmx",
       "FromArea": {
         "X": 30,
         "Y": 4,

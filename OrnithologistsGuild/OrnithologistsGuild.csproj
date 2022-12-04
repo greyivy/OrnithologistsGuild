@@ -6,7 +6,7 @@
     <AssemblyName>OrnithologistsGuild</AssemblyName>
     <EnableHarmony>true</EnableHarmony>
     <BundleExtraAssemblies>ThirdParty</BundleExtraAssemblies>
-    <ModFolderName>Orinthologists Guild</ModFolderName>
+    <ModFolderName>Ornithologists Guild</ModFolderName>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
