@@ -76,32 +76,32 @@ namespace OrnithologistsGuild.Content
         public Dictionary<string, float> FeederBaseWts;
         public List<BirdDefCondition> Conditions;
 
-        public float GetContextualWeight(bool updateContext = true, Models.FeederDef feeder = null, Models.FoodDef food = null)
+        public float GetContextualWeight(bool updateContext = true, FeederDef feederDef = null, FoodDef foodDef = null)
         {
             ModEntry.Instance.Monitor.Log("GetContextualWeight");
             float weight = this.BaseWt;
 
-            if (feeder != null)
+            if (feederDef != null)
             {
-                if (this.FeederBaseWts.ContainsKey(feeder.type))
+                if (this.CanPerchAt(feederDef))
                 {
-                    weight += this.FeederBaseWts[feeder.type];
+                    weight += this.FeederBaseWts[feederDef.type];
                 } else
                 {
-                    ModEntry.Instance.Monitor.Log($@"{this.ID} 0");
+                    ModEntry.Instance.Monitor.Log($@"{this.ID} 0 (feederDef)");
                     return 0; // Bird does not eat at feeder
                 }
             }
 
-            if (food != null)
+            if (foodDef != null)
             {
-                if (this.FoodBaseWts.ContainsKey(food.type))
+                if (this.CanEat(foodDef))
                 {
-                    weight += this.FoodBaseWts[food.type];
+                    weight += this.FoodBaseWts[foodDef.type];
                 }
                 else
                 {
-                    ModEntry.Instance.Monitor.Log($@"{this.ID} 0");
+                    ModEntry.Instance.Monitor.Log($@"{this.ID} 0 (foodDef)");
                     return 0; // Bird does not eat food
                 }
             }
@@ -114,7 +114,7 @@ namespace OrnithologistsGuild.Content
                 {
                     if (condition.NilWt)
                     {
-                        ModEntry.Instance.Monitor.Log($@"{this.ID} 0");
+                        ModEntry.Instance.Monitor.Log($@"{this.ID} 0 ({string.Join(", ", condition.When.Keys)})");
                         return 0; // Bird not added
                     }
 
@@ -131,7 +131,7 @@ namespace OrnithologistsGuild.Content
         {
             var modifier = -Math.Clamp((int)Math.Round(Game1.player.DailyLuck * 10), -1, 1);
             // TODO verify
-            //ModEntry.Instance.Monitor.Log($"Luck level: {Game1.player.DailyLuck} / Cautiousness modifier: {modifier}");
+            ModEntry.Instance.Monitor.Log($"GetContextualCautiousness DailyLuck={Game1.player.DailyLuck} modifier={modifier}");
 
             return this.Cautiousness + modifier;
         }

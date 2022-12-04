@@ -134,8 +134,6 @@ namespace OrnithologistsGuild
             int flocksAdded = 0;
             while (flocksAdded < feederDef.maxFlocks && Game1.random.NextDouble() < 0.3)
             {
-                ModEntry.Instance.Monitor.Log("Trying to spawn flock within " + feederRect.ToString());
-
                 // Determine flock parameters
                 flockBirdieDef = GetRandomFeederBirdieDef(feederDef, food);
                 if (flockBirdieDef == null) return;

@@ -19,8 +19,6 @@ namespace OrnithologistsGuild
         {
             try
             {
-                Monitor.Log($"performUseAction_Prefix");
-
                 var birdie = new Perch(__instance).GetOccupant(location);
                 if (birdie != null)
                 {

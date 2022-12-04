@@ -75,8 +75,6 @@ namespace OrnithologistsGuild.Game
 
         public static Perch GetRandomAvailableTreePerch(GameLocation location, List<Perch> occupiedPerches)
         {
-            ModEntry.Instance.Monitor.Log("GetRandomAvailableTreePerch");
-
             // Get all trees
             var allTrees = location.terrainFeatures.Values.Where(tf => tf is Tree).ToList();
 
@@ -101,8 +99,6 @@ namespace OrnithologistsGuild.Game
 
         public static Perch GetRandomAvailableFeederPerch(BirdieDef birdieDef, GameLocation location, List<Perch> occupiedPerches)
         {
-            ModEntry.Instance.Monitor.Log("GetRandomAvailableFeederPerch");
-
             // Get all bird feeders
             var allFeeders = location.Objects.SelectMany(overlaidDict => overlaidDict.Values).Where(obj => typeof(CustomBigCraftable).IsAssignableFrom(obj.GetType())).ToList();
 

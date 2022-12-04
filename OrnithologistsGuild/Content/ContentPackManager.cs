@@ -32,7 +32,7 @@ namespace OrnithologistsGuild.Content
 
         public static void Load(IContentPack contentPack)
         {
-            ModEntry.Instance.Monitor.Log($"Reading content pack: {contentPack.Manifest.Name} {contentPack.Manifest.Version} from {contentPack.DirectoryPath}");
+            ModEntry.Instance.Monitor.Log($"Reading content pack: {contentPack.Manifest.Name} {contentPack.Manifest.Version} from {contentPack.DirectoryPath}", LogLevel.Info);
 
             if (!contentPack.HasFile(FILENAME))
             {
@@ -75,7 +75,7 @@ namespace OrnithologistsGuild.Content
                 }
             }
 
-            ModEntry.Instance.Monitor.Log($"Read {contentPackDef.Birdies.Length} birdies from {contentPack.Manifest.Name} {contentPack.Manifest.Version}");
+            ModEntry.Instance.Monitor.Log($"Read {contentPackDef.Birdies.Length} birdies from {contentPack.Manifest.Name} {contentPack.Manifest.Version}", LogLevel.Info);
         }
 
         public static void LoadBuiltIn()

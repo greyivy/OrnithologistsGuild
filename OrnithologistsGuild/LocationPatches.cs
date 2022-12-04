@@ -16,7 +16,7 @@ namespace OrnithologistsGuild
         {
             try
             {
-                Monitor.Log($"addBirdies_Prefix {chance.ToString()} {onlyIfOnScreen.ToString()}");
+                Monitor.Log($"{nameof(addBirdies_Prefix)}: chance={chance.ToString()} onlyIfOnScreen={onlyIfOnScreen.ToString()}");
 
                 BetterBirdieSpawner.AddBirdies(__instance, chance, onlyIfOnScreen);
 
