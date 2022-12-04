@@ -342,13 +342,13 @@ namespace OrnithologistsGuild.Game.Critters
                     {
                         if (!flip)
                         {
-                            position.X -= BirdieDef.FlySpeed;
+                            position.X -= BirdieDef.FlySpeed - FlySpeedOffset;
                         }
                         else
                         {
-                            position.X += BirdieDef.FlySpeed;
+                            position.X += BirdieDef.FlySpeed + FlySpeedOffset;
                         }
-                        yOffset -= 2f + FlightOffset;
+                        yOffset -= 2f + FlySpeedOffset;
                     })
                 .State(BetterBirdieState.Relocating)
                     .TransitionTo(BetterBirdieState.Stopping).On(BetterBirdieTrigger.Stop)
@@ -368,7 +368,7 @@ namespace OrnithologistsGuild.Game.Critters
 
                             RelocateDistance = Vector2.Distance(position, relocateTo.Item1);
 
-                            RelocateDuration = (int)(RelocateDistance.Value / (BirdieDef.FlySpeed / 15f));
+                            RelocateDuration = (int)(RelocateDistance.Value / ((BirdieDef.FlySpeed + FlySpeedOffset) / 15f));
                             RelocateElapsed = 0;
 
                             if (position.X > RelocateTo.Item1.X)
@@ -380,7 +380,7 @@ namespace OrnithologistsGuild.Game.Critters
                                 flip = true;
                             }
 
-                            if (Game1.random.NextDouble() < 0.85)
+                            if (Game1.random.NextDouble() < 0.8)
                             {
                                 Game1.playSound(BirdieDef.SoundID == null ? "SpringBirds" : BirdieDef.SoundID);
                             }

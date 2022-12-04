@@ -61,8 +61,6 @@ namespace OrnithologistsGuild.Content
 
         public ContentPackDef ContentPackDef; // Generated
 
-        // TODO sounds
-
         public int Attributes;
 
         public bool ShouldUseBath = true;

@@ -36,7 +36,7 @@ namespace OrnithologistsGuild.Game.Critters
 
         public bool IsSpotted; // Whether player has spotted bird with binoculars
 
-        private float FlightOffset; // Individual birds fly at slightly different speeds
+        private float FlySpeedOffset; // Individual birds fly at slightly different speeds
 
         public BetterBirdie(BirdieDef birdieDef, int tileX, int tileY, Perch perch = null) : base(0, Vector2.Zero)
         {
@@ -71,7 +71,7 @@ namespace OrnithologistsGuild.Game.Critters
             }
             startingPosition = position;
 
-            FlightOffset = (float)Game1.random.NextDouble() - 0.5f;
+            FlySpeedOffset = (float)Game1.random.NextDouble() - 0.5f;
 
             InitializeStateMachine();
         }
@@ -107,7 +107,7 @@ namespace OrnithologistsGuild.Game.Critters
 
         public Tuple<Vector2, Perch> GetRandomRelocationTileOrPerch()
         {
-            if (Game1.random.NextDouble() < 0) // TODO 0.7
+            if (Game1.random.NextDouble() < 0.8)
             {
                 // Try to find clear tile to relocate to
                 for (int trial = 0; trial < 50; trial++)
@@ -163,7 +163,7 @@ namespace OrnithologistsGuild.Game.Critters
         }
 
         public void Frighten() {
-            StateMachine.Trigger(Game1.random.NextDouble() < 0 ? BetterBirdieTrigger.FlyAway : BetterBirdieTrigger.Relocate); // TODO 0.7
+            StateMachine.Trigger(Game1.random.NextDouble() < 0.8 ? BetterBirdieTrigger.FlyAway : BetterBirdieTrigger.Relocate);
         }
     
         #region Rendering
