@@ -28,9 +28,9 @@
       "Action": "EditData",
       "Target": "Strings/StringsFromMaps",
       "Entries": {
-        "Ivy_OrnithologistsGuild.1": "Joja Bioculars (4x)",
-        "Ivy_OrnithologistsGuild.2": "Antique Bioculars (6x)",
-        "Ivy_OrnithologistsGuild.3": "Pro Bioculars (10x)",
+        "Ivy_OrnithologistsGuild.1": "Joja Binoculars (4x)",
+        "Ivy_OrnithologistsGuild.2": "Antique Binoculars (6x)",
+        "Ivy_OrnithologistsGuild.3": "Pro Binoculars (10x)",
         "Ivy_OrnithologistsGuild.4": "Hopper Feeder. Small range. Holds Corn, Mixed Seeds, Hulled Sunflower Seeds, and Fruit.",
         "Ivy_OrnithologistsGuild.5": "Tube Feeder. Medium range. Holds Mixed Seeds and Hulled Sunflower Seeds.",
         "Ivy_OrnithologistsGuild.6": "Platform Feeder. Large range. Holds Corn, Mixed Seeds, Hulled Sunflower Seeds, and Fruit.",
