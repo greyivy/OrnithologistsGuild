@@ -4,7 +4,7 @@ using System.IO;
 using ContentPatcher;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
+using OrnithologistsGuild.Models;
 using StardewModdingAPI;
 using StardewValley;
 
@@ -134,6 +134,16 @@ namespace OrnithologistsGuild.Content
             //ModEntry.Instance.Monitor.Log($"Luck level: {Game1.player.DailyLuck} / Cautiousness modifier: {modifier}");
 
             return this.Cautiousness + modifier;
+        }
+
+        public bool CanPerchAt(FeederDef feederDef)
+        {
+            return FeederBaseWts.ContainsKey(feederDef.type);
+        }
+
+        public bool CanEat(FoodDef foodDef)
+        {
+            return FoodBaseWts.ContainsKey(foodDef.type);
         }
     }
 

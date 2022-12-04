@@ -88,6 +88,12 @@ namespace OrnithologistsGuild
                prefix: new HarmonyMethod(typeof(LocationPatches), nameof(LocationPatches.addBirdies_Prefix))
             );
 
+            TreePatches.Initialize(this.Monitor);
+            harmony.Patch(
+               original: AccessTools.Method(typeof(StardewValley.TerrainFeatures.Tree), nameof(StardewValley.TerrainFeatures.Tree.performUseAction)),
+               prefix: new HarmonyMethod(typeof(TreePatches), nameof(TreePatches.performUseAction_Prefix))
+            );
+
             // Console commands
             Helper.ConsoleCommands.Add("og_debug", "Adds debug items to inventory", OnDebugCommand);
             Helper.ConsoleCommands.Add("og_spawn", "Consistently spawns specified creature ID", OnDebugCommand);
@@ -97,19 +103,19 @@ namespace OrnithologistsGuild
         {
             if (cmd.Equals("og_debug"))
             {
-                // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(270, 32)); // Corn
-                // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(770, 32)); // Mixed Seeds
-                Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(431, 32)); // Sunflower Seeds
-                // Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(832, 32)); // Pineapple
+                //Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(270, 32)); // Corn
+                Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(770, 32)); // Mixed Seeds
+                //Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(431, 32)); // Sunflower Seeds
+                Game1.player.addItemByMenuIfNecessary((Item)new StardewValley.Object(832, 32)); // Pineapple
 
-                Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("WoodenHopper").ToItem());
-                Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("WoodenPlatform").ToItem());
-                Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("PlasticTube").ToItem());
-                Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("SeedHuller").ToItem());
-                Game1.player.addItemByMenuIfNecessary((Item)new LifeList());
-                Game1.player.addItemByMenuIfNecessary((Item)new JojaBinoculars());
-                Game1.player.addItemByMenuIfNecessary((Item)new AntiqueBinoculars());
-                Game1.player.addItemByMenuIfNecessary((Item)new ProBinoculars());
+                //Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("WoodenHopper").ToItem());
+                //Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("WoodenPlatform").ToItem());
+                //Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("PlasticTube").ToItem());
+                //Game1.player.addItemByMenuIfNecessary((Item)DGAContentPack.Find("SeedHuller").ToItem());
+                //Game1.player.addItemByMenuIfNecessary((Item)new LifeList());
+                //Game1.player.addItemByMenuIfNecessary((Item)new JojaBinoculars());
+                //Game1.player.addItemByMenuIfNecessary((Item)new AntiqueBinoculars());
+                //Game1.player.addItemByMenuIfNecessary((Item)new ProBinoculars());
             } else if (cmd.Equals("og_spawn"))
             {
                 BirdieDef birdieDef = ContentPackManager.BirdieDefs.Values.FirstOrDefault(birdieDef => birdieDef.ID.Equals(args[0], StringComparison.OrdinalIgnoreCase));

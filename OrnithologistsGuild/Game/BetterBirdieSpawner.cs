@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using DynamicGameAssets.Game;
-using Microsoft.Xna.Framework;
 using OrnithologistsGuild.Content;
 using OrnithologistsGuild.Game;
 using OrnithologistsGuild.Game.Critters;
+using OrnithologistsGuild.Models;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
 
@@ -47,18 +47,18 @@ namespace OrnithologistsGuild
                 {
                     if (typeof(CustomBigCraftable).IsAssignableFrom(obj.GetType()))
                     {
-                        var bigCraftable = (CustomBigCraftable)obj;
+                        var feeder = (CustomBigCraftable)obj;
 
                         // Only attract birds if there is food
-                        if (bigCraftable.MinutesUntilReady > 0)
+                        if (feeder.MinutesUntilReady > 0)
                         {
-                            var feeder = ContentManager.Feeders.FirstOrDefault(feeder => feeder.id == bigCraftable.Id);
-                            if (feeder != null)
+                            var feederDef = FeederDef.FromFeeder(feeder);
+                            if (feederDef != null)
                             {
-                                var food = ContentManager.Foods.FirstOrDefault(food => bigCraftable.TextureOverride.EndsWith($":{food.feederAssetIndex}"));
-                                if (food != null)
+                                var foodDef = FoodDef.FromFeeder(feeder);
+                                if (foodDef != null)
                                 {
-                                    AddBirdiesNearFeeder(location, bigCraftable.TileLocation, feeder, food, onlyIfOnScreen);
+                                    AddBirdiesNearFeeder(location, feeder, feederDef, foodDef, onlyIfOnScreen);
                                 }
                             }
                         }
@@ -71,6 +71,7 @@ namespace OrnithologistsGuild
 
         private static void AddRandomBirdies(GameLocation location, double chance, bool onlyIfOnScreen)
         {
+            // TODO add random perched birdies?
             ModEntry.Instance.Monitor.Log("AddRandomBirdies");
 
             BirdieDef flockBirdieDef = null;
@@ -120,12 +121,12 @@ namespace OrnithologistsGuild
             }
         }
 
-        private static void AddBirdiesNearFeeder(GameLocation location, Vector2 feederTile, Models.FeederDef feederDef, Models.FoodDef food, bool onlyIfOnScreen)
+        private static void AddBirdiesNearFeeder(GameLocation location, CustomBigCraftable feeder, Models.FeederDef feederDef, Models.FoodDef food, bool onlyIfOnScreen)
         {
             ModEntry.Instance.Monitor.Log("AddBirdiesNearFeeder");
 
             // Build a rectangle around the feeder based on the range
-            var feederRect = Utility.getRectangleCenteredAt(feederTile, (feederDef.range * 2) + 1);
+            var feederRect = Utility.getRectangleCenteredAt(feeder.TileLocation, (feederDef.range * 2) + 1);
 
             BirdieDef flockBirdieDef = null;
 
@@ -141,7 +142,7 @@ namespace OrnithologistsGuild
 
                 int flockSize = Game1.random.Next(1, flockBirdieDef.MaxFlockSize + 1);
 
-                var shouldAddBirdToFeeder = flocksAdded == 0 && Game1.random.NextDouble() < 0.65 && (!onlyIfOnScreen || !Utility.isOnScreen(feederTile * Game1.tileSize, Game1.tileSize));
+                var shouldAddBirdToFeeder = flocksAdded == 0 && Game1.random.NextDouble() < 0.65 && (!onlyIfOnScreen || !Utility.isOnScreen(feeder.TileLocation * Game1.tileSize, Game1.tileSize));
                 if (shouldAddBirdToFeeder) flockSize -= 1;
 
                 // Try 50 times to find an empty patch within the feeder range
@@ -175,9 +176,10 @@ namespace OrnithologistsGuild
                     }
                 }
 
-                if (shouldAddBirdToFeeder && Perch.IsPerchAvailable(location, feederTile))
+                var perch = new Perch(feeder);
+                if (shouldAddBirdToFeeder && perch.GetOccupant(location) == null)
                 {
-                    location.addCritter((Critter)new BetterBirdie(flockBirdieDef, (int)feederTile.X, (int)feederTile.Y, new Game.Perch(feederTile, feederDef)));
+                    location.addCritter((Critter)new BetterBirdie(flockBirdieDef, 0, 0, perch));
                 }
             }
         }
@@ -187,11 +189,11 @@ namespace OrnithologistsGuild
             return Utilities.WeightedRandom<BirdieDef>(ContentPackManager.BirdieDefs.Values, birdieDef => birdieDef.GetContextualWeight(true));
         }
 
-        private static BirdieDef GetRandomFeederBirdieDef(Models.FeederDef feeder, Models.FoodDef food)
+        private static BirdieDef GetRandomFeederBirdieDef(Models.FeederDef feederDef, Models.FoodDef foodDef)
         {
-            var usualSuspects = ContentPackManager.BirdieDefs.Values.Where(birdieDef => birdieDef.FeederBaseWts.ContainsKey(feeder.type) && birdieDef.FoodBaseWts.ContainsKey(food.type));
+            var usualSuspects = ContentPackManager.BirdieDefs.Values.Where(birdieDef => birdieDef.CanPerchAt(feederDef) && birdieDef.CanEat(foodDef));
 
-            return Utilities.WeightedRandom<BirdieDef>(usualSuspects, birdieDef => birdieDef.GetContextualWeight(true, feeder, food));
+            return Utilities.WeightedRandom<BirdieDef>(usualSuspects, birdieDef => birdieDef.GetContextualWeight(true, feederDef, foodDef));
         }
     }
 }

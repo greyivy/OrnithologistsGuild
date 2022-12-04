@@ -5,6 +5,7 @@ using OrnithologistsGuild.Content;
 using StardewValley;
 using System.Collections.Generic;
 using StateMachine;
+using StardewValley.TerrainFeatures;
 
 namespace OrnithologistsGuild.Game.Critters
 {
@@ -37,9 +38,10 @@ namespace OrnithologistsGuild.Game.Critters
 
         private float FlightOffset; // Individual birds fly at slightly different speeds
 
-        public BetterBirdie(BirdieDef birdieDef, int tileX, int tileY, Perch perch = null) : base(0, new Vector2(tileX * Game1.tileSize, tileY * Game1.tileSize))
+        public BetterBirdie(BirdieDef birdieDef, int tileX, int tileY, Perch perch = null) : base(0, Vector2.Zero)
         {
             BirdieDef = birdieDef;
+            Perch = perch;
 
             if (birdieDef.AssetPath != null)
             {
@@ -55,22 +57,21 @@ namespace OrnithologistsGuild.Game.Critters
 
             flip = Game1.random.NextDouble() < 0.5;
 
-            // Center on tile
-            position.X += Game1.tileSize / 2;
-            position.Y += Game1.tileSize / 2;
+            // Determine position
+            if (Perch == null)
+            {
+                position = new Vector2(tileX * Game1.tileSize, tileY * Game1.tileSize);
 
+                // Center on tile
+                position.X += Game1.tileSize / 2;
+                position.Y += Game1.tileSize / 2;
+            } else
+            {
+                position = Perch.Position;
+            }
             startingPosition = position;
 
             FlightOffset = (float)Game1.random.NextDouble() - 0.5f;
-
-            this.Perch = perch;
-
-            // Bird feeders have a small Y offset to properly position birds on their perch
-            if (IsPerched && perch.FeederDef != null)
-            {
-                this.position.Y += perch.FeederDef.perchOffset;
-                this.startingPosition.Y = this.position.Y;
-            }
 
             InitializeStateMachine();
         }
@@ -84,11 +85,12 @@ namespace OrnithologistsGuild.Game.Critters
                 if (IsRoosting)
                 {
                     // Fly away when tree is chopped
-                    // TODO Fly away when tree is shaken
-                    if (Perch.Tree.health.Value < 10)
+                    if (Perch.Tree.health.Value < Tree.startingHealth)
                     {
                         Frighten();
                     }
+
+                    // Fly away when tree is shaken (see TreePatches)
                 }
                 else
                 {
@@ -105,7 +107,7 @@ namespace OrnithologistsGuild.Game.Critters
 
         public Tuple<Vector2, Perch> GetRandomRelocationTileOrPerch()
         {
-            if (Game1.random.NextDouble() < 0.9)
+            if (Game1.random.NextDouble() < 0) // TODO 0.7
             {
                 // Try to find clear tile to relocate to
                 for (int trial = 0; trial < 50; trial++)
@@ -115,38 +117,31 @@ namespace OrnithologistsGuild.Game.Critters
                     // Get a 3x3 patch around the random tile
                     var randomRect = new Microsoft.Xna.Framework.Rectangle((int)randomTile.X - 1, (int)randomTile.Y - 1, 3, 3);
 
-                    if (Environment.isAreaClear(randomRect) && Utility.isThereAFarmerOrCharacterWithinDistance(randomTile, BirdieDef.GetContextualCautiousness(), Environment) == null)
-                    {
-                        var position = randomTile * Game1.tileSize;
-                        // Center on tile
-                        position.X += 32f;
-                        position.Y += 32f;
+                    if (Environment.isAreaClear(randomRect) && Utility.isThereAFarmerOrCharacterWithinDistance(randomTile, BirdieDef.GetContextualCautiousness(), Environment) != null) continue; // Character nearby
 
-                        var distance = Vector2.Distance(base.position, position);
-                        if (distance < 500 || distance > 2500) continue; // Too close/far
+                    var position = randomTile * Game1.tileSize;
 
-                        var distanceX = MathF.Abs(base.position.X - position.X);
-                        var distanceY = MathF.Abs(base.position.Y - position.Y);
-                        if (distanceX < 250 || distanceY < 250) continue; // Too straight (lol)
+                    // Center on tile
+                    position.X += 32f;
+                    position.Y += 32f;
 
-                        return new Tuple<Vector2, Perch>(position, null);
-                    }
+                    var distance = Vector2.Distance(base.position, position);
+                    if (distance < 10 * Game1.tileSize || distance > 50 * Game1.tileSize) continue; // Too close/far
+
+                    var distanceX = MathF.Abs(base.position.X - position.X);
+                    var distanceY = MathF.Abs(base.position.Y - position.Y);
+                    if (distanceX < 5 * Game1.tileSize || distanceY < 5 * Game1.tileSize) continue; // Too straight (lol)
+
+                    return new Tuple<Vector2, Perch>(position, null);
                 }
             }
             else
             {
                 // Try to find an available perch to relocate to
-                var perches = Perch.GetAvailablePerches(Game1.player.currentLocation); 
-                if (perches.Count > 0)
+                var perch = Perch.GetRandomAvailablePerch(BirdieDef, Game1.player.currentLocation); 
+                if (perch != null)
                 {
-                    var perch = Utility.GetRandom(perches);
-
-                    var position = perch.LocationTile * Game1.tileSize;
-                    // Center on tile
-                    position.X += Game1.tileSize / 2;
-                    position.Y += Game1.tileSize / 2;
-
-                    return new Tuple<Vector2, Perch>(position, perch);
+                    return new Tuple<Vector2, Perch>(perch.Position, perch);
                 }
             }
 
@@ -167,8 +162,8 @@ namespace OrnithologistsGuild.Game.Critters
             }
         }
 
-        private void Frighten() {
-            StateMachine.Trigger(Game1.random.NextDouble() < 0.75 ? BetterBirdieTrigger.FlyAway : BetterBirdieTrigger.Relocate);
+        public void Frighten() {
+            StateMachine.Trigger(Game1.random.NextDouble() < 0 ? BetterBirdieTrigger.FlyAway : BetterBirdieTrigger.Relocate); // TODO 0.7
         }
     
         #region Rendering

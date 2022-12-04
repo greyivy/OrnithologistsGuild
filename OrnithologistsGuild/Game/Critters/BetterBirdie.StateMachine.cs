@@ -358,10 +358,10 @@ namespace OrnithologistsGuild.Game.Critters
 
                         if (relocateTo != null)
                         {
-
-                            // No longer perched
-                            Perch = null;
                             stopEmote();
+
+                            // Immediately update perch to prevent collisions
+                            Perch = relocateTo.Item2;
 
                             RelocateFrom = position;
                             RelocateTo = relocateTo;
@@ -445,16 +445,10 @@ namespace OrnithologistsGuild.Game.Critters
                             {
                                 // Relocation complete
                                 position = RelocateTo.Item1;
-                                Perch = RelocateTo.Item2;
+                                startingPosition = position;
                                 yOffset = 0;
 
-                                if (IsPerched && Perch.FeederDef != null)
-                                {
-                                    // Bird feeders have a small Y offset to properly position birds on their perch
-                                    this.position.Y += Perch.FeederDef.perchOffset;
-                                    this.startingPosition.Y = this.position.Y;
-                                }
-                                else if (IsRoosting)
+                                if (IsRoosting)
                                 {
                                     // Shake tree on landing
                                     ModEntry.Instance.Helper.Reflection.GetMethod(Perch.Tree, "shake").Invoke(Perch.Tree.currentTileLocation, false, Game1.player.currentLocation);
