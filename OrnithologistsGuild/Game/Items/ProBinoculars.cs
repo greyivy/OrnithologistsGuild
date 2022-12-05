@@ -17,7 +17,7 @@ namespace OrnithologistsGuild.Game.Items
 
         public override Item getOne()
         {
-            var ret = new AntiqueBinoculars();
+            var ret = new ProBinoculars();
             ret.Quality = this.Quality;
             ret.Stack = 1;
             ret.Price = this.Price;
