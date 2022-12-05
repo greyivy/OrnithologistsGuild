@@ -3,12 +3,15 @@
     {
       "ShopName": "Ivy_OrnithologistsGuild",
       "CategoriesToSellHere": [
-        -20, // junk
-        -74 // seeds
+        -20,
+        -74
       ],
-      "PortraitPath": "assets/portrait.png", // TODO broken
-      "Quote": "Caw!", // TODO broken
-      // "MaxNumItemsSoldInStore": 5, // if all items total over 30, a random 30 will be picked each day
+      "_CategoriesToSellHereName": [
+        "Junk",
+        "Seeds"
+      ],
+      "PortraitPath": "assets/portrait.png",
+      "Quote": "Caw! Caw!",
       "ItemStocks": [
         {
           "ItemType": "Object",
@@ -20,7 +23,7 @@
         }
       ],
       "When": [
-       "t 800 1300"
+        "t 800 1300"
       ],
       "ClosedMessage": "This store is open daily from 8AM to 1PM."
     }
