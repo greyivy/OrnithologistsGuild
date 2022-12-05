@@ -4,14 +4,11 @@ using System.Linq;
 using DynamicGameAssets.PackData;
 using HarmonyLib;
 using OrnithologistsGuild.Content;
-using OrnithologistsGuild.Game;
-using OrnithologistsGuild.Game.Critters;
 using OrnithologistsGuild.Game.Items;
 using SpaceShared.APIs;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.BellsAndWhistles;
 
 namespace OrnithologistsGuild
 {

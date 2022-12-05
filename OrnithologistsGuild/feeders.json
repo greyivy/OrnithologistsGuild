@@ -1,42 +1,92 @@
 [
-    {
-      "id": "WoodenHopper",
-      "type": "Hopper",
-      "range": 10,
-      "maxFlocks": 1,
-      "perchOffset": -28,
-  
-      "texture": "WoodenHopper.png",
-      "sellPrice": 250,
-      "cost": 2500,
-
-      "capacityHrs": 12
-    },
-    {
-      "id": "PlasticTube",
-      "type":  "Tube",
-      "range": 25,
-      "maxFlocks": 2,
-      "perchOffset": -16,
-  
-      "texture": "PlasticTube.png",
-      "sellPrice": 100,
-      "cost": 1000,
-
-      "capacityHrs": 12
-    },
-    {
-      "id": "WoodenPlatform",
-      "type": "Platform",
-      "range": 50,
-      "maxFlocks": 3,
-      "perchOffset": -10,
-  
-      "texture": "WoodenPlatform.png",
-      "sellPrice": 500,
-      "cost": 5000,
-
-      "capacityHrs": 12
-    }
-  ]
-  
+  {
+    "id": "WoodenHopper",
+    "type": "Hopper",
+    "range": 10,
+    "maxFlocks": 1,
+    "perchOffset": -28,
+    "texture": "WoodenHopper.png",
+    "sellPrice": 2500,
+    "cost": 25000,
+    "recipePrice": 500,
+    "recipeIngredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": 388,
+        "_Name": "Wood",
+        "Quantity": 100
+      },
+      {
+        "Type": "VanillaObject",
+        "Value": 338,
+        "_Name": "Refined Quartz",
+        "Quantity": 5
+      },
+      {
+        "Type": "VanillaObject",
+        "Value": 709,
+        "_Name": "Hardwood",
+        "Quantity": 5
+      }
+    ],
+    "capacityHrs": 12
+  },
+  {
+    "id": "PlasticTube",
+    "type": "Tube",
+    "range": 25,
+    "maxFlocks": 2,
+    "perchOffset": -16,
+    "texture": "PlasticTube.png",
+    "sellPrice": 1250,
+    "cost": 12500,
+    "recipePrice": 250,
+    "recipeIngredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": 335,
+        "_Name": "Iron",
+        "Quantity": 25
+      },
+      {
+        "Type": "VanillaObject",
+        "Value": 338,
+        "_Name": "Refined Quartz",
+        "Quantity": 5
+      }
+    ],
+    "capacityHrs": 12
+  },
+  {
+    "id": "WoodenPlatform",
+    "type": "Platform",
+    "range": 50,
+    "maxFlocks": 3,
+    "perchOffset": -10,
+    "texture": "WoodenPlatform.png",
+    "sellPrice": 5000,
+    "cost": 50000,
+    "recipePrice": 1000,
+    "recipeIngredients": [
+      {
+        "Type": "VanillaObject",
+        "Value": 388,
+        "_Name": "Wood",
+        "Quantity": 250
+      },
+      {
+        "Type": "VanillaObject",
+        "Value": 709,
+        "_Name": "Hardwood",
+        "Quantity": 20
+      },
+      {
+        "Type": "VanillaObject",
+        "Value": 335,
+        "_Name": "Iron",
+        "Quantity": 5
+      }
+    ],
+    "capacityHrs": 12
+  }
+]

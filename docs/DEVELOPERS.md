@@ -6,6 +6,8 @@
 
 See [`OrnithologistsGuild/assets/content-pack`](https://github.com/greyivy/OrnithologistsGuild/tree/main/OrnithologistsGuild/assets/content-pack) for a complete example.
 
+Note that the mod has two build in content packs. All other content packs must be added to the game's `mods` folder with the prefix `[OG]` in the folder name.
+
 ## `manifest.json`
 
 [Create your manifest](https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Manifest) as usual. Use prefix `[OG]` in your mod's name.

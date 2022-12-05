@@ -1,7 +1,7 @@
 ﻿const { promises: fs } = require("fs");
 const path = require("path");
 
-const uniqueId = "Ivy.OrnithologistsGuild";
+const UNIQUE_ID = "Ivy.OrnithologistsGuild";
 
 (async () => {
     console.log('Building content.json... ')
@@ -165,12 +165,39 @@ const uniqueId = "Ivy.OrnithologistsGuild";
             "$ItemType": "ShopEntry",
             "Item": {
                 "Type": "DGAItem",
-                "Value": `${uniqueId}/${feeder.id}`
+                "Value": `${UNIQUE_ID}/${feeder.id}`
             },
-            "ShopId": "AnimalSupplies",
+            "ShopId": "STF.Ivy_OrnithologistsGuild",
             "MaxSold": 1,
             "Cost": feeder.cost
         })
+
+        if (feeder.recipeIngredients && feeder.recipePrice) {
+            // Recipe
+            output.push({
+                "$ItemType": "CraftingRecipe",
+                "ID": `Ivy_OrnithologistsGuild_Recipe_${feeder.id}`,
+                "KnownByDefault": true,
+                "Result": {
+                    "Type": "DGAItem",
+                    "Value": `${UNIQUE_ID}/${feeder.id}`
+                },
+                "Ingredients": feeder.recipeIngredients
+            })
+
+            // TODO not compatible with ShopTileFramework
+            // Recipe ShopEntry
+            // output.push({
+            //     "$ItemType": "ShopEntry",
+            //     "Item": {
+            //         "Type": "DGARecipe",
+            //         "Value": `${UNIQUE_ID}/Ivy_OrnithologistsGuild_Recipe_${feeder.id}`
+            //     },
+            //     "ShopId": "STF.Ivy_OrnithologistsGuild",
+            //     "MaxSold": 1,
+            //     "Cost": feeder.recipePrice
+            // })
+        }
 
         // MachineRecipe
         for (let food of foods) {
@@ -178,7 +205,7 @@ const uniqueId = "Ivy.OrnithologistsGuild";
                 for (let item of food.items) {
                     output.push({
                         "$ItemType": "MachineRecipe",
-                        "MachineId": `${uniqueId}/${feeder.id}`,
+                        "MachineId": `${UNIQUE_ID}/${feeder.id}`,
                         "MinutesToProcess": feeder.capacityHrs * 60,
                         "MachineWorkingTextureOverride": `${feeder.texture}:${food.feederAssetIndex}`,
                         "MachinePulseWhileWorking": false,

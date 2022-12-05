@@ -13,7 +13,8 @@ namespace OrnithologistsGuild
         {
             MailDao.SaveLetter(new Letter(
                 "Mods_Ivy_OrnithologistsGuild_Introduction",
-                I18n.Mail_Introduction(),
+                // Adds conversation topic "Ivy_OrnithologistGuild_Introduction" for 14 days
+                $"{I18n.Mail_Introduction()} %item conversationTopic Ivy_OrnithologistGuild_Introduction 14 %%",
                 new List<Item> { new LifeList() },
                 (l) => !Game1.player.mailReceived.Contains(l.Id) && (SDate.From(Game1.Date) >= new SDate(5, "spring", 1) || SaveDataManager.SaveData.LifeList.Count > 0),
                 (l) => Game1.player.mailReceived.Add(l.Id)));
@@ -48,7 +49,8 @@ namespace OrnithologistsGuild
 
             MailDao.SaveLetter(new Letter(
                 "Mods_Ivy_OrnithologistsGuild_LifeListAll",
-                I18n.Mail_LifeListAll(),
+                // Adds conversation topic "Ivy_OrnithologistGuild_LifeListAll" for 14 days
+                $"{I18n.Mail_LifeListAll()} %item conversationTopic Ivy_OrnithologistGuild_LifeListAll 14 %%",
                 new List<Item> { new StardewValley.Object(928 /* Golden Egg */, 1) },
                 (l) => !Game1.player.mailReceived.Contains(l.Id) && SaveDataManager.SaveData.LifeList.IdentifiedCount >= ContentPackManager.BirdieDefs.Count,
                 (l) => Game1.player.mailReceived.Add(l.Id)));

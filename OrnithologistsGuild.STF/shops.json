@@ -6,9 +6,9 @@
         -20, // junk
         -74 // seeds
       ],
-      "PortraitPath": "assets/portrait.png",
-      "Quote": "Caw!",
-      "MaxNumItemsSoldInStore": 5, //if all items total over 30, a random 30 will be picked each day
+      "PortraitPath": "assets/portrait.png", // TODO broken
+      "Quote": "Caw!", // TODO broken
+      // "MaxNumItemsSoldInStore": 5, // if all items total over 30, a random 30 will be picked each day
       "ItemStocks": [
         {
           "ItemType": "Object",

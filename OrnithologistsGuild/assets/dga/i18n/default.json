@@ -20,5 +20,11 @@
   "big-craftable.WoodenPlatform.name": "Wooden Platform Birdfeeder",
   "big-craftable.WoodenPlatform.description": "Large range, low capacity.",
   "big-craftable.PlasticTube.name": "Plastic Tube Birdfeeder",
-  "big-craftable.PlasticTube.description": "Medium range, low capacity."
+  "big-craftable.PlasticTube.description": "Medium range, low capacity.",
+  "crafting.Ivy_OrnithologistsGuild_Recipe_WoodenHopper.name": "Wooden Hopper Birdfeeder",
+  "crafting.Ivy_OrnithologistsGuild_Recipe_WoodenHopper.description": "Small range, low capacity.",
+  "crafting.Ivy_OrnithologistsGuild_Recipe_WoodenPlatform.name": "Wooden Platform Birdfeeder",
+  "crafting.Ivy_OrnithologistsGuild_Recipe_WoodenPlatform.description": "Large range, low capacity.",
+  "crafting.Ivy_OrnithologistsGuild_Recipe_PlasticTube.name": "Plastic Tube Birdfeeder",
+  "crafting.Ivy_OrnithologistsGuild_Recipe_PlasticTube.description": "Medium range, low capacity."
 }
