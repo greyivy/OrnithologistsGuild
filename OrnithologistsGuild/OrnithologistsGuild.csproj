@@ -26,6 +26,11 @@
           <type>BeforeBuild</type>
           <command>node build-content.js</command>
         </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>bash ${SolutionDir}/generate_zip.sh</command>
+          <workingdir>${SolutionDir}/</workingdir>
+        </Command>
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
