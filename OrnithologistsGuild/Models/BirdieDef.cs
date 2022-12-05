@@ -128,8 +128,6 @@ namespace OrnithologistsGuild.Content
         public int GetContextualCautiousness()
         {
             var modifier = -Math.Clamp((int)Math.Round(Game1.player.DailyLuck * 10), -1, 1);
-            // TODO verify
-            ModEntry.Instance.Monitor.Log($"GetContextualCautiousness DailyLuck={Game1.player.DailyLuck} modifier={modifier}");
 
             return this.Cautiousness + modifier;
         }
