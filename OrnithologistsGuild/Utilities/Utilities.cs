@@ -32,6 +32,11 @@ namespace OrnithologistsGuild
             return default;
         }
 
+        public static IEnumerable<T> Randomize<T>(IEnumerable<T> source)
+        {
+            return source.OrderBy<T, double>((item) => Game1.random.NextDouble());
+        }
+
         public static float EaseOutSine(float x)
         {
             return MathF.Sin((x * MathF.PI) / 2);

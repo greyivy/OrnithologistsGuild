@@ -76,12 +76,13 @@ namespace OrnithologistsGuild.Game
         public static Perch GetRandomAvailableTreePerch(GameLocation location, List<Perch> occupiedPerches)
         {
             // Get all trees
-            var allTrees = location.terrainFeatures.Values.Where(tf => tf is Tree).ToList();
+            var allTrees = Utilities.Randomize(location.terrainFeatures.Values.Where(tf => tf is Tree).Take(25)).ToList();
+            ModEntry.Instance.Monitor.Log(string.Join("\n", allTrees.Select(t => t.currentTileLocation.ToString())));
 
             // Check random trees until an available one is found or we reach 25 trials
             for (int trial = 0; trial < Math.Min(allTrees.Count, 25); trial++)
             {
-                Tree tree = (Tree)Utility.GetRandom(allTrees); // TODO http://www.ookii.org/Blog/randomizing_a_list_with_linq
+                Tree tree = (Tree)allTrees[trial];
 
                 var tileHeight = tree.getRenderBounds(tree.currentTileLocation).Height / Game1.tileSize;
                 if (tileHeight < 4) continue; // Small tree
@@ -100,12 +101,12 @@ namespace OrnithologistsGuild.Game
         public static Perch GetRandomAvailableFeederPerch(BirdieDef birdieDef, GameLocation location, List<Perch> occupiedPerches)
         {
             // Get all bird feeders
-            var allFeeders = location.Objects.SelectMany(overlaidDict => overlaidDict.Values).Where(obj => typeof(CustomBigCraftable).IsAssignableFrom(obj.GetType())).ToList();
+            var allFeeders = Utilities.Randomize(location.Objects.SelectMany(overlaidDict => overlaidDict.Values).Where(obj => typeof(CustomBigCraftable).IsAssignableFrom(obj.GetType())).Take(25)).ToList();
 
             // Check random feeders until an available one is found or we reach 25 trials
             for (int trial = 0; trial < Math.Min(allFeeders.Count, 25); trial++)
             {
-                CustomBigCraftable feeder = (CustomBigCraftable)Utility.GetRandom(allFeeders); // TODO http://www.ookii.org/Blog/randomizing_a_list_with_linq
+                CustomBigCraftable feeder = (CustomBigCraftable)allFeeders[trial];
 
                 if (feeder.MinutesUntilReady <= 0) continue; // Empty feeder
 
