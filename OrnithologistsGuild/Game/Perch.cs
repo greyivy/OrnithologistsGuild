@@ -79,9 +79,9 @@ namespace OrnithologistsGuild.Game
             var allTrees = location.terrainFeatures.Values.Where(tf => tf is Tree).ToList();
 
             // Check random trees until an available one is found or we reach 25 trials
-            for (int trial = 0; trial < 25; trial++)
+            for (int trial = 0; trial < Math.Min(allTrees.Count, 25); trial++)
             {
-                Tree tree = (Tree)Utility.GetRandom(allTrees);
+                Tree tree = (Tree)Utility.GetRandom(allTrees); // TODO http://www.ookii.org/Blog/randomizing_a_list_with_linq
 
                 var tileHeight = tree.getRenderBounds(tree.currentTileLocation).Height / Game1.tileSize;
                 if (tileHeight < 4) continue; // Small tree
@@ -102,10 +102,10 @@ namespace OrnithologistsGuild.Game
             // Get all bird feeders
             var allFeeders = location.Objects.SelectMany(overlaidDict => overlaidDict.Values).Where(obj => typeof(CustomBigCraftable).IsAssignableFrom(obj.GetType())).ToList();
 
-            // Check random trees until an available one is found or we reach 25 trials
-            for (int trial = 0; trial < 25; trial++)
+            // Check random feeders until an available one is found or we reach 25 trials
+            for (int trial = 0; trial < Math.Min(allFeeders.Count, 25); trial++)
             {
-                CustomBigCraftable feeder = (CustomBigCraftable)Utility.GetRandom(allFeeders);
+                CustomBigCraftable feeder = (CustomBigCraftable)Utility.GetRandom(allFeeders); // TODO http://www.ookii.org/Blog/randomizing_a_list_with_linq
 
                 if (feeder.MinutesUntilReady <= 0) continue; // Empty feeder
 
