@@ -148,7 +148,7 @@
  <objectgroup id="4" name="Back" visible="0">
   <object id="2" name="TileData" x="240" y="480" width="16" height="16">
    <properties>
-    <property name="TouchAction" value="Warp Backwoods 34 8"/>
+    <property name="TouchAction" value="Warp Forest 10 59"/>
    </properties>
   </object>
  </objectgroup>

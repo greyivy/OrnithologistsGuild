@@ -3,26 +3,82 @@
   "CustomLocations": [
     {
       "Name": "Custom_Ivy_OrnithologistsGuild",
-      "FromMapFile": "assets/map/ornithologists_guild.tmx"
+      "FromMapFile": "assets/map/OrnithologistsGuild.tmx"
     }
   ],
   "Changes": [
     {
       "Action": "EditMap",
-      "Target": "Maps/Backwoods",
-      "FromFile": "assets/map/backwoods_ornithologists_guild.tmx",
+      "Target": "Maps/Forest",
+      "FromFile": "assets/map/Forest_OrnithologistsGuild.tmx",
       "FromArea": {
-        "X": 30,
-        "Y": 4,
-        "Width": 9,
-        "Height": 9
+        "X": 5,
+        "Y": 48,
+        "Width": 10,
+        "Height": 20
       },
       "ToArea": {
-        "X": 30,
-        "Y": 4,
-        "Width": 9,
-        "Height": 9
+        "X": 5,
+        "Y": 48,
+        "Width": 10,
+        "Height": 20
       }
+    },
+    {
+      "Action": "EditMap",
+      "Target": "Maps/Forest-FlowerFestival",
+      "FromFile": "assets/map/Forest_OrnithologistsGuild.tmx",
+      "FromArea": {
+        "X": 5,
+        "Y": 57,
+        "Width": 10,
+        "Height": 11
+      },
+      "ToArea": {
+        "X": 65,
+        "Y": 0,
+        "Width": 10,
+        "Height": 11
+      }
+    },
+    {
+      "Action": "EditMap",
+      "Target": "Maps/Forest-IceFestival",
+      "FromFile": "assets/map/Forest-IceFestival_OrnithologistsGuild.tmx",
+      "FromArea": {
+        "X": 5,
+        "Y": 48,
+        "Width": 10,
+        "Height": 20
+      },
+      "ToArea": {
+        "X": 5,
+        "Y": 48,
+        "Width": 10,
+        "Height": 20
+      }
+    },
+    {
+      "Action": "EditMap",
+      "Target": "Maps/Forest-IceFestival",
+      "MapTiles": [
+        {
+          "Position": {
+            "X": 15,
+            "Y": 61
+          },
+          "Layer": "Front",
+          "SetIndex": "754"
+        },
+        {
+          "Position": {
+            "X": 15,
+            "Y": 62
+          },
+          "Layer": "Buildings",
+          "SetIndex": "786"
+        }
+      ]
     },
     {
       "Action": "EditData",
