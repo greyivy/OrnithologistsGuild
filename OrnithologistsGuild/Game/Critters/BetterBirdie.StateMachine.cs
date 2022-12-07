@@ -152,6 +152,19 @@ namespace OrnithologistsGuild.Game.Critters
                     .TransitionTo(BetterBirdieState.Stopping).On(BetterBirdieTrigger.Stop)
                     .OnEnter(e =>
                     {
+                        if (!IsPerched)
+                        {
+                            // Ensure there's ample room to walk
+                            var roomToWalkLeft = !Environment.isCollidingPosition(getBoundingBox(-4, 0), Game1.viewport, isFarmer: false, 0, glider: false, null, pathfinding: false, projectile: false, ignoreCharacterRequirement: true);
+                            var roomToWalkRight = !Environment.isCollidingPosition(getBoundingBox(4, 0), Game1.viewport, isFarmer: false, 0, glider: false, null, pathfinding: false, projectile: false, ignoreCharacterRequirement: true);
+
+                            if (!roomToWalkLeft && !roomToWalkRight)
+                            {
+                                StateMachine.Trigger(BetterBirdieTrigger.Relocate);
+                                return;
+                            }
+                        }
+
                         // Start walk animation
                         sprite.setCurrentAnimation(new List<FarmerSprite.AnimationFrame> {
                                     new FarmerSprite.AnimationFrame ((short)baseFrame, 100),
@@ -185,11 +198,6 @@ namespace OrnithologistsGuild.Game.Critters
                             var canWalkLeft = !Environment.isCollidingPosition(getBoundingBox(-1, 0), Game1.viewport, isFarmer: false, 0, glider: false, null, pathfinding: false, projectile: false, ignoreCharacterRequirement: true);
                             var canWalkRight = !Environment.isCollidingPosition(getBoundingBox(1, 0), Game1.viewport, isFarmer: false, 0, glider: false, null, pathfinding: false, projectile: false, ignoreCharacterRequirement: true);
 
-                            if (!canWalkLeft && !canWalkRight)
-                            {
-                                StateMachine.Trigger(BetterBirdieTrigger.Stop);
-                            }
-
                             if (!flip)
                             {
                                 if (canWalkLeft) position.X -= 1f;
@@ -215,13 +223,9 @@ namespace OrnithologistsGuild.Game.Critters
                         }
                         else
                         {
+                            // TODO custom feeder bounds
                             var canWalkLeft = position.X >= startingPosition.X - 1f;
                             var canWalkRight = position.X <= startingPosition.X + 3f;
-
-                            if (!canWalkLeft && !canWalkRight)
-                            {
-                                StateMachine.Trigger(BetterBirdieTrigger.Stop);
-                            }
 
                             if (!flip)
                             {
@@ -299,11 +303,11 @@ namespace OrnithologistsGuild.Game.Critters
                     {
                         if (isEmoting) return;
 
-                        if (Game1.random.NextDouble() < 0.003)
+                        if (Game1.random.NextDouble() < 0.002)
                         {
                             doEmote(Character.sleepEmote);
                         }
-                        else if (!IsRoosting && Game1.random.NextDouble() < 0.004)
+                        else if (!IsRoosting && Game1.random.NextDouble() < 0.003)
                         {
                             StateMachine.Trigger(BetterBirdieTrigger.Stop);
                         }
@@ -427,16 +431,12 @@ namespace OrnithologistsGuild.Game.Critters
                                     // Fly up to mid point
                                     var arcFactor = factor * 2f;
                                     yOffset = -(Utility.Lerp(0, (RelocateDistance.Value / 6f), Utilities.EaseOutSine(arcFactor)));
-
-                                    //yOffset = -(Vector2.Lerp(new Vector2(0, 0), new Vector2(0, (RelocateDistance.Value / 6f)), EaseOutSine(arcFactor)).Y);
                                 }
                                 else
                                 {
                                     // Fly down from mid point
                                     var arcFactor = (factor - 0.5f) * 2f;
                                     yOffset = -(Utility.Lerp(RelocateDistance.Value / 6f, 0, Utilities.EaseOutSine(arcFactor)));
-
-                                    //yOffset = -(Vector2.Lerp(new Vector2(0, RelocateDistance.Value / 6f), new Vector2(0, 0), EaseOutSine(arcFactor)).Y);
                                 }
 
                                 position = Vector2.Lerp(RelocateFrom.Value, RelocateTo.Item1, Utilities.EaseOutSine(factor));
@@ -446,7 +446,7 @@ namespace OrnithologistsGuild.Game.Critters
                                 // Relocation complete
                                 position = RelocateTo.Item1;
                                 startingPosition = position;
-                                yOffset = 0;
+                                yOffset = 0; // TODO yOffset when perched in a tree
 
                                 if (IsRoosting && Perch.Tree != null)
                                 {

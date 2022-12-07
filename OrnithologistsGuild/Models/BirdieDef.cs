@@ -76,7 +76,6 @@ namespace OrnithologistsGuild.Content
 
         public float GetContextualWeight(bool updateContext = true, FeederDef feederDef = null, FoodDef foodDef = null)
         {
-            ModEntry.Instance.Monitor.Log("GetContextualWeight");
             float weight = this.BaseWt;
 
             if (feederDef != null)
@@ -86,7 +85,7 @@ namespace OrnithologistsGuild.Content
                     weight += this.FeederBaseWts[feederDef.type];
                 } else
                 {
-                    ModEntry.Instance.Monitor.Log($@"{this.ID} 0 (feederDef)");
+                    ModEntry.Instance.Monitor.Log($@"GetContextualWeight 0 {this.ID} (feederDef)");
                     return 0; // Bird does not eat at feeder
                 }
             }
@@ -99,7 +98,7 @@ namespace OrnithologistsGuild.Content
                 }
                 else
                 {
-                    ModEntry.Instance.Monitor.Log($@"{this.ID} 0 (foodDef)");
+                    ModEntry.Instance.Monitor.Log($@"GetContextualWeight 0 {this.ID} (foodDef)");
                     return 0; // Bird does not eat food
                 }
             }
@@ -112,7 +111,7 @@ namespace OrnithologistsGuild.Content
                 {
                     if (condition.NilWt)
                     {
-                        ModEntry.Instance.Monitor.Log($@"{this.ID} 0 ({string.Join(", ", condition.When.Keys)})");
+                        ModEntry.Instance.Monitor.Log($@"GetContextualWeight 0 {this.ID} ({string.Join(", ", condition.When.Keys)})");
                         return 0; // Bird not added
                     }
 
@@ -121,7 +120,7 @@ namespace OrnithologistsGuild.Content
                 }
             }
 
-            ModEntry.Instance.Monitor.Log($@"{this.ID} {MathHelper.Clamp(weight, 0, 1).ToString()}");
+            ModEntry.Instance.Monitor.Log($@"GetContextualWeight {MathHelper.Clamp(weight, 0, 1).ToString()} {this.ID}");
             return MathHelper.Clamp(weight, 0, 1);
         }
 

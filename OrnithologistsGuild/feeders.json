@@ -34,7 +34,7 @@
   {
     "id": "PlasticTube",
     "type": "Tube",
-    "range": 25,
+    "range": 15,
     "maxFlocks": 2,
     "perchOffset": -16,
     "texture": "PlasticTube.png",
@@ -60,7 +60,7 @@
   {
     "id": "WoodenPlatform",
     "type": "Platform",
-    "range": 50,
+    "range": 25,
     "maxFlocks": 3,
     "perchOffset": -10,
     "texture": "WoodenPlatform.png",
