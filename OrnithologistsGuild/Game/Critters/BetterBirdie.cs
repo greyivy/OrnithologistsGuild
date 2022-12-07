@@ -28,7 +28,7 @@ namespace OrnithologistsGuild.Game.Critters
         }
         public bool IsRoosting
         {
-            get { return IsPerched && Perch.Tree != null; }
+            get { return IsPerched && (Perch.MapTile.HasValue || Perch.Tree != null); }
         }
 
         // Timers
@@ -82,7 +82,7 @@ namespace OrnithologistsGuild.Game.Critters
 
             if (!IsFlying)
             {
-                if (IsRoosting)
+                if (IsRoosting && Perch.Tree != null)
                 {
                     // Fly away when tree is chopped
                     if (Perch.Tree.health.Value < Tree.startingHealth)
@@ -105,6 +105,20 @@ namespace OrnithologistsGuild.Game.Critters
             return base.update(time, environment);
         }
 
+        public bool CheckRelocationDistance(Vector2 relocateTo)
+        {
+            var currentTile = base.position / Game1.tileSize;
+
+            var distance = Vector2.Distance(currentTile, relocateTo);
+            if (distance < 10) return false; // Too close
+
+            var distanceX = MathF.Abs(currentTile.X - relocateTo.X);
+            var distanceY = MathF.Abs(currentTile.Y - relocateTo.Y);
+            if (distanceX < 5 || distanceY < 5 ) return false; // Too straight (lol)
+
+            return true;
+        }
+
         public Tuple<Vector2, Perch> GetRandomRelocationTileOrPerch()
         {
             if (Game1.random.NextDouble() < 0.8)
@@ -113,32 +127,27 @@ namespace OrnithologistsGuild.Game.Critters
                 for (int trial = 0; trial < 50; trial++)
                 {
                     var randomTile = Environment.getRandomTile();
+                    if (Environment.isWaterTile((int)randomTile.X, (int)randomTile.Y)) continue; // On water (this may not be enough)
 
                     // Get a 3x3 patch around the random tile
                     var randomRect = new Microsoft.Xna.Framework.Rectangle((int)randomTile.X - 1, (int)randomTile.Y - 1, 3, 3);
+                    if (!CheckRelocationDistance(randomTile)) continue; // Too close/straight
 
                     if (Environment.isAreaClear(randomRect) && Utility.isThereAFarmerOrCharacterWithinDistance(randomTile, BirdieDef.GetContextualCautiousness(), Environment) != null) continue; // Character nearby
 
-                    var position = randomTile * Game1.tileSize;
+                    var relocateTo = randomTile * Game1.tileSize;
 
                     // Center on tile
-                    position.X += 32f;
-                    position.Y += 32f;
+                    relocateTo.X += 32f;
+                    relocateTo.Y += 32f;
 
-                    var distance = Vector2.Distance(base.position, position);
-                    if (distance < 10 * Game1.tileSize || distance > 50 * Game1.tileSize) continue; // Too close/far
-
-                    var distanceX = MathF.Abs(base.position.X - position.X);
-                    var distanceY = MathF.Abs(base.position.Y - position.Y);
-                    if (distanceX < 5 * Game1.tileSize || distanceY < 5 * Game1.tileSize) continue; // Too straight (lol)
-
-                    return new Tuple<Vector2, Perch>(position, null);
+                    return new Tuple<Vector2, Perch>(relocateTo, null);
                 }
             }
             else
             {
                 // Try to find an available perch to relocate to
-                var perch = Perch.GetRandomAvailablePerch(BirdieDef, Game1.player.currentLocation); 
+                var perch = Perch.GetRandomAvailablePerch(Game1.player.currentLocation, BirdieDef, this); 
                 if (perch != null)
                 {
                     return new Tuple<Vector2, Perch>(perch.Position, perch);

@@ -17,9 +17,21 @@ namespace OrnithologistsGuild.Game
     {
         public Vector2 Position; // NOT tile
 
+        public Vector2? MapTile;
         public CustomBigCraftable Feeder;
         public Tree Tree;
 
+        public Perch(Vector2 mapTile, int perchOffset)
+        {
+            MapTile = mapTile;
+            Position = MapTile.Value * Game1.tileSize;
+
+            // Center on tile
+            Position.X += Game1.tileSize / 2;
+            Position.Y += Game1.tileSize / 2;
+
+            Position.Y += perchOffset;
+        }
         public Perch(Tree tree)
         {
             Tree = tree;
@@ -55,15 +67,17 @@ namespace OrnithologistsGuild.Game
             var perch = obj as Perch;
 
             if (perch == null) return false;
-            else if (perch.Feeder != null && this.Feeder != null && perch.Feeder.TileLocation.Equals(Feeder.TileLocation)) return true;
-            else if (perch.Tree != null && this.Tree != null && perch.Tree.currentTileLocation.Equals(Tree.currentTileLocation)) return true;
+            else if (perch.MapTile != null && this.MapTile != null) return perch.MapTile.Equals(this.MapTile);
+            else if (perch.Feeder != null && this.Feeder != null) return perch.Feeder.TileLocation.Equals(Feeder.TileLocation);
+            else if (perch.Tree != null && this.Tree != null) return perch.Tree.currentTileLocation.Equals(Tree.currentTileLocation);
             return false;
         }
 
         public override int GetHashCode()
         {
-            if (Feeder != null) return Feeder.GetHashCode();
-            if (Tree != null) return Tree.GetHashCode();
+            if (MapTile.HasValue) return MapTile.GetHashCode();
+            else if (Feeder != null) return Feeder.GetHashCode();
+            else if (Tree != null) return Tree.GetHashCode();
             return 0;
         }
 
@@ -73,16 +87,46 @@ namespace OrnithologistsGuild.Game
             return birdies.FirstOrDefault(birdie => birdie.Perch.Equals(this));
         }
 
-        public static Perch GetRandomAvailableTreePerch(GameLocation location, List<Perch> occupiedPerches)
+        public static Perch GetRandomAvailableMapPerch(GameLocation location, BetterBirdie birdie, List<Perch> occupiedPerches)
+        {
+            // Get all map perches
+            var allMapPerches = Utilities.Randomize(Game1.currentLocation.getMapProperty("Perches").Split("/")).ToList();
+
+            // Check random map perches until an available one is found or we reach 25 trials
+            for (int trial = 0; trial < Math.Min(allMapPerches.Count, 25); trial++)
+            {
+                string mapPerch = allMapPerches[trial];
+
+                var values = mapPerch.Split(" ");
+                var x = int.Parse(values[0]);
+                var y = int.Parse(values[1]);
+                var perchOffset = int.Parse(values[2]);
+                // var perchType = int.Parse(values[3]);
+
+                var tileLocation = new Vector2(x, y);
+
+                if (birdie != null && !birdie.CheckRelocationDistance(tileLocation)) continue; // Too close/straight
+
+                var perch = new Perch(tileLocation, perchOffset);
+                if (occupiedPerches.Any(occupiedPerch => occupiedPerch.Equals(perch))) continue; // Occupied feeder (more performant than calling Perch.GetOccupant() each time)
+
+                return perch;
+            }
+
+            return null;
+        }
+
+        public static Perch GetRandomAvailableTreePerch(GameLocation location, BetterBirdie birdie, List<Perch> occupiedPerches)
         {
             // Get all trees
-            var allTrees = Utilities.Randomize(location.terrainFeatures.Values.Where(tf => tf is Tree).Take(25)).ToList();
-            ModEntry.Instance.Monitor.Log(string.Join("\n", allTrees.Select(t => t.currentTileLocation.ToString())));
+            var allTrees = Utilities.Randomize(location.terrainFeatures.Values.Where(tf => tf is Tree)).ToList();
 
             // Check random trees until an available one is found or we reach 25 trials
             for (int trial = 0; trial < Math.Min(allTrees.Count, 25); trial++)
             {
                 Tree tree = (Tree)allTrees[trial];
+
+                if (birdie != null && !birdie.CheckRelocationDistance(tree.currentTileLocation)) continue; // Too close/straight
 
                 var tileHeight = tree.getRenderBounds(tree.currentTileLocation).Height / Game1.tileSize;
                 if (tileHeight < 4) continue; // Small tree
@@ -98,10 +142,10 @@ namespace OrnithologistsGuild.Game
             return null;
         }
 
-        public static Perch GetRandomAvailableFeederPerch(BirdieDef birdieDef, GameLocation location, List<Perch> occupiedPerches)
+        public static Perch GetRandomAvailableFeederPerch(GameLocation location, BirdieDef birdieDef, BetterBirdie birdie, List<Perch> occupiedPerches)
         {
             // Get all bird feeders
-            var allFeeders = Utilities.Randomize(location.Objects.SelectMany(overlaidDict => overlaidDict.Values).Where(obj => typeof(CustomBigCraftable).IsAssignableFrom(obj.GetType())).Take(25)).ToList();
+            var allFeeders = Utilities.Randomize(location.Objects.SelectMany(overlaidDict => overlaidDict.Values).Where(obj => typeof(CustomBigCraftable).IsAssignableFrom(obj.GetType()))).ToList();
 
             // Check random feeders until an available one is found or we reach 25 trials
             for (int trial = 0; trial < Math.Min(allFeeders.Count, 25); trial++)
@@ -109,6 +153,8 @@ namespace OrnithologistsGuild.Game
                 CustomBigCraftable feeder = (CustomBigCraftable)allFeeders[trial];
 
                 if (feeder.MinutesUntilReady <= 0) continue; // Empty feeder
+
+                if (birdie != null && !birdie.CheckRelocationDistance(feeder.TileLocation)) continue; // Too close/straight
 
                 var feederDef = FeederDef.FromFeeder(feeder);
                 var foodDef = FoodDef.FromFeeder(feeder);
@@ -125,28 +171,43 @@ namespace OrnithologistsGuild.Game
             return null;
         }
 
-        public static Perch GetRandomAvailablePerch(BirdieDef birdieDef, GameLocation location)
+        public static Perch GetRandomAvailablePerch(GameLocation location, BirdieDef birdieDef = null, BetterBirdie birdie = null)
         {
             // Get all perched birdies
             var occupiedPerches = location.critters.Where(c => c is BetterBirdie && ((BetterBirdie)c).IsPerched).Select(c => ((BetterBirdie)c).Perch).ToList();
 
             Perch perch = null;
 
-            if (Game1.random.NextDouble() < 0.5)
+            var mapPropertyPerches = Game1.currentLocation.getMapProperty("Perches");
+            // If map has defined perches, 25% chance to check those first
+            if (!string.IsNullOrWhiteSpace(mapPropertyPerches) && Game1.random.NextDouble() < 0.25)
+            {
+                try
+                {
+                    perch = GetRandomAvailableMapPerch(location, birdie, occupiedPerches);
+
+                    if (perch != null) return perch;
+                } catch (Exception e)
+                {
+                    ModEntry.Instance.Monitor.Log($"Invalid map property Perches: {e.ToString()}", StardewModdingAPI.LogLevel.Error);
+                }
+            }
+
+            if (birdieDef == null || Game1.random.NextDouble() < 0.5)
             {
                 // Try to get available tree perch first
-                perch = GetRandomAvailableTreePerch(location, occupiedPerches);
-                if (perch == null)
+                perch = GetRandomAvailableTreePerch(location, birdie, occupiedPerches);
+                if (birdieDef != null && perch == null)
                 {
-                    perch = GetRandomAvailableFeederPerch(birdieDef, location, occupiedPerches);
+                    perch = GetRandomAvailableFeederPerch(location, birdieDef, birdie, occupiedPerches);
                 }
             } else
             {
                 // Try to get available feeder perch first
-                perch = GetRandomAvailableFeederPerch(birdieDef, location, occupiedPerches);
+                perch = GetRandomAvailableFeederPerch(location, birdieDef, birdie, occupiedPerches);
                 if (perch == null)
                 {
-                    perch = GetRandomAvailableTreePerch(location, occupiedPerches);
+                    perch = GetRandomAvailableTreePerch(location, birdie, occupiedPerches);
                 }
             }
 

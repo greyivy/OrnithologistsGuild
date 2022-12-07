@@ -1,3 +1,21 @@
+Table of Contents
+=================
+
+* [Creating a content pack](#creating-a-content-pack)
+   * [Complete example](#complete-example)
+   * [manifest.json](#manifestjson)
+   * [content.json](#contentjson)
+   * [Birdie object](#birdie-object)
+   * [Weight system examples](#weight-system-examples)
+      * [Winter forest birds](#winter-forest-birds)
+      * [Vanilla Stardew Valley birds](#vanilla-stardew-valley-birds)
+   * [Translations](#translations)
+      * [i18n/default.json](#i18ndefaultjson)
+* [Creating a static perch on a map](#creating-a-static-perch-on-a-map)
+   * [Examples](#examples)
+      * [Adding two roost perches](#adding-two-roost-perches)
+
+
 # Creating a content pack
 
 💡 **This documentation is a work in progress!**
@@ -151,3 +169,21 @@ Replace `{ID}` with the `ID` of your birdie.
 | `birdie.{ID}.scientificName` | Your bird's scientific name                                             |   |   |
 | `birdie.{ID}.attribute.{N}`  | A short attribute like "plump body" where `{N}` is the attribute number |   |   |
 | `birdie.{ID}.funFact`        | A fun fact about your bird!                                             |   |   |
+
+# Creating a static perch on a map
+
+Set **map** property `Perches` to a value in the following format:
+
+`x y offset type` where `x` and `y` are tile coordinates, `offset` is a pixel offset on the Y axis to position a bird on the perch and `type` is currently always `0` (roost perch type). Multiple perches can be specified with a `/` separating them.
+
+## Examples
+
+### Adding two roost perches
+
+Adds two roost perches at `(10,56)` and `(5,17)` with pixel a perch offset of `-18` pixels.
+
+```json
+{
+    "Perches": "10 56 -18 0/5 17 -18 0"
+}
+```

@@ -54,7 +54,7 @@ namespace OrnithologistsGuild.Game.Critters
                             StateMachine.Trigger(BetterBirdieTrigger.Stop);
                         }
                     })
-                .State(BetterBirdieState.Stopped) // Done! // TODO probability per bird, whether perched
+                .State(BetterBirdieState.Stopped) // Done!
                     .TransitionTo(BetterBirdieState.Sleeping).On(BetterBirdieTrigger.Sleep)
                     .TransitionTo(BetterBirdieState.Pecking).On(BetterBirdieTrigger.Peck)
                     .TransitionTo(BetterBirdieState.Walking).On(BetterBirdieTrigger.Walk)
@@ -148,7 +148,7 @@ namespace OrnithologistsGuild.Game.Critters
                             StateMachine.Trigger(BetterBirdieTrigger.Stop);
                         }
                     })
-                .State(BetterBirdieState.Walking) // Done! // TODO feeder bounds, maybe fly down from perch?
+                .State(BetterBirdieState.Walking) // Done!
                     .TransitionTo(BetterBirdieState.Stopping).On(BetterBirdieTrigger.Stop)
                     .OnEnter(e =>
                     {
@@ -308,7 +308,7 @@ namespace OrnithologistsGuild.Game.Critters
                             StateMachine.Trigger(BetterBirdieTrigger.Stop);
                         }
                     })
-                .State(BetterBirdieState.FlyingAway) // Done! // TODO sounds, fly speed
+                .State(BetterBirdieState.FlyingAway) // Done!
                     .OnEnter(e =>
                     {
                         // No longer perched
@@ -448,7 +448,7 @@ namespace OrnithologistsGuild.Game.Critters
                                 startingPosition = position;
                                 yOffset = 0;
 
-                                if (IsRoosting)
+                                if (IsRoosting && Perch.Tree != null)
                                 {
                                     // Shake tree on landing
                                     ModEntry.Instance.Helper.Reflection.GetMethod(Perch.Tree, "shake").Invoke(Perch.Tree.currentTileLocation, false, Game1.player.currentLocation);

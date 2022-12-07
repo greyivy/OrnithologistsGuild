@@ -71,7 +71,6 @@ namespace OrnithologistsGuild
 
         private static void AddRandomBirdies(GameLocation location, double chance, bool onlyIfOnScreen)
         {
-            // TODO add random perched birdies?
             ModEntry.Instance.Monitor.Log("AddRandomBirdies");
 
             BirdieDef flockBirdieDef = null;
@@ -108,7 +107,20 @@ namespace OrnithologistsGuild
                         List<Critter> crittersToAdd = new List<Critter>();
                         for (int index = 0; index < flockSize; ++index)
                         {
-                            crittersToAdd.Add((Critter)new BetterBirdie(flockBirdieDef, -100, -100));
+                            Perch perch = null;
+
+                            // 5% change to spawn bird perched
+                            if (Game1.random.NextDouble() < 0.05)
+                            {
+                                perch = Perch.GetRandomAvailablePerch(location, flockBirdieDef);
+                            }
+
+                            if (perch == null) {
+                                crittersToAdd.Add((Critter)new BetterBirdie(flockBirdieDef, -100, -100));
+                            } else
+                            {
+                                location.critters.Add(new BetterBirdie(flockBirdieDef, 0, 0, perch));
+                            }
                         }
 
                         ModEntry.Instance.Helper.Reflection.GetMethod(location, "addCrittersStartingAtTile").Invoke(randomTile, crittersToAdd);
