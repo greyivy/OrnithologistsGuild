@@ -35,8 +35,8 @@ namespace OrnithologistsGuild.Game.Critters
         private int WalkTimer;
 
         // Relocate
-        private Vector2? RelocateFrom;
-        private Tuple<Vector2, Perch> RelocateTo;
+        private Vector3? RelocateFrom;
+        private Tuple<Vector3, Perch> RelocateTo;
         private float? RelocateDistance;
         private int? RelocateDuration;
         private int? RelocateElapsed;
@@ -367,10 +367,10 @@ namespace OrnithologistsGuild.Game.Critters
                             // Immediately update perch to prevent collisions
                             Perch = relocateTo.Item2;
 
-                            RelocateFrom = position;
+                            RelocateFrom = Position3;
                             RelocateTo = relocateTo;
 
-                            RelocateDistance = Vector2.Distance(position, relocateTo.Item1);
+                            RelocateDistance = Vector2.Distance(position, Utilities.XY(relocateTo.Item1));
 
                             RelocateDuration = (int)(RelocateDistance.Value / ((BirdieDef.FlySpeed + FlySpeedOffset) / 15f));
                             RelocateElapsed = 0;
@@ -425,29 +425,31 @@ namespace OrnithologistsGuild.Game.Critters
                             {
                                 var factor = ((float)RelocateElapsed.Value / (float)RelocateDuration.Value);
 
+                                var midPointZ = ((RelocateFrom.Value.Z + RelocateTo.Item1.Z) / 2) - (RelocateDistance.Value / 6f); // Midpoint of Z values + (distance / 6)
+
                                 // Fly in an arc
+                                // Note: yOffset is Z
                                 if (factor < 0.5f)
                                 {
                                     // Fly up to mid point
                                     var arcFactor = factor * 2f;
-                                    yOffset = -(Utility.Lerp(0, (RelocateDistance.Value / 6f), Utilities.EaseOutSine(arcFactor)));
+                                    yOffset = Utility.Lerp(RelocateFrom.Value.Z, midPointZ, Utilities.EaseOutSine(arcFactor));
                                 }
                                 else
                                 {
                                     // Fly down from mid point
                                     var arcFactor = (factor - 0.5f) * 2f;
-                                    yOffset = -(Utility.Lerp(RelocateDistance.Value / 6f, 0, Utilities.EaseOutSine(arcFactor)));
+                                    yOffset = Utility.Lerp(midPointZ, RelocateTo.Item1.Z, Utilities.EaseOutSine(arcFactor));
                                 }
 
-                                position = Vector2.Lerp(RelocateFrom.Value, RelocateTo.Item1, Utilities.EaseOutSine(factor));
+                                position = Vector2.Lerp(Utilities.XY(RelocateFrom.Value), Utilities.XY(RelocateTo.Item1), Utilities.EaseOutSine(factor));
                             }
                             else
                             {
                                 // Relocation complete
-                                position = RelocateTo.Item1;
+                                Position3 = RelocateTo.Item1;
                                 startingPosition = position;
-                                yOffset = 0; // TODO yOffset when perched in a tree
-
+   
                                 if (IsRoosting && Perch.Tree != null)
                                 {
                                     // Shake tree on landing

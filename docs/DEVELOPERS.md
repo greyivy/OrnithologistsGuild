@@ -174,13 +174,13 @@ Replace `{ID}` with the `ID` of your birdie.
 
 Set **map** property `Perches` to a value in the following format:
 
-`x y offset type` where `x` and `y` are tile coordinates, `offset` is a pixel offset on the Y axis to position a bird on the perch and `type` is currently always `0` (roost perch type). Multiple perches can be specified with a `/` separating them.
+`x y zOffset type` where `x` and `y` are tile coordinates, `zOffset` is a pixel offset on the Z axis to position a bird on the perch and `type` is currently always `0` (roost perch type). Multiple perches can be specified with a `/` separating them.
 
 ## Examples
 
 ### Adding two roost perches
 
-Adds two roost perches at `(10,56)` and `(5,17)` with pixel a perch offset of `-18` pixels.
+Adds two roost perches at `(10,56)` and `(5,17)` with pixel a Z offset of `-18` pixels.
 
 ```json
 {

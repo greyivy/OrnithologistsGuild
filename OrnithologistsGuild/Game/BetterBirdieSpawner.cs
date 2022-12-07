@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DynamicGameAssets.Game;
+using Microsoft.Xna.Framework;
 using OrnithologistsGuild.Content;
 using OrnithologistsGuild.Game;
 using OrnithologistsGuild.Game.Critters;
@@ -116,10 +117,10 @@ namespace OrnithologistsGuild
                             }
 
                             if (perch == null) {
-                                crittersToAdd.Add((Critter)new BetterBirdie(flockBirdieDef, -100, -100));
+                                crittersToAdd.Add((Critter)new BetterBirdie(flockBirdieDef, Vector2.Zero));
                             } else
                             {
-                                location.critters.Add(new BetterBirdie(flockBirdieDef, 0, 0, perch));
+                                location.critters.Add(new BetterBirdie(flockBirdieDef, Vector2.Zero, perch));
                             }
                         }
 
@@ -176,7 +177,7 @@ namespace OrnithologistsGuild
 
                         for (int index = 0; index < flockSize; ++index)
                         {
-                            crittersToAdd.Add((Critter)new BetterBirdie(flockBirdieDef, -100, -100));
+                            crittersToAdd.Add((Critter)new BetterBirdie(flockBirdieDef, Vector2.Zero));
                         }
 
                         ModEntry.Instance.Helper.Reflection.GetMethod(location, "addCrittersStartingAtTile").Invoke(randomTile, crittersToAdd);
@@ -189,7 +190,7 @@ namespace OrnithologistsGuild
                 var perch = new Perch(feeder);
                 if (shouldAddBirdToFeeder && perch.GetOccupant(location) == null)
                 {
-                    location.addCritter((Critter)new BetterBirdie(flockBirdieDef, 0, 0, perch));
+                    location.addCritter((Critter)new BetterBirdie(flockBirdieDef, Vector2.Zero, perch));
                 }
             }
         }

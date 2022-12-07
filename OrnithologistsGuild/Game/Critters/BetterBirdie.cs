@@ -20,6 +20,21 @@ namespace OrnithologistsGuild.Game.Critters
             return StateMachine.Current.Identifier == BetterBirdieState.Relocating || StateMachine.Current.Identifier == BetterBirdieState.FlyingAway;
         } }
 
+        public Vector3 Position3 { get
+            {
+                return new Vector3(position.X, position.Y, yOffset);
+            } set
+            {
+                position = Utilities.XY(value);
+                yOffset = value.Z;
+            }
+        }
+
+        public float ZIndex { get
+            {
+                return (position.Y - (Game1.tileSize / 2)) / 10000f + position.X / 100000f;
+            } }
+
         // Perch
         public Perch Perch;
         public bool IsPerched
@@ -38,7 +53,7 @@ namespace OrnithologistsGuild.Game.Critters
 
         private float FlySpeedOffset; // Individual birds fly at slightly different speeds
 
-        public BetterBirdie(BirdieDef birdieDef, int tileX, int tileY, Perch perch = null) : base(0, Vector2.Zero)
+        public BetterBirdie(BirdieDef birdieDef, Vector2 tileLocation, Perch perch = null) : base(0, Vector2.Zero)
         {
             BirdieDef = birdieDef;
             Perch = perch;
@@ -57,17 +72,17 @@ namespace OrnithologistsGuild.Game.Critters
 
             flip = Game1.random.NextDouble() < 0.5;
 
-            // Determine position
+            // Position
             if (Perch == null)
             {
-                position = new Vector2(tileX * Game1.tileSize, tileY * Game1.tileSize);
+                position = tileLocation * Game1.tileSize;
 
                 // Center on tile
                 position.X += Game1.tileSize / 2;
                 position.Y += Game1.tileSize / 2;
             } else
             {
-                position = Perch.Position;
+                Position3 = Perch.Position;
             }
             startingPosition = position;
 
@@ -119,7 +134,7 @@ namespace OrnithologistsGuild.Game.Critters
             return true;
         }
 
-        public Tuple<Vector2, Perch> GetRandomRelocationTileOrPerch()
+        public Tuple<Vector3, Perch> GetRandomRelocationTileOrPerch()
         {
             if (Game1.random.NextDouble() < 0.8)
             {
@@ -141,7 +156,7 @@ namespace OrnithologistsGuild.Game.Critters
                     relocateTo.X += 32f;
                     relocateTo.Y += 32f;
 
-                    return new Tuple<Vector2, Perch>(relocateTo, null);
+                    return new Tuple<Vector3, Perch>(new Vector3(relocateTo.X, relocateTo.Y, 0), null);
                 }
             }
             else
@@ -150,7 +165,7 @@ namespace OrnithologistsGuild.Game.Critters
                 var perch = Perch.GetRandomAvailablePerch(Game1.player.currentLocation, BirdieDef, this); 
                 if (perch != null)
                 {
-                    return new Tuple<Vector2, Perch>(perch.Position, perch);
+                    return new Tuple<Vector3, Perch>(perch.Position, perch);
                 }
             }
 
@@ -176,13 +191,23 @@ namespace OrnithologistsGuild.Game.Critters
         }
     
         #region Rendering
+        public void drawBirdie(SpriteBatch b)
+        {
+            if (sprite != null)
+            {
+                // Experimental z-index
+                sprite.draw(b, Game1.GlobalToLocal(Game1.viewport, position + new Vector2(-64f, -128f + yJumpOffset + yOffset)), ZIndex, 0, 0, Color.White, flip, 4f);
+                b.Draw(Game1.shadowTexture, Game1.GlobalToLocal(Game1.viewport, position + new Vector2(0f, -4f)), Game1.shadowTexture.Bounds, Color.White, 0f, new Vector2(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y), 3f + Math.Max(-3f, (yJumpOffset + yOffset) / 64f), SpriteEffects.None, ZIndex - (1f / 10000f));
+            }
+        }
+
         private void drawEmote(SpriteBatch b)
         {
             if (isEmoting)
             {
                 Vector2 localPosition = getLocalPosition(Game1.viewport);
-                localPosition.Y -= 118f;
-                b.Draw(Game1.emoteSpriteSheet, localPosition, new Microsoft.Xna.Framework.Rectangle(currentEmoteFrame * 16 % Game1.emoteSpriteSheet.Width, currentEmoteFrame * 16 / Game1.emoteSpriteSheet.Width * 16, 16, 16), Color.White /** alpha*/, 0f, Vector2.Zero, 4f, SpriteEffects.None, (float)position.Y / 10000f);
+                localPosition.Y -= 118f - yOffset;
+                b.Draw(Game1.emoteSpriteSheet, localPosition, new Microsoft.Xna.Framework.Rectangle(currentEmoteFrame * 16 % Game1.emoteSpriteSheet.Width, currentEmoteFrame * 16 / Game1.emoteSpriteSheet.Width * 16, 16, 16), Color.White /** alpha*/, 0f, Vector2.Zero, 4f, SpriteEffects.None, ZIndex);
             }
         }
 
@@ -190,7 +215,7 @@ namespace OrnithologistsGuild.Game.Critters
         {
             if (IsFlying || IsRoosting)
             {
-                base.draw(b);
+                drawBirdie(b);
                 drawEmote(b);
             }
         }
@@ -199,7 +224,7 @@ namespace OrnithologistsGuild.Game.Critters
         {
             if (!(IsFlying || IsRoosting))
             {
-                base.draw(b);
+                drawBirdie(b);
                 drawEmote(b);
             }
         }

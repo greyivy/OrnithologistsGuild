@@ -15,30 +15,35 @@ namespace OrnithologistsGuild.Game
 {
     public class Perch
     {
-        public Vector2 Position; // NOT tile
+        public Vector3 Position; // NOT tile
 
         public Vector2? MapTile;
         public CustomBigCraftable Feeder;
         public Tree Tree;
 
-        public Perch(Vector2 mapTile, int perchOffset)
+        public Perch(Vector2 mapTile, int zOffset)
         {
             MapTile = mapTile;
-            Position = MapTile.Value * Game1.tileSize;
+            Position = new Vector3(
+                MapTile.Value.X * Game1.tileSize,
+                MapTile.Value.Y * Game1.tileSize,
+                zOffset);
 
             // Center on tile
             Position.X += Game1.tileSize / 2;
             Position.Y += Game1.tileSize / 2;
 
-            Position.Y += perchOffset;
+            Position.Z = zOffset;
         }
         public Perch(Tree tree)
         {
             Tree = tree;
 
-            var tileHeight = tree.getRenderBounds(tree.currentTileLocation).Height / Game1.tileSize;
-            var tileLocation = new Vector2(tree.currentTileLocation.X, tree.currentTileLocation.Y - MathF.Ceiling((float)(tileHeight) / 2));
-            Position = tileLocation * Game1.tileSize;
+            var height = tree.getRenderBounds(tree.currentTileLocation).Height;
+            Position = new Vector3(
+                tree.currentTileLocation.X * Game1.tileSize,
+                tree.currentTileLocation.Y * Game1.tileSize,
+                -MathF.Ceiling((float)(height) / 1.65f));
 
             // Center on tile
             Position.X += Game1.tileSize / 2;
@@ -48,18 +53,15 @@ namespace OrnithologistsGuild.Game
         {
             Feeder = feeder;
 
-            Position = feeder.TileLocation * Game1.tileSize;
+            var feederDef = FeederDef.FromFeeder(feeder);
+            Position = new Vector3(
+                feeder.TileLocation.X * Game1.tileSize,
+                feeder.TileLocation.Y * Game1.tileSize,
+                feederDef.zOffset);
 
             // Center on tile
             Position.X += Game1.tileSize / 2;
             Position.Y += Game1.tileSize / 2;
-
-            // Bird feeders have a small Y offset to properly position birds on their perch
-            var feederDef = FeederDef.FromFeeder(feeder);
-            if (feederDef != null)
-            {
-                Position.Y += feederDef.perchOffset;
-            }
         }
 
         public override bool Equals(object obj)
@@ -100,14 +102,14 @@ namespace OrnithologistsGuild.Game
                 var values = mapPerch.Split(" ");
                 var x = int.Parse(values[0]);
                 var y = int.Parse(values[1]);
-                var perchOffset = int.Parse(values[2]);
+                var zOffset = int.Parse(values[2]);
                 // var perchType = int.Parse(values[3]);
 
                 var tileLocation = new Vector2(x, y);
 
                 if (birdie != null && !birdie.CheckRelocationDistance(tileLocation)) continue; // Too close/straight
 
-                var perch = new Perch(tileLocation, perchOffset);
+                var perch = new Perch(tileLocation, zOffset);
                 if (occupiedPerches.Any(occupiedPerch => occupiedPerch.Equals(perch))) continue; // Occupied feeder (more performant than calling Perch.GetOccupant() each time)
 
                 return perch;
@@ -158,6 +160,7 @@ namespace OrnithologistsGuild.Game
 
                 var feederDef = FeederDef.FromFeeder(feeder);
                 var foodDef = FoodDef.FromFeeder(feeder);
+
                 if (!(birdieDef.CanPerchAt(feederDef) && birdieDef.CanEat(foodDef))) continue; // Incompatible feeder
 
                 if (Utility.isThereAFarmerOrCharacterWithinDistance(feeder.TileLocation, birdieDef.GetContextualCautiousness(), location) != null) continue; // Character nearby
@@ -201,7 +204,7 @@ namespace OrnithologistsGuild.Game
                 {
                     perch = GetRandomAvailableFeederPerch(location, birdieDef, birdie, occupiedPerches);
                 }
-            } else
+            } else if (birdieDef != null)
             {
                 // Try to get available feeder perch first
                 perch = GetRandomAvailableFeederPerch(location, birdieDef, birdie, occupiedPerches);

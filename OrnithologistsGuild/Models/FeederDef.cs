@@ -6,10 +6,11 @@ namespace OrnithologistsGuild.Models
 {
     public class FeederDef
     {
+        // TODO capitalize like BirdieDef
         public string id;
         public string type;
 
-        public int perchOffset;
+        public int zOffset;
 
         public int range;
         public int maxFlocks;

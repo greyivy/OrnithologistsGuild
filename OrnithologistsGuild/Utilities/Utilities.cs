@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using StardewValley;
 
 namespace OrnithologistsGuild
@@ -58,6 +59,11 @@ namespace OrnithologistsGuild
         {
             var locale = ModEntry.Instance.Helper.Translation.Locale;
             return System.Globalization.CultureInfo.GetCultureInfo(locale).TextInfo.ToUpper(value);
+        }
+
+        public static Vector2 XY(Vector3 value)
+        {
+            return new Vector2(value.X, value.Y);
         }
     }
 }

@@ -6,6 +6,7 @@ namespace OrnithologistsGuild.Models
 {
     public class FoodDef
     {
+        // TODO capitalize like BirdieDef
         public string type;
         public int feederAssetIndex;
 
