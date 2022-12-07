@@ -7,21 +7,22 @@
     }
   ],
   "Changes": [
+    // Forest
     {
       "Action": "EditMap",
       "Target": "Maps/Forest",
       "FromFile": "assets/map/Forest_OrnithologistsGuild.tmx",
       "FromArea": {
-        "X": 5,
+        "X": 6,
         "Y": 48,
-        "Width": 10,
-        "Height": 20
+        "Width": 9,
+        "Height": 4
       },
       "ToArea": {
-        "X": 5,
+        "X": 6,
         "Y": 48,
-        "Width": 10,
-        "Height": 20
+        "Width": 9,
+        "Height": 4
       },
       "MapProperties": {
         "Perches": "10 58 -146 0"
@@ -29,19 +30,60 @@
     },
     {
       "Action": "EditMap",
-      "Target": "Maps/Forest-FlowerFestival",
+      "Target": "Maps/Forest",
       "FromFile": "assets/map/Forest_OrnithologistsGuild.tmx",
       "FromArea": {
         "X": 5,
-        "Y": 57,
+        "Y": 52,
         "Width": 10,
-        "Height": 11
+        "Height": 9
       },
       "ToArea": {
-        "X": 65,
-        "Y": 0,
+        "X": 5,
+        "Y": 52,
         "Width": 10,
-        "Height": 11
+        "Height": 9
+      },
+      "MapProperties": {
+        "Perches": "10 58 -146 0"
+      }
+    },
+    {
+      "Action": "EditMap",
+      "Target": "Maps/Forest",
+      "FromFile": "assets/map/Forest_OrnithologistsGuild.tmx",
+      "FromArea": {
+        "X": 7,
+        "Y": 61,
+        "Width": 8,
+        "Height": 5
+      },
+      "ToArea": {
+        "X": 7,
+        "Y": 61,
+        "Width": 8,
+        "Height": 5
+      }
+    },
+    // Forest-IceFestival
+    {
+      "Action": "EditMap",
+      "Target": "Maps/Forest-IceFestival",
+      "FromFile": "assets/map/Forest-IceFestival_OrnithologistsGuild.tmx",
+      "FromArea": {
+        "X": 6,
+        "Y": 48,
+        "Width": 9,
+        "Height": 4
+      },
+      "ToArea": {
+        "X": 6,
+        "Y": 48,
+        "Width": 9,
+        "Height": 4
+      },
+      "MapProperties": {
+        "Perches": "10 58 -146 0"
       }
     },
     {
@@ -50,15 +92,32 @@
       "FromFile": "assets/map/Forest-IceFestival_OrnithologistsGuild.tmx",
       "FromArea": {
         "X": 5,
-        "Y": 48,
+        "Y": 52,
         "Width": 10,
-        "Height": 20
+        "Height": 9
       },
       "ToArea": {
         "X": 5,
-        "Y": 48,
+        "Y": 52,
         "Width": 10,
-        "Height": 20
+        "Height": 9
+      }
+    },
+    {
+      "Action": "EditMap",
+      "Target": "Maps/Forest-IceFestival",
+      "FromFile": "assets/map/Forest-IceFestival_OrnithologistsGuild.tmx",
+      "FromArea": {
+        "X": 7,
+        "Y": 61,
+        "Width": 8,
+        "Height": 5
+      },
+      "ToArea": {
+        "X": 7,
+        "Y": 61,
+        "Width": 8,
+        "Height": 5
       }
     },
     {
@@ -83,6 +142,42 @@
         }
       ]
     },
+    // Forest-FlowerFestival
+    {
+      "Action": "EditMap",
+      "Target": "Maps/Forest-FlowerFestival",
+      "FromFile": "assets/map/Forest_OrnithologistsGuild.tmx",
+      "FromArea": {
+        "X": 5,
+        "Y": 57,
+        "Width": 10,
+        "Height": 4
+      },
+      "ToArea": {
+        "X": 65,
+        "Y": 0,
+        "Width": 10,
+        "Height": 4
+      }
+    },
+    {
+      "Action": "EditMap",
+      "Target": "Maps/Forest-FlowerFestival",
+      "FromFile": "assets/map/Forest_OrnithologistsGuild.tmx",
+      "FromArea": {
+        "X": 7,
+        "Y": 61,
+        "Width": 8,
+        "Height": 7
+      },
+      "ToArea": {
+        "X": 67,
+        "Y": 4,
+        "Width": 8,
+        "Height": 7
+      }
+    },
+    // Custom_Ivy_OrnithologistsGuild
     {
       "Action": "EditData",
       "Target": "Strings/StringsFromMaps",
@@ -114,6 +209,7 @@
         "Ivy_OrnithologistsGuild.25": "INTAKE RECORD: KYLE^^A YOUNG RAVEN, SMALLER THAN MOST OTHERS AND UNABLE TO FLY, WAS FOUND UNRESPONSIVE AT THE SIDE OF THE ROAD. UPON MEDICAL EXAMINATION, IT WAS DETERMINED THAT ONE OF HIS WINGS HAD BEEN BROKEN AFTER HE HAD BEEN HIT BY A CAR. DESPITE OUR BEST ATTEMPTS AT SAVING THE WING HE WILL LIKELY NEVER FLY AGAIN.^^THE PELICAN TOWN ORNITHOLOGIST'S GUILD"
       }
     },
+    // NPC: Kyle
     {
       "Action": "Include",
       "FromFile": "assets/npc/disposition.json"

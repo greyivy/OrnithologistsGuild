@@ -4,7 +4,7 @@ pwd=$(pwd)
 
 # # Move release ZIPs
 mkdir /tmp/og_release
-find ./*/bin/Release -iname '*Ornithologists Guild*.zip' -exec cp "{}" /tmp/og_release \;
+find ./*/bin/Release -iname '*Ornithologists Guild*.zip' -exec mv "{}" /tmp/og_release \;
 
 cd /tmp/og_release
 
