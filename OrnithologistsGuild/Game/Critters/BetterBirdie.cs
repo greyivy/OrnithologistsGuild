@@ -32,8 +32,9 @@ namespace OrnithologistsGuild.Game.Critters
 
         public float ZIndex { get
             {
-                return (position.Y - (Game1.tileSize / 2)) / 10000f + position.X / 100000f;
-            } }
+                return (position.Y / 10000f) + (position.X / 1000000f);
+            }
+        }
 
         // Perch
         public Perch Perch;

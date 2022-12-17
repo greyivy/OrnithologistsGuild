@@ -17,7 +17,7 @@ namespace OrnithologistsGuild.Game.Items
 
         public override bool performUseAction(GameLocation location)
         {
-            if (Game1.random.NextDouble() < 0.025)
+            if (Game1.random.NextDouble() < 0.01)
             {
                 Game1.addHUDMessage(new HUDMessage(I18n.Items_AntiqueBinoculars_Message(), HUDMessage.error_type));
 

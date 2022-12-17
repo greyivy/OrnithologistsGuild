@@ -110,7 +110,7 @@ namespace OrnithologistsGuild
                         {
                             Perch perch = null;
 
-                            // 5% change to spawn bird perched
+                            // 5% chance to spawn bird perched
                             if (Game1.random.NextDouble() < 0.05)
                             {
                                 perch = Perch.GetRandomAvailablePerch(location, flockBirdieDef);
@@ -118,7 +118,7 @@ namespace OrnithologistsGuild
 
                             if (perch == null) {
                                 crittersToAdd.Add((Critter)new BetterBirdie(flockBirdieDef, Vector2.Zero));
-                            } else
+                            } else if (!onlyIfOnScreen || !Utility.isOnScreen(Utilities.XY(perch.Position), Game1.tileSize))
                             {
                                 location.critters.Add(new BetterBirdie(flockBirdieDef, Vector2.Zero, perch));
                             }
