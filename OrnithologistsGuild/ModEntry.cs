@@ -28,7 +28,16 @@ namespace OrnithologistsGuild
 
             this.Helper.Events.GameLoop.GameLaunched += GameLoop_GameLaunched;
             this.Helper.Events.GameLoop.SaveLoaded += GameLoop_SaveLoaded;
+            // this.Helper.Events.GameLoop.UpdateTicked += GameLoop_UpdateTicked;
         }
+
+        // private void GameLoop_UpdateTicked(object sender, UpdateTickedEventArgs e)
+        // {
+        //     if (e.IsOneSecond)
+        //     {
+        //         this.Monitor.Log(string.Join(",", Game1.player.mailReceived.Select(m => m.ToString())));
+        //     }
+        // }
 
         //private void Player_Warped(object sender, WarpedEventArgs e)
         //{

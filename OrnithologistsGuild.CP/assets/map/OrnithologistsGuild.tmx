@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="31" height="31" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="61">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="31" height="31" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="62">
  <properties>
   <property name="AmbientLight" value="95 95 95"/>
   <property name="Doors" value="15 20 indoor 120"/>
@@ -39,6 +39,9 @@
  </tileset>
  <tileset firstgid="2774" name="Z_Perch" tilewidth="16" tileheight="16" tilecount="2" columns="2">
   <image source="Perch.png" width="32" height="16"/>
+ </tileset>
+ <tileset firstgid="2776" name="Z_SpellNSpeak" tilewidth="16" tileheight="16" tilecount="3" columns="3">
+  <image source="SpellNSpeak.png" width="48" height="16"/>
  </tileset>
  <layer id="1" name="Back" width="31" height="31">
   <data encoding="csv">
@@ -91,7 +94,7 @@
 65,801,0,0,0,0,0,0,0,0,489,69,65,80,112,369,114,82,69,65,2148,0,0,0,0,0,0,1368,69,0,0,
 65,737,0,0,0,0,0,0,0,0,865,69,65,112,144,401,146,114,69,65,2148,0,0,0,0,0,0,0,69,0,0,
 65,769,0,0,656,657,657,658,0,587,588,69,65,144,0,0,650,146,69,65,0,0,2772,2772,2772,2772,1618,0,69,0,0,
-65,656,0,0,688,689,689,690,0,619,620,69,65,0,0,2775,0,1786,69,65,0,0,0,0,0,0,1650,1651,69,0,0,
+65,656,0,0,688,689,689,690,0,619,620,69,65,0,0,2775,2778,1786,69,65,0,0,0,0,0,0,1650,1651,69,0,0,
 65,833,0,0,0,0,0,0,0,0,0,69,97,1786,1788,0,0,1818,131,65,0,0,0,0,0,0,1682,1683,69,0,0,
 161,865,0,0,0,0,0,0,0,0,0,69,0,97,1820,0,1788,131,0,65,0,0,2772,2772,2772,2772,1714,1368,168,0,0,
 1,1,1,1,1,1,10,3,2127,195,0,194,3,3,195,0,194,3,2122,195,0,194,2127,3,12,0,0,0,0,0,0,
@@ -343,6 +346,12 @@
   <object id="60" name="TileData" x="256" y="208" width="16" height="16">
    <properties>
     <property name="Action" value="Message Ivy_OrnithologistsGuild.25"/>
+    <property name="NPCPassable" value="T"/>
+   </properties>
+  </object>
+  <object id="61" name="TileData" x="256" y="224" width="16" height="16">
+   <properties>
+    <property name="Action" value="Message Ivy_OrnithologistsGuild.26"/>
     <property name="NPCPassable" value="T"/>
    </properties>
   </object>
