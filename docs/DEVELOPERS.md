@@ -163,12 +163,12 @@ All content packs require a `content.json` file in their root.
 
 Replace `{ID}` with the `ID` of your birdie.
 
-| Key                          | Description                                                             |   |   |
-|------------------------------|-------------------------------------------------------------------------|---|---|
-| `birdie.{ID}.commonName`     | Your bird's common name                                                 |   |   |
-| `birdie.{ID}.scientificName` | Your bird's scientific name                                             |   |   |
-| `birdie.{ID}.attribute.{N}`  | A short attribute like "plump body" where `{N}` is the attribute number |   |   |
-| `birdie.{ID}.funFact`        | A fun fact about your bird!                                             |   |   |
+| Key                          | Description                                                             |
+|------------------------------|-------------------------------------------------------------------------|
+| `birdie.{ID}.commonName`     | Your bird's common name                                                 |
+| `birdie.{ID}.scientificName` | Your bird's scientific name                                             |
+| `birdie.{ID}.attribute.{N}`  | A short attribute like "plump body" where `{N}` is the attribute number |
+| `birdie.{ID}.funFact`        | A fun fact about your bird!                                             |
 
 # Creating a static perch on a map
 

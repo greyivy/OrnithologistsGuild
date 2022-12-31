@@ -181,7 +181,7 @@ namespace OrnithologistsGuild.Game
 
             Perch perch = null;
 
-            var mapPropertyPerches = Game1.currentLocation.getMapProperty("Perches");
+            var mapPropertyPerches = location.getMapProperty("Perches");
             // If map has defined perches, 25% chance to check those first
             if (!string.IsNullOrWhiteSpace(mapPropertyPerches) && Game1.random.NextDouble() < 0.25)
             {
