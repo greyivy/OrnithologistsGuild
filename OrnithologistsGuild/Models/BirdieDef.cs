@@ -59,11 +59,13 @@ namespace OrnithologistsGuild.Content
 
         public int BaseFrame = 0;
 
+        public int BathingClipBottom = 8;
+
         public ContentPackDef ContentPackDef; // Generated
 
         public int Attributes;
 
-        public bool ShouldUseBath = true;
+        public bool CanBathe = true;
         public int MaxFlockSize = 1;
         public int Cautiousness = 5;
         public int FlapDuration = 500;
@@ -82,7 +84,7 @@ namespace OrnithologistsGuild.Content
             {
                 if (this.CanPerchAt(feederDef))
                 {
-                    weight += this.FeederBaseWts[feederDef.type];
+                    weight += this.FeederBaseWts[feederDef.Type];
                 } else
                 {
                     ModEntry.Instance.Monitor.Log($@"GetContextualWeight 0 {this.ID} (feederDef)");
@@ -94,7 +96,7 @@ namespace OrnithologistsGuild.Content
             {
                 if (this.CanEat(foodDef))
                 {
-                    weight += this.FoodBaseWts[foodDef.type];
+                    weight += this.FoodBaseWts[foodDef.Type];
                 }
                 else
                 {
@@ -133,12 +135,12 @@ namespace OrnithologistsGuild.Content
 
         public bool CanPerchAt(FeederDef feederDef)
         {
-            return FeederBaseWts.ContainsKey(feederDef.type);
+            return FeederBaseWts.ContainsKey(feederDef.Type);
         }
 
         public bool CanEat(FoodDef foodDef)
         {
-            return FoodBaseWts.ContainsKey(foodDef.type);
+            return FoodBaseWts.ContainsKey(foodDef.Type);
         }
     }
 

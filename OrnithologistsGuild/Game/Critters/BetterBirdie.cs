@@ -29,6 +29,13 @@ namespace OrnithologistsGuild.Game.Critters
                 yOffset = value.Z;
             }
         }
+        public Vector2 TileLocation
+        {
+            get
+            {
+                return Utilities.XY(Position3) / Game1.tileSize;
+            }
+        }
 
         public float ZIndex { get
             {
@@ -44,7 +51,11 @@ namespace OrnithologistsGuild.Game.Critters
         }
         public bool IsRoosting
         {
-            get { return IsPerched && (Perch.MapTile.HasValue || Perch.Tree != null); }
+            get { return IsPerched && (Perch.Type == PerchType.MapTile || Perch.Type == PerchType.Tree); }
+        }
+        public bool IsBathing
+        {
+            get { return IsPerched && Perch.Type == PerchType.Bath; }
         }
 
         // Timers
@@ -98,7 +109,7 @@ namespace OrnithologistsGuild.Game.Critters
 
             if (!IsFlying)
             {
-                if (IsRoosting && Perch.Tree != null)
+                if (IsRoosting && Perch.Type == PerchType.Tree)
                 {
                     // Fly away when tree is chopped
                     if (Perch.Tree.health.Value < Tree.startingHealth)
@@ -137,19 +148,27 @@ namespace OrnithologistsGuild.Game.Critters
 
         public Tuple<Vector3, Perch> GetRandomRelocationTileOrPerch()
         {
-            if (Game1.random.NextDouble() < 0.8)
+            if (Game1.random.NextDouble() < 0.8 && !(ModEntry.debug_PerchType.HasValue || ModEntry.debug_BirdWhisperer.HasValue))
             {
                 // Try to find clear tile to relocate to
                 for (int trial = 0; trial < 50; trial++)
                 {
                     var randomTile = Environment.getRandomTile();
-                    if (Environment.isWaterTile((int)randomTile.X, (int)randomTile.Y)) continue; // On water (this may not be enough)
+                    var isWaterTile = Environment.isWaterTile((int)randomTile.X, (int)randomTile.Y);
 
-                    // Get a 3x3 patch around the random tile
-                    var randomRect = new Microsoft.Xna.Framework.Rectangle((int)randomTile.X - 1, (int)randomTile.Y - 1, 3, 3);
+                    var allowWaterTiles = BirdieDef.CanBathe && Game1.random.NextDouble() < 0.2;
+                    if (isWaterTile && !allowWaterTiles) continue; // 
+
                     if (!CheckRelocationDistance(randomTile)) continue; // Too close/straight
 
-                    if (Environment.isAreaClear(randomRect) && Utility.isThereAFarmerOrCharacterWithinDistance(randomTile, BirdieDef.GetContextualCautiousness(), Environment) != null) continue; // Character nearby
+                    if (Utility.isThereAFarmerOrCharacterWithinDistance(randomTile, BirdieDef.GetContextualCautiousness(), Environment) != null) continue; // Character nearby
+
+                    if (!isWaterTile)
+                    {
+                        // Get a 3x3 patch around the random tile
+                        var randomRect = new Microsoft.Xna.Framework.Rectangle((int)randomTile.X - 1, (int)randomTile.Y - 1, 3, 3);
+                        if (!Environment.isAreaClear(randomRect)) continue; // Area not clear
+                    }
 
                     var relocateTo = randomTile * Game1.tileSize;
 
@@ -188,7 +207,13 @@ namespace OrnithologistsGuild.Game.Critters
         }
 
         public void Frighten() {
-            StateMachine.Trigger(Game1.random.NextDouble() < 0.8 ? BetterBirdieTrigger.FlyAway : BetterBirdieTrigger.Relocate);
+            if (Game1.random.NextDouble() < 0.8 && !(ModEntry.debug_PerchType.HasValue || ModEntry.debug_BirdWhisperer.HasValue))
+            {
+                StateMachine.Trigger(BetterBirdieTrigger.FlyAway);
+            } else
+            {
+                StateMachine.Trigger(BetterBirdieTrigger.Relocate);
+            } 
         }
     
         #region Rendering
@@ -196,12 +221,25 @@ namespace OrnithologistsGuild.Game.Critters
         {
             if (sprite != null)
             {
-                // Experimental z-index
-                sprite.draw(b, Game1.GlobalToLocal(Game1.viewport, position + new Vector2(-64f, -128f + yJumpOffset + yOffset)), ZIndex, 0, 0, Color.White, flip, 4f);
-                b.Draw(Game1.shadowTexture, Game1.GlobalToLocal(Game1.viewport, position + new Vector2(0f, -4f)), Game1.shadowTexture.Bounds, Color.White, 0f, new Vector2(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y), 3f + Math.Max(-3f, (yJumpOffset + yOffset) / 64f), SpriteEffects.None, ZIndex - (1f / 10000f));
+                // Override `base.draw()` for extra control of clipping when bathing
+                if (sprite.Texture != null)
+                {
+                    var clipBottom = StateMachine.Current.Identifier == BetterBirdieState.Bathing ? BirdieDef.BathingClipBottom : 0;
+                    var zIndex = StateMachine.Current.Identifier == BetterBirdieState.Bathing ? ZIndex + 1f : ZIndex;
+
+                    var screenPosition = Game1.GlobalToLocal(Game1.viewport, position + new Vector2(-64f, -128f + yJumpOffset + yOffset + (clipBottom * 3)));
+                    var sourceRectangle = new Rectangle(sprite.sourceRect.X, sprite.sourceRect.Y + clipBottom, sprite.sourceRect.Width, sprite.sourceRect.Height - (clipBottom * 2));
+
+                    b.Draw(sprite.Texture, screenPosition, sourceRectangle, Color.White, 0, Vector2.Zero, 4f, (flip || (sprite.CurrentAnimation != null && sprite.CurrentAnimation[sprite.currentAnimationIndex].flip)) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, zIndex);
+                }
+
+                if (StateMachine.Current.Identifier != BetterBirdieState.Bathing)
+                {
+                    // Draw shadow
+                    b.Draw(Game1.shadowTexture, Game1.GlobalToLocal(Game1.viewport, position + new Vector2(0f, -4f)), Game1.shadowTexture.Bounds, Color.White, 0f, new Vector2(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y), 3f + Math.Max(-3f, (yJumpOffset + yOffset) / 64f), SpriteEffects.None, ZIndex - (1f / 10000f));
+                }
             }
         }
-
         private void drawEmote(SpriteBatch b)
         {
             if (isEmoting)
@@ -252,6 +290,32 @@ namespace OrnithologistsGuild.Game.Critters
                     }),
                     new FarmerSprite.AnimationFrame (baseFrame + 8, (int)MathF.Round(0.27f * BirdieDef.FlapDuration)),
                     new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * BirdieDef.FlapDuration))
+                };
+        }
+
+        private List<FarmerSprite.AnimationFrame> GetBathingAnimation()
+        {
+            return new List<FarmerSprite.AnimationFrame> {
+                    new FarmerSprite.AnimationFrame (baseFrame + 6, (int)MathF.Round(0.27f * (BirdieDef.FlapDuration / 2))),
+                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * (BirdieDef.FlapDuration / 2)), secondaryArm: false, flip, frameBehavior: (Farmer who) =>
+                    {
+                        // Play bathing noise whether onscreen or not
+                        Game1.playSound("waterSlosh");
+
+                        if (Utility.isOnScreen(position, Game1.tileSize)) {
+                            // Draw splashes
+                            var splashPosition = new Vector2(position.X - (Game1.tileSize * 0.75f), position.Y - (Game1.tileSize * 1.5f));
+                            splashPosition.X += (int)((-0.5 + Game1.random.NextDouble()) * (Game1.tileSize / 1.5));
+                            splashPosition.Y += (int)((-0.5 + Game1.random.NextDouble()) * (Game1.tileSize / 1.5));
+
+                            var splash = new TemporaryAnimatedSprite("TileSheets\\animations", new Rectangle(0, 832, 64, 64), (BirdieDef.FlapDuration / 2) / 10, 10, 1, splashPosition, false, Game1.random.Next(0, 2) == 0);
+                            splash.layerDepth = ZIndex + 2f;
+                            splash.scale = 1 + Utility.RandomFloat(0, 0.75f);
+                            Environment.temporarySprites.Add(splash);
+                        }
+                    }),
+                    new FarmerSprite.AnimationFrame (baseFrame + 8, (int)MathF.Round(0.27f * (BirdieDef.FlapDuration / 2))),
+                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * (BirdieDef.FlapDuration / 2)))
                 };
         }
         #endregion

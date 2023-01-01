@@ -14,8 +14,6 @@ namespace OrnithologistsGuild
 {
     public class BetterBirdieSpawner
     {
-        public static BirdieDef debugAlwaysSpawn = null;
-
         public static void AddBirdies(GameLocation location, double chance = 0, bool onlyIfOnScreen = false)
         {
             // If AddBirdies is called before warp is complete, ContentPactcher conditions will not be up to date with the new location
@@ -81,10 +79,10 @@ namespace OrnithologistsGuild
 
             // Chance to add another flock
             int flocksAdded = 0;
-            while ((debugAlwaysSpawn != null && flocksAdded == 0) || Game1.random.NextDouble() < chance / (flocksAdded + 1)) // Chance lowers after every flock
+            while ((ModEntry.debug_AlwaysSpawn != null && flocksAdded == 0) || Game1.random.NextDouble() < chance / (flocksAdded + 1)) // Chance lowers after every flock
             {
                 // Determine flock parameters
-                flockBirdieDef = debugAlwaysSpawn == null ? GetRandomBirdieDef() : debugAlwaysSpawn;
+                flockBirdieDef = ModEntry.debug_AlwaysSpawn == null ? GetRandomBirdieDef() : ModEntry.debug_AlwaysSpawn;
                 if (flockBirdieDef == null) return;
 
                 int flockSize = Game1.random.Next(1, flockBirdieDef.MaxFlockSize + 1);
@@ -139,13 +137,13 @@ namespace OrnithologistsGuild
             ModEntry.Instance.Monitor.Log("AddBirdiesNearFeeder");
 
             // Build a rectangle around the feeder based on the range
-            var feederRect = Utility.getRectangleCenteredAt(feeder.TileLocation, (feederDef.range * 2) + 1);
+            var feederRect = Utility.getRectangleCenteredAt(feeder.TileLocation, (feederDef.Range * 2) + 1);
 
             BirdieDef flockBirdieDef = null;
 
             // Chance to add another flock
             int flocksAdded = 0;
-            while (flocksAdded < feederDef.maxFlocks && Game1.random.NextDouble() < 0.3)
+            while (flocksAdded < feederDef.MaxFlocks && Game1.random.NextDouble() < 0.3)
             {
                 // Determine flock parameters
                 flockBirdieDef = GetRandomFeederBirdieDef(feederDef, food);
@@ -164,8 +162,7 @@ namespace OrnithologistsGuild
 
                     if (location.isTileOnMap(randomTile) && (!onlyIfOnScreen || !Utility.isOnScreen(randomTile * Game1.tileSize, Game1.tileSize)))
                     {
-                        // Get a 3x3 patch around the random tile 
-                        // var randomRect = new Microsoft.Xna.Framework.Rectangle((int)randomTile.X - 2, (int)randomTile.Y - 2, 5, 5); // TODO revert to 5x5 if needed
+                        // Get a 3x3 patch around the random tile
                         var randomRect = new Microsoft.Xna.Framework.Rectangle((int)randomTile.X - 1, (int)randomTile.Y - 1, 3, 3);
 
                         if (!location.isAreaClear(randomRect)) continue;

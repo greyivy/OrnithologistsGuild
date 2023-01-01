@@ -15,7 +15,8 @@ namespace OrnithologistsGuild.Game.Critters
         Pecking,
         Sleeping,
         FlyingAway,
-        Relocating
+        Relocating,
+        Bathing
     }
 
     public enum BetterBirdieTrigger
@@ -26,7 +27,8 @@ namespace OrnithologistsGuild.Game.Critters
         Hop,
         FlyAway,
         Sleep,
-        Relocate
+        Relocate,
+        Bathe
     }
 
     public partial class BetterBirdie : StardewValley.BellsAndWhistles.Critter
@@ -59,18 +61,25 @@ namespace OrnithologistsGuild.Game.Critters
                     .TransitionTo(BetterBirdieState.Pecking).On(BetterBirdieTrigger.Peck)
                     .TransitionTo(BetterBirdieState.Walking).On(BetterBirdieTrigger.Walk)
                     .TransitionTo(BetterBirdieState.Hopping).On(BetterBirdieTrigger.Hop)
+                    .TransitionTo(BetterBirdieState.Bathing).On(BetterBirdieTrigger.Bathe)
                     .OnEnter(e =>
                     {
                         // Reset animation to base frame
                         sprite.currentFrame = baseFrame;
-                    })
-                    .Update(a =>
-                    {
-                        if (IsRoosting) {
+
+                        if (IsRoosting)
+                        {
                             StateMachine.Trigger(BetterBirdieTrigger.Sleep);
                             return;
                         }
-
+                        else if (IsBathing || Environment.isWaterTile((int)TileLocation.X, (int)TileLocation.Y))
+                        {
+                            StateMachine.Trigger(BetterBirdieTrigger.Bathe);
+                            return;
+                        }
+                    })
+                    .Update(a =>
+                    {
                         if (Game1.random.NextDouble() < 0.008)
                         {
                             switch (Game1.random.Next(7))
@@ -94,14 +103,13 @@ namespace OrnithologistsGuild.Game.Critters
                                     break;
                                 case 6:
                                     var random = Game1.random.NextDouble();
-                                    if (random < 0.025)
+                                    if (random < 0.025 && !(ModEntry.debug_PerchType.HasValue || ModEntry.debug_BirdWhisperer.HasValue))
                                     {
                                         StateMachine.Trigger(BetterBirdieTrigger.FlyAway);
                                     }
                                     else if (random < 0.1)
                                     {
                                         StateMachine.Trigger(BetterBirdieTrigger.Relocate);
-
                                     }
                                     break;
                             }
@@ -358,7 +366,15 @@ namespace OrnithologistsGuild.Game.Critters
                     .TransitionTo(BetterBirdieState.Stopping).On(BetterBirdieTrigger.Stop)
                     .OnEnter(e =>
                     {
-                        var relocateTo = GetRandomRelocationTileOrPerch();
+                        Tuple<Vector3, Perch> relocateTo;
+                        if (ModEntry.debug_BirdWhisperer.HasValue)
+                        {
+                            relocateTo = new Tuple<Vector3, Perch>(new Vector3(ModEntry.debug_BirdWhisperer.Value.X, ModEntry.debug_BirdWhisperer.Value.Y, 0), null);
+                            ModEntry.debug_BirdWhisperer = null;
+                        } else
+                        {
+                            relocateTo = GetRandomRelocationTileOrPerch();
+                        }
 
                         if (relocateTo != null)
                         {
@@ -450,7 +466,7 @@ namespace OrnithologistsGuild.Game.Critters
                                 Position3 = RelocateTo.Item1;
                                 startingPosition = position;
    
-                                if (IsRoosting && Perch.Tree != null)
+                                if (IsPerched && Perch.Type == PerchType.Tree)
                                 {
                                     // Shake tree on landing
                                     ModEntry.Instance.Helper.Reflection.GetMethod(Perch.Tree, "shake").Invoke(Perch.Tree.currentTileLocation, false, Game1.player.currentLocation);
@@ -458,6 +474,33 @@ namespace OrnithologistsGuild.Game.Critters
 
                                 StateMachine.Trigger(BetterBirdieTrigger.Stop);
                             }
+                        }
+                    })
+                .State(BetterBirdieState.Bathing) // Done!
+                    .OnEnter(e =>
+                    {
+                        if (!BirdieDef.CanBathe) {
+                            StateMachine.Trigger(BetterBirdieTrigger.Relocate);
+                            return;
+                        }
+
+                        sprite.setCurrentAnimation(GetBathingAnimation());
+                        sprite.loop = true;
+                    })
+                    .OnExit(e =>
+                    {
+                        sprite.loop = false;
+                        sprite.CurrentAnimation = null;
+                    })
+                    .Update(a =>
+                    {
+                        if (Game1.random.NextDouble() < 0.001)
+                        {
+                            flip = !flip;
+                        }
+                        if (Game1.random.NextDouble() < 0.003)
+                        {
+                            StateMachine.Trigger(BetterBirdieTrigger.Relocate);
                         }
                     })
                 .GlobalTransitionTo(BetterBirdieState.FlyingAway).OnGlobal(BetterBirdieTrigger.FlyAway)
