@@ -82,6 +82,8 @@ namespace OrnithologistsGuild.Game.Critters
                     {
                         if (Game1.random.NextDouble() < 0.008)
                         {
+                            // TODO Use `WeightedRandom()` with behavior per birdie
+                            // TODO Relocate and RelocateToWater? Or a way to specify per birdie
                             switch (Game1.random.Next(7))
                             {
                                 case 0:

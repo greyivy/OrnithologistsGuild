@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using OrnithologistsGuild.Content;
 using StardewValley;
-using System.Collections.Generic;
-using StateMachine;
 using StardewValley.TerrainFeatures;
+using StateMachine;
 
 namespace OrnithologistsGuild.Game.Critters
 {
@@ -92,6 +92,9 @@ namespace OrnithologistsGuild.Game.Critters
                 // Center on tile
                 position.X += Game1.tileSize / 2;
                 position.Y += Game1.tileSize / 2;
+
+                // Scatter by up to half a tile in any direction
+                position = Utility.getTranslatedVector2(position, Game1.random.Next(4), Game1.random.Next(Game1.tileSize / 2));
             } else
             {
                 Position3 = Perch.Position;
@@ -146,6 +149,29 @@ namespace OrnithologistsGuild.Game.Critters
             return true;
         }
 
+        public static bool CanSpawnAtOrRelocateTo(GameLocation location, Vector2 tileLocation, BirdieDef birdieDef, BetterBirdie birdie = null)
+        {
+            if (!location.isTileOnMap(tileLocation)) return false;
+
+            var isOpenWater = location.isOpenWater((int)tileLocation.X, (int)tileLocation.Y);
+
+            var shouldBathe = birdieDef.CanBathe && Game1.random.NextDouble() < 0.2; // 20% chance to allow bathing
+            if (isOpenWater && !shouldBathe) return false;
+
+            if (birdie != null && !birdie.CheckRelocationDistance(tileLocation)) return false; // Too close/straight
+
+            if (Utility.isThereAFarmerOrCharacterWithinDistance(tileLocation, birdieDef.GetContextualCautiousness(), location) != null) return false; // Character nearby
+
+            if (!isOpenWater)
+            {
+                // Get a 3x3 patch around the random tile
+                var randomRect = new Microsoft.Xna.Framework.Rectangle((int)tileLocation.X - 1, (int)tileLocation.Y - 1, 3, 3);
+                if (!location.isAreaClear(randomRect)) return false; // Area not clear
+            }
+
+            return true;
+        }
+
         public Tuple<Vector3, Perch> GetRandomRelocationTileOrPerch()
         {
             if (Game1.random.NextDouble() < 0.8 && !(ModEntry.debug_PerchType.HasValue || ModEntry.debug_BirdWhisperer.HasValue))
@@ -154,21 +180,7 @@ namespace OrnithologistsGuild.Game.Critters
                 for (int trial = 0; trial < 50; trial++)
                 {
                     var randomTile = Environment.getRandomTile();
-                    var isWaterTile = Environment.isWaterTile((int)randomTile.X, (int)randomTile.Y);
-
-                    var allowWaterTiles = BirdieDef.CanBathe && Game1.random.NextDouble() < 0.2;
-                    if (isWaterTile && !allowWaterTiles) continue; // 
-
-                    if (!CheckRelocationDistance(randomTile)) continue; // Too close/straight
-
-                    if (Utility.isThereAFarmerOrCharacterWithinDistance(randomTile, BirdieDef.GetContextualCautiousness(), Environment) != null) continue; // Character nearby
-
-                    if (!isWaterTile)
-                    {
-                        // Get a 3x3 patch around the random tile
-                        var randomRect = new Microsoft.Xna.Framework.Rectangle((int)randomTile.X - 1, (int)randomTile.Y - 1, 3, 3);
-                        if (!Environment.isAreaClear(randomRect)) continue; // Area not clear
-                    }
+                    if (!CanSpawnAtOrRelocateTo(Environment, randomTile, BirdieDef, this)) continue;
 
                     var relocateTo = randomTile * Game1.tileSize;
 
