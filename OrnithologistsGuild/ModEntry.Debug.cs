@@ -109,6 +109,8 @@ namespace OrnithologistsGuild
 
         private void DebugHandleInput(ButtonPressedEventArgs e)
         {
+            if (!e.Button.IsUseToolButton()) return;
+
             if (debug_EnableBirdWhisperer)
             {
                 debug_BirdWhisperer = e.Cursor.Tile * Game1.tileSize;

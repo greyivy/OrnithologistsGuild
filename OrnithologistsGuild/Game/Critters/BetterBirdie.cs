@@ -39,7 +39,7 @@ namespace OrnithologistsGuild.Game.Critters
 
         public float ZIndex { get
             {
-                return (position.Y / 10000f) + (position.X / 1000000f);
+                return (position.Y / (10000f - 1f)) + (position.X / 1000000f);
             }
         }
 
@@ -135,6 +135,16 @@ namespace OrnithologistsGuild.Game.Critters
             return base.update(time, environment);
         }
 
+        public void PlayCall()
+        {
+            Game1.playSound(BirdieDef.SoundID == null ? "SpringBirds" : BirdieDef.SoundID);
+        }
+
+        public void Flip()
+        {
+            flip = !flip;
+        }
+
         public bool CheckRelocationDistance(Vector2 relocateTo)
         {
             var currentTile = base.position / Game1.tileSize;
@@ -144,7 +154,7 @@ namespace OrnithologistsGuild.Game.Critters
 
             var distanceX = MathF.Abs(currentTile.X - relocateTo.X);
             var distanceY = MathF.Abs(currentTile.Y - relocateTo.Y);
-            if (distanceX < 5 || distanceY < 5 ) return false; // Too straight (lol)
+            if (distanceX < 6 || distanceY < 4 ) return false; // Too straight (lol)
 
             return true;
         }
@@ -174,31 +184,29 @@ namespace OrnithologistsGuild.Game.Critters
 
         public Tuple<Vector3, Perch> GetRandomRelocationTileOrPerch()
         {
-            if (Game1.random.NextDouble() < 0.8 && !(ModEntry.debug_PerchType.HasValue || ModEntry.debug_BirdWhisperer.HasValue))
-            {
-                // Try to find clear tile to relocate to
-                for (int trial = 0; trial < 50; trial++)
-                {
-                    var randomTile = Environment.getRandomTile();
-                    if (!CanSpawnAtOrRelocateTo(Environment, randomTile, BirdieDef, this)) continue;
-
-                    var relocateTo = randomTile * Game1.tileSize;
-
-                    // Center on tile
-                    relocateTo.X += 32f;
-                    relocateTo.Y += 32f;
-
-                    return new Tuple<Vector3, Perch>(new Vector3(relocateTo.X, relocateTo.Y, 0), null);
-                }
-            }
-            else
+            if (ModEntry.debug_PerchType.HasValue || Game1.random.NextDouble() < 0.4)
             {
                 // Try to find an available perch to relocate to
-                var perch = Perch.GetRandomAvailablePerch(Game1.player.currentLocation, BirdieDef, this); 
+                var perch = Perch.GetRandomAvailablePerch(Game1.player.currentLocation, BirdieDef, this);
                 if (perch != null)
                 {
                     return new Tuple<Vector3, Perch>(perch.Position, perch);
                 }
+            }
+
+            // Try to find clear tile to relocate to
+            for (int trial = 0; trial < 50; trial++)
+            {
+                var randomTile = Environment.getRandomTile();
+                if (!CanSpawnAtOrRelocateTo(Environment, randomTile, BirdieDef, this)) continue;
+
+                var relocateTo = randomTile * Game1.tileSize;
+
+                // Center on tile
+                relocateTo.X += 32f;
+                relocateTo.Y += 32f;
+
+                return new Tuple<Vector3, Perch>(new Vector3(relocateTo.X, relocateTo.Y, 0), null);
             }
 
             return null;
@@ -219,13 +227,15 @@ namespace OrnithologistsGuild.Game.Critters
         }
 
         public void Frighten() {
-            if (Game1.random.NextDouble() < 0.8 && !(ModEntry.debug_PerchType.HasValue || ModEntry.debug_BirdWhisperer.HasValue))
+            if (ModEntry.debug_PerchType.HasValue || ModEntry.debug_BirdWhisperer.HasValue)
             {
-                StateMachine.Trigger(BetterBirdieTrigger.FlyAway);
-            } else
-            {
+                // Force relocate
                 StateMachine.Trigger(BetterBirdieTrigger.Relocate);
-            } 
+                return;
+            }
+
+            if (Game1.random.NextDouble() < 0.8) StateMachine.Trigger(BetterBirdieTrigger.FlyAway);
+            else StateMachine.Trigger(BetterBirdieTrigger.Relocate);
         }
     
         #region Rendering
@@ -237,12 +247,11 @@ namespace OrnithologistsGuild.Game.Critters
                 if (sprite.Texture != null)
                 {
                     var clipBottom = StateMachine.Current.Identifier == BetterBirdieState.Bathing ? BirdieDef.BathingClipBottom : 0;
-                    var zIndex = StateMachine.Current.Identifier == BetterBirdieState.Bathing ? ZIndex + 1f : ZIndex;
 
                     var screenPosition = Game1.GlobalToLocal(Game1.viewport, position + new Vector2(-64f, -128f + yJumpOffset + yOffset + (clipBottom * 3)));
                     var sourceRectangle = new Rectangle(sprite.sourceRect.X, sprite.sourceRect.Y + clipBottom, sprite.sourceRect.Width, sprite.sourceRect.Height - (clipBottom * 2));
 
-                    b.Draw(sprite.Texture, screenPosition, sourceRectangle, Color.White, 0, Vector2.Zero, 4f, (flip || (sprite.CurrentAnimation != null && sprite.CurrentAnimation[sprite.currentAnimationIndex].flip)) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, zIndex);
+                    b.Draw(sprite.Texture, screenPosition, sourceRectangle, Color.White, 0, Vector2.Zero, 4f, (flip || (sprite.CurrentAnimation != null && sprite.CurrentAnimation[sprite.currentAnimationIndex].flip)) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, ZIndex);
                 }
 
                 if (StateMachine.Current.Identifier != BetterBirdieState.Bathing)

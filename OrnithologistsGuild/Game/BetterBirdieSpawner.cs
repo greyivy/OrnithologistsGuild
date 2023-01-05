@@ -36,7 +36,10 @@ namespace OrnithologistsGuild
 
             if (!location.IsOutdoors) return;
 
-            if (location is Farm) chance /= 2;
+            // TODO redo chance system
+            // Original SDV source:
+            // `double chance1 = Math.Max(0.15, Math.Min(0.5, (double) (this.map.Layers[0].LayerWidth * this.map.Layers[0].LayerHeight) / 15000.0));
+            // ...followed by other chances for other types of birds, e.g. woodpecker (which is 1/5th of `chance1`)
             chance = Math.Clamp(chance, 0.15, 0.35);
 
             ModEntry.Instance.Monitor.Log($"AddBirdies onScreen={onScreen} chance={chance}");
@@ -106,7 +109,7 @@ namespace OrnithologistsGuild
                         {
                             perch = Perch.GetRandomAvailablePerch(location, flockBirdieDef);
                             // Ensure perch is/isn't onscreen
-                            if (Utility.isOnScreen(Utilities.XY(perch.Position), Game1.tileSize) != onScreen) perch = null;
+                            if (perch != null && Utility.isOnScreen(Utilities.XY(perch.Position), Game1.tileSize) != onScreen) perch = null;
                         }
 
                         if (perch == null) {
