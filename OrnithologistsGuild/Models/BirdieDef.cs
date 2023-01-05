@@ -33,11 +33,11 @@ namespace OrnithologistsGuild.Content
             }
         }
 
-        public void ParseConditions(IContentPatcherAPI contentPatcher)
+        public void ParseConditions()
         {
             foreach (var condition in this.Conditions)
             {
-                condition.ManagedConditions = contentPatcher.ParseConditions(
+                condition.ManagedConditions = ModEntry.CP.ParseConditions(
                        manifest: ModEntry.Instance.ModManifest,
                        rawConditions: condition.When,
                        formatVersion: new SemanticVersion("1.20.0")

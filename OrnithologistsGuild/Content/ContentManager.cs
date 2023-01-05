@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OrnithologistsGuild.Content
@@ -13,6 +14,8 @@ namespace OrnithologistsGuild.Content
         public static string[] BathIds;
         public static string[] FeederIds;
 
+        public static Dictionary<string, string[]> DefaultBiomes;
+
         public static void Initialize()
         {
             Baths = ModEntry.Instance.Helper.Data.ReadJsonFile<Models.BathDef[]>("baths.json");
@@ -22,6 +25,8 @@ namespace OrnithologistsGuild.Content
 
             BathIds = Baths.Select(b => b.ID).ToArray();
             FeederIds = Feeders.Select(f => f.ID).ToArray();
+
+            DefaultBiomes = ModEntry.Instance.Helper.Data.ReadJsonFile<Dictionary<string, string[]>>("default-biomes.json");
         }
     }
 }

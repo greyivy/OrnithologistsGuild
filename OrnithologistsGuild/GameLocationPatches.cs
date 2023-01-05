@@ -3,7 +3,7 @@ using StardewModdingAPI;
 
 namespace OrnithologistsGuild
 {
-    public class LocationPatches
+    public class GameLocationPatches
     {
         private static IMonitor Monitor;
 

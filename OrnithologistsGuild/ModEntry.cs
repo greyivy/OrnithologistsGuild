@@ -13,6 +13,8 @@ namespace OrnithologistsGuild
     /// <summary>The mod entry point.</summary>
     public partial class ModEntry : Mod
     {
+        internal static ContentPatcher.IContentPatcherAPI CP;
+
         internal static DynamicGameAssets.IDynamicGameAssetsApi DGA;
         internal static ContentPack DGAContentPack;
 
@@ -48,10 +50,33 @@ namespace OrnithologistsGuild
         {
             SaveDataManager.Load();
             Mail.Initialize();
+
+            // Verify that all outdoor maps have biomes specified
+            foreach (var location in StardewValley.Game1.locations)
+            {
+                var biomes = location.GetBiomes();
+                if (location.IsOutdoors && (
+                    biomes == null ||
+                    biomes.Length == 0 ||
+                    (biomes.Length == 1 && biomes[0].Equals("default")
+                )))
+                {
+                    Monitor.Log($"No biomes specified for outdoor location \"{location.Name}\"", LogLevel.Warn);
+                }
+            }
         }
 
         private void GameLoop_GameLaunched(object sender, GameLaunchedEventArgs e)
         {
+            // Custom tokens
+            CP = Helper.ModRegistry.GetApi<ContentPatcher.IContentPatcherAPI>("Pathoschild.ContentPatcher");
+            CP.RegisterToken(this.ModManifest, "LocationBiome", () =>
+            {
+                if (!Context.IsWorldReady) return null;
+
+                return StardewValley.Game1.player.currentLocation.GetBiomes();
+            });
+
             // Config
             ConfigManager.Initialize();
 
@@ -82,10 +107,10 @@ namespace OrnithologistsGuild
             // Harmony patches
             var harmony = new Harmony(this.ModManifest.UniqueID);
 
-            LocationPatches.Initialize(this.Monitor);
+            GameLocationPatches.Initialize(this.Monitor);
             harmony.Patch(
                original: AccessTools.Method(typeof(StardewValley.GameLocation), nameof(StardewValley.GameLocation.addBirdies)),
-               prefix: new HarmonyMethod(typeof(LocationPatches), nameof(LocationPatches.addBirdies_Prefix))
+               prefix: new HarmonyMethod(typeof(GameLocationPatches), nameof(GameLocationPatches.addBirdies_Prefix))
             );
 
             TreePatches.Initialize(this.Monitor);

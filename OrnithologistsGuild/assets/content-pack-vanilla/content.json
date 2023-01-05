@@ -1,5 +1,6 @@
 ﻿{
   "FormatVersion": 1,
+  "$Comment": "Exactly replicates vanilla Stardew Valley bird spawning logic",
   "Birdies": [
     {
       "ID": "BrownBird",
