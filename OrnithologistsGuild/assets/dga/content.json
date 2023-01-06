@@ -173,7 +173,7 @@
     "Ingredients": [
       {
         "Type": "VanillaObject",
-        "Value": 2,
+        "Value": 390,
         "_Name": "Stone",
         "Quantity": 250
       },
@@ -212,7 +212,7 @@
     "Ingredients": [
       {
         "Type": "VanillaObject",
-        "Value": 2,
+        "Value": 390,
         "_Name": "Stone",
         "Quantity": 250
       },
