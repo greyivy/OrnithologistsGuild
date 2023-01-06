@@ -82,7 +82,7 @@ namespace OrnithologistsGuild.Game.Critters
                     })
                     .Update(a =>
                     {
-                        if (Game1.random.NextDouble() < 0.008) StateMachine.Trigger(NextAction());
+                        if (Game1.random.NextDouble() < 0.0075) StateMachine.Trigger(NextAction());
                     })
                 .State(BetterBirdieState.Hopping)
                     .TransitionTo(BetterBirdieState.Stopping).On(BetterBirdieTrigger.Stop)
@@ -226,8 +226,9 @@ namespace OrnithologistsGuild.Game.Critters
                     {
                         if (isEmoting) return;
 
-                        if (Game1.random.NextDouble() < 0.002) doEmote(Character.sleepEmote);
-                        else if (!IsRoosting && Game1.random.NextDouble() < 0.003) StateMachine.Trigger(BetterBirdieTrigger.Stop);
+                        if (IsRoosting && Game1.random.NextDouble() < 0.00025) StateMachine.Trigger(BetterBirdieTrigger.Relocate);
+                        else if (!IsRoosting && Game1.random.NextDouble() < 0.001) StateMachine.Trigger(BetterBirdieTrigger.Stop);
+                        else if (Game1.random.NextDouble() < 0.0025) doEmote(Character.sleepEmote);
                     })
                 .State(BetterBirdieState.FlyingAway)
                     .OnEnter(e =>
@@ -380,8 +381,8 @@ namespace OrnithologistsGuild.Game.Critters
                     })
                     .Update(a =>
                     {
-                        if (Game1.random.NextDouble() < 0.001) Flip();
-                        if (Game1.random.NextDouble() < 0.003) StateMachine.Trigger(BetterBirdieTrigger.Relocate);
+                        if (Game1.random.NextDouble() < 0.0025) Flip();
+                        else if (Game1.random.NextDouble() < 0.005) StateMachine.Trigger(BetterBirdieTrigger.Relocate);
                     })
                 .GlobalTransitionTo(BetterBirdieState.FlyingAway).OnGlobal(BetterBirdieTrigger.FlyAway)
                 .GlobalTransitionTo(BetterBirdieState.Relocating).OnGlobal(BetterBirdieTrigger.Relocate)

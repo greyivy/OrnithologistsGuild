@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using OrnithologistsGuild.Content;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using StateMachine;
@@ -159,14 +160,12 @@ namespace OrnithologistsGuild.Game.Critters
             return true;
         }
 
-        public static bool CanSpawnAtOrRelocateTo(GameLocation location, Vector2 tileLocation, BirdieDef birdieDef, BetterBirdie birdie = null)
+        public static bool CanSpawnAtOrRelocateTo(GameLocation location, Vector2 tileLocation, BirdieDef birdieDef, BetterBirdie birdie = null, bool shouldBathe = false)
         {
-            if (!location.isTileOnMap(tileLocation)) return false;
+            if (!location.isTileOnMap(tileLocation)) return false; // Tile not on map
 
             var isOpenWater = location.isOpenWater((int)tileLocation.X, (int)tileLocation.Y);
-
-            var shouldBathe = birdieDef.CanBathe && Game1.random.NextDouble() < 0.2; // 20% chance to allow bathing
-            if (isOpenWater && !shouldBathe) return false;
+            if (isOpenWater && (!birdieDef.CanBathe || !shouldBathe)) return false; // Bird should not bathe
 
             if (birdie != null && !birdie.CheckRelocationDistance(tileLocation)) return false; // Too close/straight
 
@@ -184,7 +183,7 @@ namespace OrnithologistsGuild.Game.Critters
 
         public Tuple<Vector3, Perch> GetRandomRelocationTileOrPerch()
         {
-            if (ModEntry.debug_PerchType.HasValue || Game1.random.NextDouble() < 0.4)
+            if (ModEntry.debug_PerchType.HasValue || Game1.random.NextDouble() < 0.25)
             {
                 // Try to find an available perch to relocate to
                 var perch = Perch.GetRandomAvailablePerch(Game1.player.currentLocation, BirdieDef, this);
@@ -194,11 +193,13 @@ namespace OrnithologistsGuild.Game.Critters
                 }
             }
 
+            var shouldBathe = Game1.random.NextDouble() < 0.25; // 25% chance to allow bathing
+
             // Try to find clear tile to relocate to
             for (int trial = 0; trial < 50; trial++)
             {
                 var randomTile = Environment.getRandomTile();
-                if (!CanSpawnAtOrRelocateTo(Environment, randomTile, BirdieDef, this)) continue;
+                if (!CanSpawnAtOrRelocateTo(Environment, randomTile, BirdieDef, this, shouldBathe)) continue;
 
                 var relocateTo = randomTile * Game1.tileSize;
 
