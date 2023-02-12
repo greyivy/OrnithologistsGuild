@@ -4,5 +4,7 @@
     {
         public bool LoadVanillaPack = false;
         public bool LoadBuiltInPack = true;
+
+        public bool LogMissingBiomes = false;
     }
 }
