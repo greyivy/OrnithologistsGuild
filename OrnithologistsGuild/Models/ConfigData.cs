@@ -6,5 +6,6 @@
         public bool LoadBuiltInPack = true;
 
         public bool LogMissingBiomes = false;
+        public bool NoBreakOrJam = false;
     }
 }
