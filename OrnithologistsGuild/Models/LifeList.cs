@@ -3,6 +3,7 @@ using System.Linq;
 using OrnithologistsGuild.Content;
 using StardewModdingAPI.Utilities;
 using StardewValley;
+using StardewValley.Extensions;
 
 namespace OrnithologistsGuild.Models
 {
@@ -32,7 +33,7 @@ namespace OrnithologistsGuild.Models
                 lifeListEntry.Identified = true;
             }
 
-            newAttribute = Utility.GetRandom<int>(undiscoveredAttributes);
+            newAttribute = Game1.random.ChooseFrom(undiscoveredAttributes);
             lifeListEntry.AddSighting(newAttribute.Value);
 
             SaveDataManager.Save();

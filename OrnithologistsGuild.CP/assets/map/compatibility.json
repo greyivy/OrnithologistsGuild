@@ -1,0 +1,28 @@
+{
+    "Changes": [
+        // Forest (Stardew Valley Reimagined 3 patch by @Lemurkat)
+        {
+            "Action": "EditMap",
+            "Target": "Maps/Forest",
+            "FromFile": "assets/map/Forest_OrnithologistsGuild__SVR3.tmx",
+            "FromArea": {
+                "X": 0,
+                "Y": 0,
+                "Width": 11,
+                "Height": 18
+            },
+            "ToArea": {
+                "X": 5,
+                "Y": 49,
+                "Width": 11,
+                "Height": 18
+            },
+            "MapProperties": {
+                "Perches": "10 58 -146 0"
+            },
+            "When": {
+                "HasMod": "DaisyNiko.SVR3"
+            }
+        }
+    ]
+}

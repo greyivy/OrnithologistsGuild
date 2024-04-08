@@ -1,30 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Serialization;
-using DynamicGameAssets.Game;
-using DynamicGameAssets.PackData;
 using OrnithologistsGuild.Content;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
-namespace OrnithologistsGuild.Game.Items
+namespace OrnithologistsGuild
 {
-    [XmlType("Mods_Ivy_OrnithologistsGuild_LifeList")]
-    public class LifeList : CustomObject
-    {
+	public partial class ObjectPatches
+	{
+        private const string ID_LIFE_LIST = "(O)Ivy_OrnithologistsGuild_LifeList";
+
         private const int PAGE_SIZE = 5;
         private const string ACTION_NEXT = "ACTION_NEXT";
         private const string ACTION_CLOSE = "ACTION_CLOSE";
 
-        public LifeList() : base((ObjectPackData)ModEntry.DGAContentPack.Find("LifeList"))
+        public static void canBeGenericFalse_Postfix(StardewValley.Object __instance, ref bool __result)
         {
-            var dataPack = ModEntry.DGAContentPack.Find("LifeList");
-
-            this.name = $"{dataPack.ID}_Subclass";
+            if (__instance.QualifiedItemId == ID_LIFE_LIST) __result = false;
         }
 
-        private void drawBirdieList(Models.LifeList lifeList, List<Response> choices, int page = 1)
+        private static void DrawBirdieList(Models.LifeList lifeList, List<Response> choices, int page = 1)
         {
             var totalPages = Math.Ceiling((decimal)choices.Count / PAGE_SIZE);
 
@@ -32,9 +28,9 @@ namespace OrnithologistsGuild.Game.Items
             var pagination = I18n.Items_LifeList_Pagination(page: page, total: totalPages);
 
             var action = new GameLocation.afterQuestionBehavior((_, choice) => {
-                if (choice.Equals(ACTION_NEXT)) drawBirdieList(lifeList, choices, page + 1);
+                if (choice.Equals(ACTION_NEXT)) DrawBirdieList(lifeList, choices, page + 1);
                 else if (choice.Equals(ACTION_CLOSE)) { }
-                else drawBirdieDialogue(ContentPackManager.BirdieDefs[choice], lifeList[choice]);
+                else DrawBirdieDialogue(ContentPackManager.BirdieDefs[choice], lifeList[choice]);
             });
 
             var pageChoices = choices.Skip((page - 1) * PAGE_SIZE).Take(PAGE_SIZE).ToList();
@@ -44,7 +40,7 @@ namespace OrnithologistsGuild.Game.Items
             Game1.currentLocation.createQuestionDialogue($"{title}^{pagination}", pageChoices.ToArray(), action);
         }
 
-        private void drawBirdieDialogue(BirdieDef birdieDef, Models.LifeListEntry lifeListEntry)
+        private static void DrawBirdieDialogue(BirdieDef birdieDef, Models.LifeListEntry lifeListEntry)
         {
             var id = birdieDef.ID;
 
@@ -70,10 +66,11 @@ namespace OrnithologistsGuild.Game.Items
 
                 if (lifeListEntry.Sightings.IndexOf(sighting) == lifeListEntry.Sightings.Count - 1)
                 {
-                    lines.Add(I18n.Items_LifeList_Identified(date, location, attribute));
-                } else
+                    lines.Add(I18n.Items_LifeList_Identified(date.ToLocaleString(), location, attribute));
+                }
+                else
                 {
-                    lines.Add(I18n.Items_LifeList_Sighted(date, location, attribute));
+                    lines.Add(I18n.Items_LifeList_Sighted(date.ToLocaleString(), location, attribute));
                 }
             }
 
@@ -86,7 +83,7 @@ namespace OrnithologistsGuild.Game.Items
             Game1.drawObjectDialogue(string.Join("^", lines));
         }
 
-        public override bool performUseAction(GameLocation location)
+        public static void UseLifeList()
         {
             var lifeList = SaveDataManager.SaveData.LifeList;
 
@@ -115,31 +112,13 @@ namespace OrnithologistsGuild.Game.Items
                         else return new Response(birdieDef.UniqueID, commonName);
                     }).ToList();
 
-                drawBirdieList(lifeList, choices, 1);
+                DrawBirdieList(lifeList, choices, 1);
             }
             else
             {
                 var title = I18n.Items_LifeList_Title(playerName: Game1.player.Name, identified: 0, total: ContentPackManager.BirdieDefs.Count);
                 Game1.drawObjectDialogue($"{title}^{I18n.Items_LifeList_Empty()}^^{I18n.Items_LifeList_EmptyTip()}");
             }
-
-            return false;
-        }
-
-        public override Item getOne()
-        {
-            var ret = new LifeList();
-            ret.Quality = this.Quality;
-            ret.Stack = 1;
-            ret.Price = this.Price;
-            ret.ObjectColor = this.ObjectColor;
-            ret._GetOneFrom(this);
-            return ret;
-        }
-
-        public override bool canStackWith(ISalable other)
-        {
-            return false;
         }
     }
 }

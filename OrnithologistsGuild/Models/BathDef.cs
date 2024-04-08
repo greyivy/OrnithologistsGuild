@@ -1,6 +1,7 @@
 ﻿using System.Linq;
-using DynamicGameAssets.Game;
 using OrnithologistsGuild.Content;
+using OrnithologistsGuild.Game;
+using StardewValley;
 
 namespace OrnithologistsGuild.Models
 {
@@ -11,9 +12,16 @@ namespace OrnithologistsGuild.Models
 
         public int ZOffset;
 
-        public static BathDef FromBath(CustomBigCraftable bath)
+        public static BathDef FromBath(Object bath)
         {
-            return ContentManager.Baths.FirstOrDefault(bathDef => bathDef.ID == bath.Id);
+            if (!bath.bigCraftable.Value) return null;
+
+            return ContentManager.Baths.FirstOrDefault(bathDef => bathDef.ID == bath.GetBigCraftableDefinitionId());
+        }
+
+        public static bool IsBath(Object maybeBath)
+        {
+            return FromBath(maybeBath) != null;
         }
     }
 }

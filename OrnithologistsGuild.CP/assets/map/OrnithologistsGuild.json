@@ -1,0 +1,228 @@
+{
+    "Changes": [
+        // Map
+        {
+            "Action": "Load",
+            "Target": "Maps/Custom_Ivy_OrnithologistsGuild",
+            "FromFile": "assets/map/OrnithologistsGuild.tmx"
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Locations",
+            "Entries": {
+                "Custom_Ivy_OrnithologistsGuild": {
+                    "DisplayName": "{{i18n:map.OrnithologistsGuild.name}}",
+                    "Music": [
+                        {
+                            "ID": "Default",
+                            "Track": "harveys_theme_jazz"
+                        }
+                    ],
+                    "DefaultArrivalTile": {
+                        "X": 12,
+                        "Y": 25
+                    },
+                    "CreateOnLoad": {
+                        "MapPath": "Maps/Custom_Ivy_OrnithologistsGuild"
+                    }
+                }
+            }
+        },
+        // Strings
+        {
+            "Action": "EditData",
+            "Target": "Strings/StringsFromMaps",
+            "Entries": {
+                "Ivy_OrnithologistsGuild.1": "Joja Binoculars (4x) -- No longer sold here due to Joja Corporation's questionable working conditions.",
+                "Ivy_OrnithologistsGuild.2": "Antique Binoculars (6x)",
+                "Ivy_OrnithologistsGuild.3": "Pro Binoculars (10x)",
+                "Ivy_OrnithologistsGuild.4": "Hopper Feeder. Small range. Holds Corn, Mixed Seeds, Hulled Sunflower Seeds, and Fruit.",
+                "Ivy_OrnithologistsGuild.5": "Tube Feeder. Medium range. Holds Mixed Seeds and Hulled Sunflower Seeds.",
+                "Ivy_OrnithologistsGuild.6": "Platform Feeder. Large range. Holds Corn, Mixed Seeds, Hulled Sunflower Seeds, and Fruit.",
+                "Ivy_OrnithologistsGuild.7": "Birdsongs play quietly in the background.",
+                "Ivy_OrnithologistsGuild.8": "A warm, cozy nest, perfect for a small raven.",
+                "Ivy_OrnithologistsGuild.9": "\"Nadia Nightingale's Summoning Birds With Magic, Third Edition\"",
+                "Ivy_OrnithologistsGuild.10": "\"Humans often assume that corvids are unintelligent but new research shows that avian brains actually share similarities with humans. In trials, crows have been shown to be as intelligent as human children.\"",
+                "Ivy_OrnithologistsGuild.11": "Maps labeled \"Common Barn Owl Habitats\" and \"Popular Roosting Spots in the Valley\".",
+                "Ivy_OrnithologistsGuild.12": "\"Bird Conservation for Beginners\", \"Bread: The Silent Killer\", and \"Chickadees: Tour Guides of the Forest\"",
+                "Ivy_OrnithologistsGuild.13": "\"101 Vegan Alternatives to Eating Chicken\", \"One Finch Two Finch Red Finch Blue Finch\", \"Birds of East Scarp: Revised Edition\"",
+                "Ivy_OrnithologistsGuild.14": "\"Bird-friendly Farming\", \"Joja: The Darkest Timeline\", \"The Great Migration\"",
+                "Ivy_OrnithologistsGuild.15": "\"Crowpocalypse Now\", \"Lovebirds: Photographs of Wild Birds in Love\", \"The Science Behind Better Bird Feeders\"",
+                "Ivy_OrnithologistsGuild.16": "A map of the world with tiny pins in many places.",
+                "Ivy_OrnithologistsGuild.17": "A book lies open on the shelf, its pages shredded by somebody's beak.",
+                "Ivy_OrnithologistsGuild.18": "\"The Secret Life of Seagulls\", \"All Crows Are Beautiful: A Zine\", \"Passerine Party: My Life as a Bird Rehabilitator\"",
+                "Ivy_OrnithologistsGuild.19": "A cuckoo clock would be more fitting.",
+                "Ivy_OrnithologistsGuild.20": "\"The Joy of Making Birdseed: 75th Anniversary Edition\"",
+                "Ivy_OrnithologistsGuild.21": "\"Manufacturing Best Practices for Top Quality Bird Seed\"",
+                "Ivy_OrnithologistsGuild.22": "Fruit and bird seed are displayed neatly in bins.",
+                "Ivy_OrnithologistsGuild.23": "A painting of a beautiful, fat, fluffy chicken.",
+                "Ivy_OrnithologistsGuild.24": "Boxes of Hulled Sunflower Seeds ready to be shipped.",
+                "Ivy_OrnithologistsGuild.25": "INTAKE RECORD: KYLE^^A YOUNG RAVEN, SMALLER THAN MOST OTHERS AND UNABLE TO FLY, WAS FOUND UNRESPONSIVE AT THE SIDE OF THE ROAD. UPON MEDICAL EXAMINATION, IT WAS DETERMINED THAT ONE OF HIS WINGS HAD BEEN BROKEN AFTER HE HAD BEEN HIT BY A CAR. DESPITE OUR BEST ATTEMPTS AT SAVING THE WING HE WILL LIKELY NEVER FLY AGAIN.^^THE PELICAN TOWN ORNITHOLOGIST'S GUILD",
+                "Ivy_OrnithologistsGuild.26": "A well-used Spell-n-Speak with what seem to be beak marks on its buttons.",
+                "Ivy_OrnithologistsGuild.27": "Stone Bird Bath. Ask about our heated bird baths!"
+            }
+        },
+        // Events
+        {
+            "Action": "Load",
+            "Target": "Data/Events/Custom_Ivy_OrnithologistsGuild",
+            "FromFile": "assets/blank.json"
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Events/Custom_Ivy_OrnithologistsGuild",
+            "Entries": {
+                "OrnithologistsGuild_Kyle_SpellNSpeak/t 600 800/n doorUnlockOrinothlogistsGuild_Kyle": "
+                    continue/
+                    15 14/
+                    OrinothlogistsGuild_Kyle 15 14 1/
+                    addObject 16 14 892 2/                  -- Add working Spell'n'Speak/
+                    pause 2500/
+                    playSound mouseClick/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 800/
+                    playSound mouseClick/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 200/
+                    playSound mouseClick/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 400/
+                    playSound mouseClick/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    speak OrinothlogistsGuild_Kyle \"~ H-E-L-L-O ~$6\"/
+                    pause 800/
+                    playSound mouseClick/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 800/
+                    emote OrinothlogistsGuild_Kyle 56/
+                    pause 800/
+                    playSound mouseClick/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 400/
+                    playSound mouseClick/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 200/
+                    playSound mouseClick/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 200/
+                    playSound mouseClick/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 800/
+                    playSound mouseClick/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    speak OrinothlogistsGuild_Kyle \"~ MY NAME IS K-Y-L-E ~$7\"/
+                    pause 800/
+                    playSound mouseClick/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 400/
+                    playSound mouseClick/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 400/
+                    addObject 16 14 893 2/
+                    stopMusic/
+                    playSound Cowboy_monsterDie/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 400/
+                    emote OrinothlogistsGuild_Kyle 8/
+                    pause 2500/
+                    playSound Cowboy_monsterDie/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 400/
+                    speak OrinothlogistsGuild_Kyle \"*battery fizzling out*$10\"/
+                    addObject 16 14 894 3/
+                    pause 800/
+                    emote OrinothlogistsGuild_Kyle 40/
+                    pause 400/
+                    playSound thudStep/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 800/
+                    playSound thudStep/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 200/
+                    playSound thudStep/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 200/
+                    playSound thudStep/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 800/
+                    playSound thudStep/
+                    shake OrinothlogistsGuild_Kyle 75/
+                    pause 1500/
+                    speak OrinothlogistsGuild_Kyle \"...$11\"/
+                    pause 2500/
+                    addObject 16 15 787 2/
+                    playSound throwDownITem/
+                    addQuest OrnithologistsGuild_Kyle_PowerUp/
+                    pause 2500/
+                    faceDirection OrinothlogistsGuild_Kyle 3 true/
+                    emote OrinothlogistsGuild_Kyle 28/
+                    pause 2500/
+                    end"
+            }
+        },
+        // Event image edits
+        {
+            "Action": "EditImage",
+            "Target": "Maps/springobjects",
+            "FromFile": "assets/map/SpellNSpeak.png",
+            "ToArea": {
+                "X": 64,
+                "Y": 592,
+                "Width": 48,
+                "Height": 16
+            },
+            "When": {
+                "LocationName": "Custom_Ivy_OrnithologistsGuild"
+            },
+            "Update": "OnLocationChange"
+        },
+        // PowerUp map edits
+        {
+            "Action": "EditMap",
+            "Target": "Maps/Custom_Ivy_OrnithologistsGuild",
+            "MapTiles": [
+                {
+                    "Position": {
+                        "X": 16,
+                        "Y": 14
+                    },
+                    "Layer": "Buildings",
+                    "Remove": true
+                },
+                {
+                    "Position": {
+                        "X": 13,
+                        "Y": 22
+                    },
+                    "Layer": "Front",
+                    "SetTilesheet": "Z_SpellNSpeak",
+                    "SetIndex": 0
+                },
+                {
+                    "Position": {
+                        "X": 13,
+                        "Y": 22
+                    },
+                    "Layer": "Buildings",
+                    "SetProperties": {
+                        "Action": "Message Ivy_OrnithologistsGuild.26"
+                    }
+                },
+                {
+                    "Position": {
+                        "X": 13,
+                        "Y": 23
+                    },
+                    "Layer": "Buildings",
+                    "SetProperties": {
+                        "Action": "Message Ivy_OrnithologistsGuild.26"
+                    }
+                }
+            ],
+            "When": {
+                "HasFlag": "Ivy_OrinothlogistsGuild_PowerUp"
+            },
+            "Update": "OnLocationChange"
+        }
+    ]
+}

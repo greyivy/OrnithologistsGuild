@@ -1,6 +1,7 @@
 ﻿using System.Linq;
-using DynamicGameAssets.Game;
 using OrnithologistsGuild.Content;
+using OrnithologistsGuild.Game;
+using StardewValley;
 
 namespace OrnithologistsGuild.Models
 {
@@ -14,9 +15,16 @@ namespace OrnithologistsGuild.Models
         public int Range;
         public int MaxFlocks;
 
-        public static FeederDef FromFeeder(CustomBigCraftable feeder)
+        public static FeederDef FromFeeder(Object feeder)
         {
-            return ContentManager.Feeders.FirstOrDefault(feederDef => feederDef.ID == feeder.Id);
+            if (!feeder.bigCraftable.Value) return null;
+
+            return ContentManager.Feeders.FirstOrDefault(feederDef => feederDef.ID == feeder.GetBigCraftableDefinitionId());
+        }
+
+        public static bool IsFeeder(Object maybeFeeder)
+        {
+            return FromFeeder(maybeFeeder) != null;
         }
     }
 }
