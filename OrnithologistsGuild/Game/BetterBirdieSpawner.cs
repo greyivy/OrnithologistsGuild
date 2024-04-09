@@ -48,7 +48,6 @@ namespace OrnithologistsGuild
                 foreach (var obj in overlaidDict.Values.Where(obj => obj.IsFeeder()))
                 {
                     // Only attract birds if there is food
-                    // TODO IsMachineWorking()
                     if (obj.MinutesUntilReady > 0)
                     {
                         var foodDef = FoodDef.FromFeeder(obj);

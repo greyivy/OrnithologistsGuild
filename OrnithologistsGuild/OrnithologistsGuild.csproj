@@ -63,6 +63,7 @@
     </Reference>
     <Reference Include="MailFrameworkMod">
       <HintPath>lib\MailFrameworkMod.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
