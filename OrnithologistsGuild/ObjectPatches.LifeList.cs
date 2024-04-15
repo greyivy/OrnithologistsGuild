@@ -85,7 +85,7 @@ namespace OrnithologistsGuild
 
         public static void UseLifeList()
         {
-            var lifeList = SaveDataManager.SaveData.LifeList;
+            var lifeList = SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList;
 
             if (lifeList.IdentifiedCount > 0)
             {

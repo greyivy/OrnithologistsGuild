@@ -23,6 +23,8 @@ namespace OrnithologistsGuild
             // this.Helper.Events.GameLoop.UpdateTicked += GameLoop_UpdateTicked;
 
             this.Helper.Events.Input.ButtonPressed += Input_ButtonPressed;
+
+            SaveDataManager.Initialize();
         }
 
         private void Input_ButtonPressed(object sender, ButtonPressedEventArgs e)

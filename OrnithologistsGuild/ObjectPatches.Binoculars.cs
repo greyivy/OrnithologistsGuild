@@ -150,6 +150,8 @@ namespace OrnithologistsGuild
 
         private static void IdentifyBirdies(GameLocation location, Farmer who, BinocularsFields binocularsFields)
         {
+            if (location.critters == null) return;
+
             List<string> alreadyIdentified = new List<string>();
             List<string> newlyIdentified = new List<string>();
 
@@ -179,7 +181,7 @@ namespace OrnithologistsGuild
                     }
 
                     int? newAttribute;
-                    var sighting = SaveDataManager.SaveData.LifeList.GetOrAddEntry(birdie.BirdieDef, out newAttribute);
+                    var sighting = SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList.GetOrAddEntry(birdie.BirdieDef, out newAttribute);
 
                     var contentPack = birdie.BirdieDef.ContentPackDef.ContentPack;
 

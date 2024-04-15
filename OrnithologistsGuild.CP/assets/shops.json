@@ -63,7 +63,7 @@
                             "Dialogues": [
                                 {
                                     "Id": "Default",
-                                    "Dialogue": "Caw! Caw!",
+                                    "Dialogue": "{{i18n:npc.Kyle.dialogue.happy}}",
                                     // "Condition": "!PLAYER_HAS_MAIL Current Ivy_OrinothlogistsGuild_PowerUp Any"
                                 }
                             ]
@@ -71,7 +71,7 @@
                         {
                             "Name": "AnyOrNone",
                             "Condition": "!TIME 800 1300",
-                            "ClosedMessage": "This shop is open daily from 8AM to 1PM."
+                            "ClosedMessage": "{{i18n:shop.Shop.closedMessage}}"
                         },
                     ]
                 }

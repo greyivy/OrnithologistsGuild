@@ -123,6 +123,8 @@ namespace OrnithologistsGuild.Game
 
         public BetterBirdie GetOccupant(GameLocation location)
         {
+            if (location.critters == null) return null;
+
             IEnumerable<BetterBirdie> birdies = location.critters.Where(c => c is BetterBirdie && ((BetterBirdie)c).IsPerched).Select(c => (BetterBirdie)c);
             return birdies.FirstOrDefault(birdie => birdie.Perch.Equals(this));
         }
@@ -193,7 +195,9 @@ namespace OrnithologistsGuild.Game
         public static IEnumerable<Perch> GetAllAvailablePerches(GameLocation location, bool mapTile, bool tree, bool feeder, bool bath)
         {
             // Get all perched birdies
-            var occupiedPerches = location.critters.Where(c => c is BetterBirdie && ((BetterBirdie)c).IsPerched).Select(c => ((BetterBirdie)c).Perch);
+            var occupiedPerches = location.critters == null ?
+                Enumerable.Empty<Perch>() :
+                location.critters.Where(c => c is BetterBirdie && ((BetterBirdie)c).IsPerched).Select(c => ((BetterBirdie)c).Perch);
 
             return Enumerable.Empty<Perch>()
                 .Concat(mapTile ? GetAllMapPerches(location)      : Enumerable.Empty<Perch>())
