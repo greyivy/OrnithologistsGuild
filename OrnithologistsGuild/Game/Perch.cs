@@ -5,6 +5,7 @@ using StardewValley;
 using StardewValley.TerrainFeatures;
 using System.Linq;
 using OrnithologistsGuild.Models;
+using OrnithologistsGuild.Content;
 
 namespace OrnithologistsGuild.Game
 {
@@ -18,12 +19,12 @@ namespace OrnithologistsGuild.Game
 
     public class Perch
     {
-        public Vector3 Position; // NOT tile
+        public Vector3 Position { get; private set; } // NOT tile
 
-        public Vector2? MapTile;
-        public Object Bath;
-        public Object Feeder;
-        public Tree Tree;
+        public Vector2? MapTile { get; private set; }
+        public Object Bath { get; private set; }
+        public Object Feeder { get; private set; }
+        public Tree Tree { get; private set; }
 
         public PerchType? Type
         {
@@ -46,24 +47,24 @@ namespace OrnithologistsGuild.Game
                 zOffset);
 
             // Center on tile
-            Position.X += Game1.tileSize / 2;
-            Position.Y += Game1.tileSize / 2;
-
-            Position.Z = zOffset;
+            Position = Position with
+            {
+                X = Position.X + Game1.tileSize / 2,
+                Y = Position.Y + Game1.tileSize / 2
+            };
         }
         public Perch(Tree tree)
         {
             Tree = tree;
 
-            var height = tree.getRenderBounds().Height;
-            Position = new Vector3(
-                tree.Tile.X * Game1.tileSize,
-                tree.Tile.Y * Game1.tileSize,
-                -System.MathF.Ceiling((float)(height) / 1.65f));
+            Position = tree.GetPerchPosition();
 
             // Center on tile
-            Position.X += Game1.tileSize / 2;
-            Position.Y += Game1.tileSize / 2;
+            Position = Position with
+            {
+                X = Position.X + Game1.tileSize / 2,
+                Y = Position.Y + Game1.tileSize / 2
+            };
         }
         public Perch(Object bigCraftable)
         {
@@ -71,28 +72,34 @@ namespace OrnithologistsGuild.Game
             {
                 Bath = bigCraftable;
 
-                var bathFields = bigCraftable.GetBathFields();
+                var bathProperties = bigCraftable.GetBathProperties();
                 Position = new Vector3(
                     Bath.TileLocation.X * Game1.tileSize,
                     Bath.TileLocation.Y * Game1.tileSize,
-                    bathFields.ZOffset);
+                    bathProperties.ZOffset);
 
                 // Center on tile
-                Position.X += Game1.tileSize / 2;
-                Position.Y += Game1.tileSize / 2;
+                Position = Position with
+                {
+                    X = Position.X + Game1.tileSize / 2,
+                    Y = Position.Y + Game1.tileSize / 2
+                };
             } else if (bigCraftable.IsFeeder())
             {
                 Feeder = bigCraftable;
 
-                var feederFields = bigCraftable.GetFeederFields();
+                var feederProperties = bigCraftable.GetFeederProperties();
                 Position = new Vector3(
                     Feeder.TileLocation.X * Game1.tileSize,
                     Feeder.TileLocation.Y * Game1.tileSize,
-                    feederFields.ZOffset);
+                    feederProperties.ZOffset);
 
                 // Center on tile
-                Position.X += Game1.tileSize / 2;
-                Position.Y += Game1.tileSize / 2;
+                Position = Position with
+                {
+                    X = Position.X + Game1.tileSize / 2,
+                    Y = Position.Y + Game1.tileSize / 2
+                };
             }
         }
 
@@ -101,13 +108,13 @@ namespace OrnithologistsGuild.Game
             var perch = obj as Perch;
 
             if (perch == null) return false;
-            else if (perch.Type == PerchType.MapTile && this.Type == PerchType.MapTile)
-                return perch.MapTile.Equals(this.MapTile);
-            else if (perch.Type == PerchType.Bath && this.Type == PerchType.Bath)
+            else if (perch.Type == PerchType.MapTile && Type == PerchType.MapTile)
+                return perch.MapTile.Equals(MapTile);
+            else if (perch.Type == PerchType.Bath && Type == PerchType.Bath)
                 return perch.Bath.TileLocation.Equals(Bath.TileLocation);
-            else if (perch.Type == PerchType.Feeder && this.Type == PerchType.Feeder)
+            else if (perch.Type == PerchType.Feeder && Type == PerchType.Feeder)
                 return perch.Feeder.TileLocation.Equals(Feeder.TileLocation);
-            else if (perch.Type == PerchType.Tree && this.Type == PerchType.Tree)
+            else if (perch.Type == PerchType.Tree && Type == PerchType.Tree)
                 return perch.Tree.Tile.Equals(Tree.Tile);
             return false;
         }
@@ -151,7 +158,7 @@ namespace OrnithologistsGuild.Game
                         return new Perch(tileLocation, zOffset);
                     });
             } catch (System.Exception e) {
-                ModEntry.Instance.Monitor.Log($"Invalid map property Perches: {e.ToString()}", StardewModdingAPI.LogLevel.Error);
+                ModEntry.Instance.Monitor.Log($"Invalid map property Perches: {e}", StardewModdingAPI.LogLevel.Error);
             }
 
             return Enumerable.Empty<Perch>();
@@ -159,17 +166,20 @@ namespace OrnithologistsGuild.Game
 
         public static IEnumerable<Perch> GetAllTreePerches(GameLocation location)
         {
-            return location.terrainFeatures.Values.Where(tf => tf is Tree)
-                .Select(tree => (Tree)tree)
-                .Where(tree =>
-                {
-                    var tileHeight = tree.getRenderBounds().Height / Game1.tileSize;
-                    if (tileHeight < 4) return false; // Small tree
-                    if (tree.health.Value < Tree.startingHealth) return false; // Damaged tree
-                    if (tree.tapped.Value) return false; // Tapped tree
+            return location.GetTrees()
+                .Where(tree => tree.GetAllowPerchingOrNesting() && !tree.HasNest())
+                .Select(tree => new Perch(tree));
+        }
 
-                    return true;
-                })
+        public static IEnumerable<Perch> GetAllOwnedNestPerches(GameLocation location, BirdieDef birdieDef)
+        {
+            var treesWithNests = location.GetTreesWithNests();
+
+            return treesWithNests
+                .Where(tree =>
+                    tree.HasNestOwnedBy(birdieDef) &&
+                    tree.GetNest().Stage != NestStage.Fledged &&
+                    tree.GetNest().Stage != NestStage.Removed)
                 .Select(tree => new Perch(tree));
         }
 
@@ -178,7 +188,7 @@ namespace OrnithologistsGuild.Game
             return location.Objects
                 .SelectMany(overlaidDict => overlaidDict.Values)
                 .Where(obj => obj.IsBath())
-                .Where(bath => !Game1.currentSeason.Equals("winter") || bath.GetBathFields().Heated)
+                .Where(bath => !Game1.currentSeason.Equals("winter") || bath.GetBathProperties().Heated)
                 .Select(bath => new Perch(bath));
         }
 
@@ -192,7 +202,7 @@ namespace OrnithologistsGuild.Game
                 .Select(feeder => new Perch(feeder));
         }
 
-        public static IEnumerable<Perch> GetAllAvailablePerches(GameLocation location, bool mapTile, bool tree, bool feeder, bool bath)
+        public static IEnumerable<Perch> GetAllAvailablePerches(GameLocation location, BirdieDef birdieDef, bool mapTile, bool tree, bool feeder, bool bath, bool nest)
         {
             // Get all perched birdies
             var occupiedPerches = location.critters == null ?
@@ -200,10 +210,11 @@ namespace OrnithologistsGuild.Game
                 location.critters.Where(c => c is BetterBirdie && ((BetterBirdie)c).IsPerched).Select(c => ((BetterBirdie)c).Perch);
 
             return Enumerable.Empty<Perch>()
-                .Concat(mapTile ? GetAllMapPerches(location)      : Enumerable.Empty<Perch>())
-                .Concat(tree    ? GetAllTreePerches(location)     : Enumerable.Empty<Perch>())
-                .Concat(feeder  ? GetAllFeederPerches(location)   : Enumerable.Empty<Perch>())
-                .Concat(bath    ? GetAllBirdBathPerches(location) : Enumerable.Empty<Perch>())
+                .Concat(mapTile ? GetAllMapPerches(location)                            : Enumerable.Empty<Perch>())
+                .Concat(tree    ? GetAllTreePerches(location)                           : Enumerable.Empty<Perch>())
+                .Concat(feeder  ? GetAllFeederPerches(location)                         : Enumerable.Empty<Perch>())
+                .Concat(bath    ? GetAllBirdBathPerches(location)                       : Enumerable.Empty<Perch>())
+                .Concat(nest    ? GetAllOwnedNestPerches(location, birdieDef): Enumerable.Empty<Perch>())
                 .Except(occupiedPerches);
         }
     }

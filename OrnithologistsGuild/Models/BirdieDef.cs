@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ContentPatcher;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -77,59 +78,108 @@ namespace OrnithologistsGuild.Content
         public List<BirdDefCondition> Conditions;
 
         public bool CanUseBaths = true;
+        public bool CanNestInTrees = true;
 
         public float LandPreference = 1f;
-        public float PerchPreference = 0.5f;
+        public float PerchPreference = 1f;
         public float WaterPreference = 0f;
 
-        public float GetContextualWeight(bool updateContext = true, FeederFields feederFields = null, FoodDef foodDef = null)
+        public float GetContextualWeight(bool updateContext = true, GameLocation gameLocation = null, FeederProperties feederProperties = null, FoodDef foodDef = null, bool debug = false)
         {
-            float weight = this.BaseWt;
+            var debugLines = new List<(string, double?)>();
 
-            if (feederFields != null)
+            void PrintDebug()
             {
-                if (this.CanPerchAt(feederFields))
-                {
-                    weight += this.FeederBaseWts[feederFields.Type];
-                } else
-                {
-                    ModEntry.Instance.Monitor.Log($@"GetContextualWeight 0 {this.ID} (feederFields)");
-                    return 0; // Bird does not eat at feeder
-                }
-            }
+                ModEntry.Instance.Monitor.Log($"ogc: {this.ID}", LogLevel.Info);
+                var maxDescriptionLength = Math.Max(56, debugLines.Select(tuple => tuple.Item1.Length).Max());
 
-            if (foodDef != null)
-            {
-                if (this.CanEat(foodDef))
+                for (var i = 0; i < debugLines.Count; i++)
                 {
-                    weight += this.FoodBaseWts[foodDef.Type];
-                }
-                else
-                {
-                    ModEntry.Instance.Monitor.Log($@"GetContextualWeight 0 {this.ID} (foodDef)");
-                    return 0; // Bird does not eat food
-                }
-            }
+                    var line = debugLines[i];
+                    var prefix = "    ";
 
-            foreach (var condition in this.Conditions)
-            {
-                if (updateContext) condition.ManagedConditions.UpdateContext();
-
-                if (condition.ManagedConditions.IsMatch)
-                {
-                    if (condition.NilWt)
+                    if (i > 0)
                     {
-                        ModEntry.Instance.Monitor.Log($@"GetContextualWeight 0 {this.ID} ({string.Join(", ", condition.When.Keys)})");
-                        return 0; // Bird not added
+                        if (!line.Item2.HasValue) prefix = " nil";
+                        else if (i == debugLines.Count - 1) prefix = "   =";
+                        else if (line.Item2.HasValue) prefix = line.Item2 >= 0 ? "   +" : "   -";
                     }
 
-                    weight += condition.AddWt;
-                    weight -= condition.SubWt;
+                    var value = line.Item2.HasValue ? line.Item2.Value.ToString("0.00") : "condition blocked";
+
+                    ModEntry.Instance.Monitor.Log($"{prefix} {line.Item1.PadRight(maxDescriptionLength + 3, '.')} {value}", LogLevel.Info);
                 }
             }
 
-            ModEntry.Instance.Monitor.Log($@"GetContextualWeight {MathHelper.Clamp(weight, 0, 1).ToString()} {this.ID}");
-            return MathHelper.Clamp(weight, 0, 1);
+            try
+            {
+                if (debug) debugLines.Add(("base weight", BaseWt));
+                float weight = this.BaseWt;
+
+                if (gameLocation != null)
+                {
+                    var nestBirdieDefs = gameLocation.GetTreesWithNests().Select(tree => tree.GetNest().Owner);
+                    if (nestBirdieDefs.Contains(this))
+                    {
+                        if (debug) debugLines.Add(("nest(s) present", 0.25f));
+                        weight += 0.25f;
+                    }
+                }
+
+                if (feederProperties != null)
+                {
+                    if (this.CanPerchAt(feederProperties))
+                    {
+                        if (debug) debugLines.Add(($"feeder ({feederProperties.Type})", this.FeederBaseWts[feederProperties.Type]));
+                        weight += this.FeederBaseWts[feederProperties.Type];
+                    }
+                    else
+                    {
+                        if (debug) debugLines.Add(($"feeder ({feederProperties.Type})", null));
+                        return 0; // Bird does not eat at feeder
+                    }
+                }
+
+                if (foodDef != null)
+                {
+                    if (this.CanEat(foodDef))
+                    {
+                        if (debug) debugLines.Add(($"food ({foodDef.Type})", this.FoodBaseWts[foodDef.Type]));
+                        weight += this.FoodBaseWts[foodDef.Type];
+                    }
+                    else
+                    {
+                        if (debug) debugLines.Add(($"food ({foodDef.Type})", null));
+                        return 0; // Bird does not eat food
+                    }
+                }
+
+                foreach (var condition in this.Conditions)
+                {
+                    if (updateContext) condition.ManagedConditions.UpdateContext();
+
+                    if (condition.ManagedConditions.IsMatch)
+                    {
+                        if (condition.NilWt)
+                        {
+                            if (debug) debugLines.Add((string.Join(", ", condition.When.Keys), null));
+                            return 0; // Bird not added
+                        }
+
+                        if (debug) debugLines.Add((string.Join(", ", condition.When.Select(kv => $"{kv.Key}={kv.Value}")), condition.AddWt + condition.SubWt));
+
+                        weight += condition.AddWt;
+                        weight -= condition.SubWt;
+                    }
+                }
+
+                if (debug) debugLines.Add(("TOTAL", MathHelper.Clamp(weight, 0, 1)));
+                return MathHelper.Clamp(weight, 0, 1);
+            }
+            finally
+            {
+                if (debug) PrintDebug();
+            }
         }
 
         public int GetContextualCautiousness()
@@ -139,14 +189,16 @@ namespace OrnithologistsGuild.Content
             return this.Cautiousness + modifier;
         }
 
-        public bool CanPerchAt(FeederFields feederFields)
+        public bool CanPerchAt(FeederProperties feederProperties)
         {
-            return FeederBaseWts.ContainsKey(feederFields.Type);
+            return FeederBaseWts.ContainsKey(feederProperties.Type);
         }
 
         public bool CanPerchAt(Perch perch)
         {
-            if (perch.Type == PerchType.Feeder) return CanPerchAt(perch.Feeder.GetFeederFields());
+            if (PerchPreference == 0) return false;
+
+            if (perch.Type == PerchType.Feeder) return CanPerchAt(perch.Feeder.GetFeederProperties());
             else if (perch.Type == PerchType.Bath) return CanUseBaths;
 
             return PerchPreference > 0;

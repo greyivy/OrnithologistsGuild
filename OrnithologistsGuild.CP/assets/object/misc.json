@@ -1,0 +1,31 @@
+{
+    "Changes": [
+        // Textures
+        {
+            "Action": "Load",
+            "Target": "Tilesheets/Ivy_OrnithologistsGuild_Nest",
+            "FromFile": "assets/object/Nest.png"
+        },
+        // Objects
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "Ivy_OrnithologistsGuild_Nest": {
+                    "Name": "Ivy_OrnithologistsGuild_Nest",
+                    "DisplayName": "{{i18n:object.Nest.name}}",
+                    "Description": "{{i18n:object.Nest.description}}",
+                    "Type": "Basic",
+                    "Category": -20,
+                    "Price": 0,
+                    "Texture": "Tilesheets/Ivy_OrnithologistsGuild_Nest",
+                    "SpriteIndex": 0,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "Ivy_OrnithologistsGuild"
+                    ]
+                }
+            }
+        }
+    ]
+}

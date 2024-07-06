@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using OrnithologistsGuild.Content;
+using OrnithologistsGuild.Game;
 using OrnithologistsGuild.Game.Critters;
 using OrnithologistsGuild.Models;
 using StardewModdingAPI;
@@ -62,14 +64,14 @@ namespace OrnithologistsGuild
                 {
                     if (AnimateElapsed.HasValue)
                     {
-                        var binocularsFields = __instance.GetBinocularsFields();
+                        var binocularsProperties = __instance.GetBinocularsProperties();
 
                         AnimateElapsed += Game1.currentGameTime.ElapsedGameTime.Milliseconds;
                         if (AnimateElapsed <= AnimateDuration)
                         {
                             var factor = Utilities.EaseOutSine(((float)AnimateElapsed.Value / (float)AnimateDuration));
 
-                            var animatedRange = Utility.Lerp(0, binocularsFields.Range * Game1.tileSize, factor);
+                            var animatedRange = Utility.Lerp(0, binocularsProperties.Range * Game1.tileSize, factor);
                             var opacity = Utility.Lerp(0.7f, 0.1f, factor);
 
                             MonoGame.Primitives2D.DrawCircle(
@@ -85,7 +87,7 @@ namespace OrnithologistsGuild
                             // Animation complete
                             AnimateElapsed = null;
 
-                            IdentifyBirdies(f.currentLocation, f, binocularsFields);
+                            IdentifyBirdies(f.currentLocation, f, binocularsProperties);
                         }
                     }
 
@@ -148,23 +150,72 @@ namespace OrnithologistsGuild
             AnimateElapsed = 0;
         }
 
-        private static void IdentifyBirdies(GameLocation location, Farmer who, BinocularsFields binocularsFields)
+        private record Identification(Vector2 Position, BetterBirdie Birdie = null, Nest Nest = null);
+
+        private static void IdentifyBirdies(GameLocation location, Farmer who, BinocularsProperties binocularsProperties)
         {
             if (location.critters == null) return;
 
             List<string> alreadyIdentified = new List<string>();
             List<string> newlyIdentified = new List<string>();
 
-            var actualRange = (binocularsFields.Range + 0.5) * Game1.tileSize;
+            var actualRange = (binocularsProperties.Range + 0.5) * Game1.tileSize;
             var midPoint = who.Position + new Vector2(0.5f * Game1.tileSize, -0.25f * Game1.tileSize);
 
             List<string> spottedBirdieUniqueIds = new List<string>();
 
-            foreach (var critter in location.critters.OrderBy(c => Vector2.Distance(midPoint, c.position)))
+            var treesWithNests = location.GetTreesWithNests()
+                .Where(tree => Vector2.Distance(midPoint, tree.GetNestPosition()) <= actualRange)
+                .Select(tree => new Identification(tree.GetNestPosition(), Nest: tree.GetNest()));
+            var betterBirdies = location.critters
+                .Where(critter => critter is BetterBirdie && Vector2.Distance(midPoint, critter.position) <= actualRange)
+                .Select(betterBirdie => new Identification(betterBirdie.position, Birdie: (BetterBirdie)betterBirdie));
+
+            var closestIdentifications = Enumerable
+                .Concat(treesWithNests, betterBirdies)
+                .OrderBy(identification => Vector2.Distance(midPoint, identification.Position));
+
+            foreach (var identification in closestIdentifications)
             {
-                if (critter is BetterBirdie && Vector2.Distance(midPoint, critter.position) <= actualRange)
+                var nest = identification.Nest ?? identification.Birdie.Perch?.Tree?.GetNest();
+
+                if (nest != null && nest.Stage != NestStage.Removed)
                 {
-                    var birdie = (BetterBirdie)critter;
+                    var birdieDef = nest.Owner;
+                    var id = birdieDef.ID;
+
+                    var lines = new List<string>();
+
+                    if (SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList.TryGetValue(birdieDef.UniqueID, out var lifeListEntry) && lifeListEntry.Identified) {
+                        // Birdie identified
+                        var contentPack = birdieDef.ContentPackDef.ContentPack;
+                        var commonNameString = contentPack.Translation.Get($"birdie.{id}.commonName");
+                        var scientificNameString = contentPack.Translation.Get($"birdie.{id}.scientificName");
+
+                        lines.Add(I18n.Items_Binoculars_NestId());
+                        lines.Add(string.Empty);
+
+                        lines.Add(Utilities.LocaleToUpper(commonNameString.ToString()));
+                        if (scientificNameString.HasValue()) lines.Add(scientificNameString.ToString());
+                    }
+                    else
+                    {
+                        // Birdie not identified
+                        lines.Add(I18n.Items_Binoculars_NestNoId());
+                    }
+
+                    lines.Add(string.Empty);
+                    if (nest.Stage == NestStage.Built) lines.Add(I18n.Items_Binoculars_NestStateBuilt());
+                    else if (nest.Stage == NestStage.EggsLaid) lines.Add(I18n.Items_Binoculars_NestStateEggsLaid());
+                    else if (nest.Stage == NestStage.EggsHatched) lines.Add(I18n.Items_Binoculars_NestStateEggsHatched());
+                    else if (nest.Stage == NestStage.Fledged) lines.Add(I18n.Items_Binoculars_NestStateFledged());
+
+                    Game1.drawObjectDialogue(string.Join("^", lines));
+                    break;
+                }
+                else
+                {
+                    var birdie = identification.Birdie;
                     var id = birdie.BirdieDef.ID;
 
                     if (birdie.IsFlying || birdie.IsSpotted) continue;
@@ -196,8 +247,8 @@ namespace OrnithologistsGuild
                     if (sighting.Identified)
                     {
                         lines.Add(newAttribute.HasValue ? I18n.Items_Binoculars_NewlyIdentified() : I18n.Items_Binoculars_AlreadyIdentified());
-                        lines.Add(Utilities.LocaleToUpper(commonNameString.ToString()));
 
+                        lines.Add(Utilities.LocaleToUpper(commonNameString.ToString()));
                         if (scientificNameString.HasValue()) lines.Add(scientificNameString.ToString());
 
                         if (newAttribute.HasValue)
@@ -229,23 +280,24 @@ namespace OrnithologistsGuild
 
                     break;
                 }
-                else if (critter is Woodpecker && Vector2.Distance(midPoint, critter.position) <= actualRange)
-                {
 
-                }
-                else if (critter is Seagull && Vector2.Distance(midPoint, critter.position) <= actualRange)
-                {
+                
+                //else if (critter is Woodpecker && Vector2.Distance(midPoint, critter.position) <= actualRange)
+                //{
 
-                }
-                else if (critter is Crow && Vector2.Distance(midPoint, critter.position) <= actualRange)
-                {
+                //}
+                //else if (critter is Seagull && Vector2.Distance(midPoint, critter.position) <= actualRange)
+                //{
 
-                }
-                else if (critter is Owl)
-                {
+                //}
+                //else if (critter is Crow && Vector2.Distance(midPoint, critter.position) <= actualRange)
+                //{
 
-                }
+                //}
+                //else if (critter is Owl)
+                //{
 
+                //}
                 // ... other critter types? Bird? PerchingBird?
             }
         }

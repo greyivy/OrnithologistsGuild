@@ -37,11 +37,6 @@ namespace OrnithologistsGuild.Game.Critters
 
     public partial class BetterBirdie : StardewValley.BellsAndWhistles.Critter
     {
-        private Func<BetterBirdieTrigger> NextAction;
-
-        // Walk
-        private int WalkTimer;
-
         // Relocate
         private Vector3? RelocateFrom;
         private BirdiePosition RelocateTo;
@@ -63,8 +58,8 @@ namespace OrnithologistsGuild.Game.Critters
                     .TransitionTo(BetterBirdieState.Stopped).On(BetterBirdieTrigger.Stop)
                     .Update(a =>
                     {
-                        // Wait for current animation to stop
-                        if (sprite.CurrentAnimation == null) StateMachine.Trigger(BetterBirdieTrigger.Stop);
+                        // Wait for current animation or emote to stop
+                        if (sprite.CurrentAnimation == null && !isEmoting) StateMachine.Trigger(BetterBirdieTrigger.Stop);
                     })
                 .State(BetterBirdieState.Stopped)
                     .TransitionTo(BetterBirdieState.Stopping).On(BetterBirdieTrigger.Stop)
@@ -76,8 +71,18 @@ namespace OrnithologistsGuild.Game.Critters
                     .TransitionTo(BetterBirdieState.Swimming).On(BetterBirdieTrigger.Swim)
                     .OnEnter(e =>
                     {
+                        MaybeBuildNest();
+
                         // Reset animation to base frame
                         sprite.currentFrame = IsInWater ? baseFrame + 9 : baseFrame;
+
+                        var weight = BirdieDef.GetContextualWeight();
+                        if (BirdieDef.GetContextualWeight() == 0f)
+                        {
+                            // Despawn birds e.g. at night
+                            AfterBetween(TimeSpan.Zero, TimeSpan.FromSeconds(60),
+                                () => StateMachine.Trigger(BetterBirdieTrigger.FlyAway), null);
+                        }
 
                         var contextualBehavior = GetContextualBehavior();
                         var nextBehavior = Utilities.WeightedRandom(contextualBehavior, b => b.Weight);
@@ -88,45 +93,29 @@ namespace OrnithologistsGuild.Game.Critters
                             StateMachine.Trigger(nextBehavior.Action());
                         } else
                         {
-                            // Wait a little while before executing next action (see `Update()`)
-                            NextAction = nextBehavior.Action;
+                            // Wait a little while before executing next action
+                            AfterBetween(TimeSpan.FromMilliseconds(500), TimeSpan.FromSeconds(5),
+                                () => StateMachine.Trigger(nextBehavior.Action()), null);
                         }
-                    })
-                    .Update(a =>
-                    {
-                        if (Game1.random.NextDouble() < 0.0075) StateMachine.Trigger(NextAction());
                     })
                 .State(BetterBirdieState.Hopping)
                     .TransitionTo(BetterBirdieState.Stopping).On(BetterBirdieTrigger.Stop)
                     .OnEnter(e =>
                     {
-                        // Maybe flip
-                        if (Game1.random.NextDouble() < 0.5) Flip();
-
-                        gravityAffectedDY = -2f;
+                        // Hop!
+                        gravityAffectedDY = -Utility.RandomFloat(1, 4);
                     })
                     .Update(a =>
                     {
-                        if (yJumpOffset >= 0) {
+                        if (gravityAffectedDY >= 0f && yJumpOffset >= 0f) {
                             // Done hopping
                             StateMachine.Trigger(BetterBirdieTrigger.Stop);
                             return;
                         }
 
-                        var canHopLeft = !Environment.isCollidingPosition(getBoundingBox(-2, 0), Game1.viewport, false, 0, false, null, false, false, true);
-                        var canHopRight = !Environment.isCollidingPosition(getBoundingBox(2, 0), Game1.viewport, false, 0, false, null, false, false, true);
-
                         // Hop left or right
-                        if (!flip)
-                        {
-                            if (canHopLeft) position.X -= 2f;
-                            else Flip();
-                        }
-                        else
-                        {
-                            if (canHopRight) position.X += 2f;
-                            else Flip();
-                        }
+                        if (!flip && CanMoveLeft()) position.X -= 2f;
+                        else if (flip && CanMoveRight()) position.X += 2f;
                     })
                 .State(BetterBirdieState.Walking)
                     .TransitionTo(BetterBirdieState.Stopping).On(BetterBirdieTrigger.Stop)
@@ -134,15 +123,16 @@ namespace OrnithologistsGuild.Game.Critters
                     {
                         // Start walk animation
                         sprite.setCurrentAnimation(new List<FarmerSprite.AnimationFrame> {
-                                    new FarmerSprite.AnimationFrame ((short)baseFrame, 100),
-                                    new FarmerSprite.AnimationFrame ((short)(baseFrame + 1), 100)
-                                });
+                            new FarmerSprite.AnimationFrame ((short)baseFrame, 100),
+                            new FarmerSprite.AnimationFrame ((short)(baseFrame + 1), 100)
+                        });
                         sprite.loop = true;
 
                         if (position.X >= startingPosition.X) flip = false;
                         else flip = true;
 
-                        WalkTimer = Game1.random.Next(5, 50) * 100;
+                        AfterBetween(TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(5),
+                            () => StateMachine.Trigger(BetterBirdieTrigger.Stop), BetterBirdieState.Walking);
                     })
                     .OnExit(e =>
                     {
@@ -152,20 +142,8 @@ namespace OrnithologistsGuild.Game.Critters
                     })
                     .Update(a =>
                     {
-                        WalkTimer -= a.ElapsedTimeSpan.Milliseconds;
-                        if (WalkTimer <= 0)
-                        {
-                            StateMachine.Trigger(BetterBirdieTrigger.Stop);
-                            return;
-                        }
-
-                        // TODO is this needed?
-                        var canWalkLeft = !(
-                            Environment.isCollidingPosition(getBoundingBox(-1, 0), Game1.viewport, false, 0, false, null, false, false, true) ||
-                            Environment.isCollidingPosition(getBoundingBox(-2, 0), Game1.viewport, false, 0, false, null, false, false, true));
-                        var canWalkRight = !(
-                            Environment.isCollidingPosition(getBoundingBox(1, 0), Game1.viewport, false, 0, false, null, false, false, true) ||
-                            Environment.isCollidingPosition(getBoundingBox(2, 0), Game1.viewport, false, 0, false, null, false, false, true));
+                        var canWalkLeft = CanMoveLeft();
+                        var canWalkRight = CanMoveRight();
 
                         if (!canWalkLeft && !canWalkRight)
                         {
@@ -296,24 +274,18 @@ namespace OrnithologistsGuild.Game.Critters
                             for (int i = 0; i < num; i++)
                             {
                                 list.Add(new FarmerSprite.AnimationFrame((short)(baseFrame + 3), 70));
-                                list.Add(new FarmerSprite.AnimationFrame((short)(baseFrame + 4), 100, secondaryArm: false, flip, (Farmer who) =>
-                                {
-                                    // Play pecking noise
-                                    Environment.localSound("shiny4", TileLocation);
-                                }));
+                                list.Add(new FarmerSprite.AnimationFrame((short)(baseFrame + 4), 100, secondaryArm: false, flip,
+                                    _ => Environment.localSound("shiny4", TileLocation))); // Pecking noise
                             }
 
                             list.Add(new FarmerSprite.AnimationFrame((short)(baseFrame + 3), 100));
                             list.Add(new FarmerSprite.AnimationFrame((short)(baseFrame + 2), 70, secondaryArm: false, flip));
                             list.Add(new FarmerSprite.AnimationFrame((short)(baseFrame + 1), 70, secondaryArm: false, flip));
-                            list.Add(new FarmerSprite.AnimationFrame((short)baseFrame, 500, secondaryArm: false, flip, (Farmer who) =>
-                            {
-                                // 50% chance to peck again
-                                if (Game1.random.NextDouble() < 0.5) StateMachine.Trigger(BetterBirdieTrigger.Stop);
-                            }));
+                            list.Add(new FarmerSprite.AnimationFrame((short)baseFrame, 500, secondaryArm: false, flip,
+                                _ => StateMachine.Trigger(BetterBirdieTrigger.Stop)));
 
-                            sprite.loop = false;
                             sprite.setCurrentAnimation(list);
+                            sprite.loop = false;
                         }
                     })
                 .State(BetterBirdieState.Sleeping)
@@ -321,14 +293,13 @@ namespace OrnithologistsGuild.Game.Critters
                     .OnEnter(e =>
                     {
                         sprite.currentFrame = baseFrame + 5;
+
+                        AfterBetween(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(15),
+                            () => StateMachine.Trigger(BetterBirdieTrigger.Stop), BetterBirdieState.Stopping);
                     })
                     .Update(a =>
                     {
-                        if (isEmoting) return;
-
-                        if (IsRoosting && Game1.random.NextDouble() < 0.00025) StateMachine.Trigger(BetterBirdieTrigger.Relocate);
-                        else if (!IsRoosting && Game1.random.NextDouble() < 0.001) StateMachine.Trigger(BetterBirdieTrigger.Stop);
-                        else if (Game1.random.NextDouble() < 0.0025) doEmote(Character.sleepEmote);
+                        if (!isEmoting && Game1.random.NextDouble() < 0.0025) doEmote(Character.sleepEmote);
                     })
                 .State(BetterBirdieState.FlyingAway)
                     .OnEnter(e =>
@@ -466,20 +437,19 @@ namespace OrnithologistsGuild.Game.Critters
                         }
                     })
                 .State(BetterBirdieState.Bathing)
+                    .TransitionTo(BetterBirdieState.Stopping).On(BetterBirdieTrigger.Stop)
                     .OnEnter(e =>
                     {
                         sprite.setCurrentAnimation(GetBathingAnimation());
                         sprite.loop = true;
+
+                        AfterBetween(TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(2.5),
+                            () => StateMachine.Trigger(BetterBirdieTrigger.Stop), BetterBirdieState.Bathing);
                     })
                     .OnExit(e =>
                     {
                         sprite.loop = false;
                         sprite.CurrentAnimation = null;
-                    })
-                    .Update(a =>
-                    {
-                        if (Game1.random.NextDouble() < 0.0020) Flip();
-                        else if (Game1.random.NextDouble() < 0.005) StateMachine.Trigger(BetterBirdieTrigger.Relocate);
                     })
                 .GlobalTransitionTo(BetterBirdieState.FlyingAway).OnGlobal(BetterBirdieTrigger.FlyAway)
                 .GlobalTransitionTo(BetterBirdieState.Relocating).OnGlobal(BetterBirdieTrigger.Relocate)
@@ -487,7 +457,8 @@ namespace OrnithologistsGuild.Game.Critters
 
             StateMachine.AddStateChangeHandler((state, e) =>
             {
-                ModEntry.Instance.Monitor.Log($"{BirdieDef.ID}: {e.From.ToString()} -> {e.To.ToString()}");
+                ClearDelayedActionsInitiatedBy(e.From.Identifier);
+                ModEntry.Instance.Monitor.Log($"{BirdieDef.ID}: {e.From} -> {e.To}");
             });
         }
     }

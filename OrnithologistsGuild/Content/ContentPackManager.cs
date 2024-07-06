@@ -9,9 +9,12 @@ namespace OrnithologistsGuild.Content
     {
         private const string FILENAME = "content.json";
 
-        public static List<ContentPackDef> ContentPackDefs = new List<ContentPackDef>();
+        public static List<ContentPackDef> ContentPackDefs { get; private set; } = new List<ContentPackDef>();
 
-        public static Dictionary<string, BirdieDef> BirdieDefs = new Dictionary<string, BirdieDef>();
+        /// <summary>
+        /// By <see cref="BirdieDef.UniqueID"/>.
+        /// </summary>
+        public static Dictionary<string, BirdieDef> BirdieDefs { get; private set; } = new Dictionary<string, BirdieDef>();
 
         public static void Initialize()
         {

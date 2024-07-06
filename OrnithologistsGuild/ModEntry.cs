@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using OrnithologistsGuild.Content;
+using OrnithologistsGuild.Game;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
@@ -44,6 +45,7 @@ namespace OrnithologistsGuild
         {
             SaveDataManager.Load();
             Mail.Initialize();
+            NestManager.Initialize();
 
             if (ConfigManager.Config.LogMissingBiomes) {
                 foreach (var location in StardewValley.Game1.locations)

@@ -26,13 +26,13 @@ namespace OrnithologistsGuild
             );
 
             configMenu.AddSectionTitle(mod: manifest, text: () => I18n.Config_GeneralOptions());
-            configMenu.AddBoolOption(
-                mod: manifest,
-                name: () => I18n.Config_UseVanilla_Name(),
-                tooltip: () => I18n.Config_UseVanilla_Tooltip(),
-                getValue: () => Config.LoadVanillaPack,
-                setValue: value => Config.LoadVanillaPack = value
-            );
+            //configMenu.AddBoolOption(
+            //    mod: manifest,
+            //    name: () => I18n.Config_UseVanilla_Name(),
+            //    tooltip: () => I18n.Config_UseVanilla_Tooltip(),
+            //    getValue: () => Config.LoadVanillaPack,
+            //    setValue: value => Config.LoadVanillaPack = value
+            //);
             configMenu.AddBoolOption(
                 mod: manifest,
                 name: () => I18n.Config_UseBuiltIn_Name(),

@@ -10,6 +10,8 @@
   "object.LifeList.description": "It has spots to record identified birds.",
   "object.HulledSunflowerSeeds.name": "Hulled Sunflower Seeds",
   "object.HulledSunflowerSeeds.description": "A delicacy to many birds!",
+  "object.Nest.name": "Bird's Nest",
+  "object.Nest.description": "It must have fallen from a tree!",
   "big-craftable.SeedHuller.name": "Seed Huller",
   "big-craftable.SeedHuller.description": "Hulls Sunflower Seeds to make bird food.",
   "big-craftable.WoodenHopper.name": "Wooden Hopper Birdfeeder",

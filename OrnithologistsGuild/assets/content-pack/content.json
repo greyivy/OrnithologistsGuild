@@ -7,13 +7,14 @@
       "SoundAssetPath": "assets/Mallard.wav",
       "Attributes": 2,
       "MaxFlockSize": 5,
-      "Cautiousness": 2,
+      "Cautiousness": 3,
       "FlapDuration": 350,
       "FlySpeed": 4,
       "BaseWt": 0.025,
       "PerchPreference": 0,
       "WaterPreference": 1,
       "CanUseBaths": false,
+      "CanNestInTrees": false,
       "Conditions": [
         {
           "When": {
@@ -112,7 +113,19 @@
       "Conditions": [
         {
           "When": {
-            "Time": "{{Range: 1800, 2600}}"
+            "Time": "{{Range: 0600, 0800}}"
+          },
+          "AddWt": 0.15
+        },
+        {
+          "When": {
+            "Time": "{{Range: 1800, 2000}}"
+          },
+          "AddWt": 0.15
+        },
+        {
+          "When": {
+            "Time": "{{Range: 2000, 2600}}"
           },
           "NilWt": true
         },
@@ -261,7 +274,7 @@
       "SoundAssetPath": "assets/HouseSparrow.wav",
       "Attributes": 2,
       "MaxFlockSize": 5,
-      "Cautiousness": 2,
+      "Cautiousness": 3,
       "FlapDuration": 450,
       "FlySpeed": 4.5,
       "BaseWt": 0.15,
@@ -306,6 +319,7 @@
       "FlapDuration": 400,
       "FlySpeed": 5,
       "BaseWt": 0.025,
+      "CanNestInTrees": false,
       "FeederBaseWts": {
         "Platform": 0.1
       },
@@ -344,6 +358,7 @@
       "Cautiousness": 4,
       "FlapDuration": 550,
       "FlySpeed": 4.5,
+      "CanNestInTrees": false,
       "BaseWt": 0.05,
       "FeederBaseWts": {
         "Platform": 0.1

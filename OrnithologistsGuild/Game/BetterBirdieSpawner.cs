@@ -62,22 +62,20 @@ namespace OrnithologistsGuild
             if (chance > 0) AddRandomBirdies(location, chance, onScreen);
         }
 
-        private static void AddRandomBirdies(GameLocation location, double chance, bool onScreen)
+        private static void AddRandomBirdies(GameLocation gameLocation, double chance, bool onScreen)
         {
             ModEntry.Instance.Monitor.Log("AddRandomBirdies");
-
-            BirdieDef flockBirdieDef = null;
 
             // Chance to add another flock
             int flocksAdded = 0;
             while ((ModEntry.debug_AlwaysSpawn != null && flocksAdded == 0) || Game1.random.NextDouble() < chance / (flocksAdded + 1)) // Chance lowers after every flock
             {
                 // Determine flock parameters
-                flockBirdieDef = ModEntry.debug_AlwaysSpawn == null ? GetRandomBirdieDef() : ModEntry.debug_AlwaysSpawn;
+                BirdieDef flockBirdieDef = ModEntry.debug_AlwaysSpawn == null ? GetRandomBirdieDef(gameLocation) : ModEntry.debug_AlwaysSpawn;
                 if (flockBirdieDef == null) return;
 
-                var spawnLocations = BetterBirdie.GetRandomPositionsOrPerchesFor(location, flockBirdieDef, mustBeOffscreen: !onScreen);
-                SpawnBirdies(location, flockBirdieDef, spawnLocations);
+                var spawnLocations = BetterBirdie.GetRandomPositionsOrPerchesFor(gameLocation, flockBirdieDef, mustBeOffscreen: !onScreen);
+                SpawnBirdies(gameLocation, flockBirdieDef, spawnLocations);
                 if (spawnLocations.Any()) flocksAdded++;
             }
         }
@@ -86,19 +84,19 @@ namespace OrnithologistsGuild
         {
             ModEntry.Instance.Monitor.Log("AddBirdiesNearFeeder");
 
-            var feederFields = feeder.GetFeederFields();
+            var feederProperties = feeder.GetFeederProperties();
 
             // Build a rectangle around the feeder based on the range
-            var feederRect = Utility.getRectangleCenteredAt(feeder.TileLocation, (feederFields.Range * 2) + 1);
+            var feederRect = Utility.getRectangleCenteredAt(feeder.TileLocation, (feederProperties.Range * 2) + 1);
 
             BirdieDef flockBirdieDef = null;
 
             // Chance to add another flock
             int flocksAdded = 0;
-            while (flocksAdded < feederFields.MaxFlocks && Game1.random.NextDouble() < (chance * 2))
+            while (flocksAdded < feederProperties.MaxFlocks && Game1.random.NextDouble() < (chance * 2))
             {
                 // Determine flock parameters
-                flockBirdieDef = GetRandomFeederBirdieDef(feederFields, food);
+                flockBirdieDef = GetRandomFeederBirdieDef(feederProperties, food);
                 if (flockBirdieDef == null) return;
 
                 var shouldAddBirdToFeeder = flocksAdded == 0 && Game1.random.NextDouble() < 0.65;
@@ -117,33 +115,33 @@ namespace OrnithologistsGuild
             }
         }
 
-        private static void SpawnBirdies(GameLocation location, BirdieDef birdieDef, IEnumerable<BirdiePosition> spawnLocations)
+        private static void SpawnBirdies(GameLocation location, BirdieDef birdieDef, IEnumerable<(BirdiePosition BirdiePosition, bool IsFledgling)> spawns)
         {
-            foreach (var spawnLocation in spawnLocations)
+            foreach (var spawn in spawns)
             {
-                if (spawnLocation.Perch != null)
+                if (spawn.BirdiePosition.Perch != null)
                 {
                     // Add perched bird
-                    location.addCritter(new BetterBirdie(birdieDef, Vector2.Zero, spawnLocation.Perch));
+                    location.addCritter(new BetterBirdie(birdieDef, Vector2.Zero, spawn.BirdiePosition.Perch, isFledgling: spawn.IsFledgling));
                 }
                 else
                 {
-                    var tile = Utilities.XY(spawnLocation.Position) / Game1.tileSize;
-                    location.addCritter(new BetterBirdie(birdieDef, tile));
+                    var tile = Utilities.XY(spawn.BirdiePosition.Position) / Game1.tileSize;
+                    location.addCritter(new BetterBirdie(birdieDef, tile, isFledgling: spawn.IsFledgling));
                 }
             }
         }
 
-        private static BirdieDef GetRandomBirdieDef()
+        private static BirdieDef GetRandomBirdieDef(GameLocation gameLocation)
         {
-            return Utilities.WeightedRandom(ContentPackManager.BirdieDefs.Values, birdieDef => birdieDef.GetContextualWeight(true));
+            return Utilities.WeightedRandom(ContentPackManager.BirdieDefs.Values, birdieDef => birdieDef.GetContextualWeight(updateContext: true, gameLocation, debug: ModEntry.debug_Conditions));
         }
 
-        private static BirdieDef GetRandomFeederBirdieDef(FeederFields feederFields, FoodDef foodDef)
+        private static BirdieDef GetRandomFeederBirdieDef(FeederProperties feederProperties, FoodDef foodDef)
         {
-            var usualSuspects = ContentPackManager.BirdieDefs.Values.Where(birdieDef => birdieDef.CanPerchAt(feederFields) && birdieDef.CanEat(foodDef));
+            var usualSuspects = ContentPackManager.BirdieDefs.Values.Where(birdieDef => birdieDef.CanPerchAt(feederProperties) && birdieDef.CanEat(foodDef));
 
-            return Utilities.WeightedRandom(usualSuspects, birdieDef => birdieDef.GetContextualWeight(true, feederFields, foodDef));
+            return Utilities.WeightedRandom(usualSuspects, birdieDef => birdieDef.GetContextualWeight(updateContext: true, null, feederProperties, foodDef, debug: ModEntry.debug_Conditions));
         }
     }
 }

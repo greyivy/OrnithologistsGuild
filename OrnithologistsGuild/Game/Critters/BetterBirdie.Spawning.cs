@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using OrnithologistsGuild.Models;
+using xTile.Tiles;
 
 namespace OrnithologistsGuild.Game.Critters
 {
@@ -82,15 +83,16 @@ namespace OrnithologistsGuild.Game.Critters
 
         public BirdiePosition GetRandomPositionOrPerch(SpawnType? spawnType = null)
         {
-            return GetRandomPositionsOrPerchesFor(Environment, BirdieDef, mustBeOffscreen: false, birdie: this, flockSize: 1, spawnType).FirstOrDefault();
+            var result = GetRandomPositionsOrPerchesFor(Environment, BirdieDef, mustBeOffscreen: false, birdie: this, flockSize: 1, spawnType);
+            return result.Any() ? result.First().BirdiePosition : null;
         }
 
-        public static IEnumerable<BirdiePosition> GetRandomPositionsOrPerchesFor(GameLocation location, BirdieDef birdieDef, bool mustBeOffscreen, BetterBirdie birdie = null, int? flockSize = null, SpawnType? spawnType = null, Rectangle? tileAreaBound = null)
+        public static IEnumerable<(BirdiePosition BirdiePosition, bool IsFledgling)> GetRandomPositionsOrPerchesFor(GameLocation location, BirdieDef birdieDef, bool mustBeOffscreen, BetterBirdie birdie = null, int? flockSize = null, SpawnType? spawnType = null, Rectangle? tileAreaBound = null)
         {
             if (!spawnType.HasValue) spawnType = ModEntry.debug_PerchType == null ? GetRandomSpawnType(birdieDef) : SpawnType.Perch;
             if (!flockSize.HasValue) flockSize = Game1.random.Next(1, birdieDef.MaxFlockSize + 1);
 
-            ModEntry.Instance.Monitor.Log($"GetRandomPositionsOrPerchesFor {flockSize} {spawnType} {birdieDef.ID}");
+            ModEntry.Instance.Monitor.Log($"GetRandomPositionsOrPerchesFor flock of {flockSize} {birdieDef.ID} on {spawnType}");
 
             IEnumerable<Perch> availablePerches = Enumerable.Empty<Perch>();
             if (spawnType == SpawnType.Perch)
@@ -98,26 +100,32 @@ namespace OrnithologistsGuild.Game.Critters
                 if (ModEntry.debug_PerchType == null)
                 {
                     availablePerches = Utilities.Randomize(
-                        Perch.GetAllAvailablePerches(location,
+                        Perch.GetAllAvailablePerches(location, birdieDef,
                             mapTile: true,
                             tree: true,
                             feeder: birdieDef.FeederBaseWts.Any(),
-                            bath: birdieDef.CanUseBaths));
+                            bath: birdieDef.CanUseBaths,
+                            nest: birdieDef.CanNestInTrees));
                 }
                 else
                 {
                     availablePerches = Utilities.Randomize(
-                        Perch.GetAllAvailablePerches(location,
+                        Perch.GetAllAvailablePerches(location, birdieDef,
                             mapTile: ModEntry.debug_PerchType == PerchType.MapTile,
                             tree: ModEntry.debug_PerchType == PerchType.Tree,
                             feeder: ModEntry.debug_PerchType == PerchType.Feeder,
-                            bath: ModEntry.debug_PerchType == PerchType.Bath));
+                            bath: ModEntry.debug_PerchType == PerchType.Bath,
+                            nest: ModEntry.debug_PerchType == PerchType.Tree));
                 }
 
-                if (!availablePerches.Any()) return Enumerable.Empty<BirdiePosition>();
+                if (!availablePerches.Any())
+                {
+                    ModEntry.Instance.Monitor.Log($"GetRandomPositionsOrPerchesFor -> no perches available");
+                    return Enumerable.Empty<(BirdiePosition BirdiePosition, bool IsFledgling)>();
+                }
             }
 
-            for (var i = 0; i < Trials; i++)
+            for (var trial = 1; trial <= Trials; trial++)
             {
                 if (spawnType == SpawnType.Land || spawnType == SpawnType.Water)
                 {
@@ -162,12 +170,24 @@ namespace OrnithologistsGuild.Game.Critters
                             tileArea.Width * Game1.tileSize,
                             tileArea.Height * Game1.tileSize);
 
-                        return Enumerable
+                        var locationHasFledgedNest = location.GetTreesWithNests()
+                                .Any(tree => tree.HasNestOwnedBy(birdieDef) && tree.GetNest().Stage == NestStage.Fledged);
+
+                        var adults = Enumerable
                             .Repeat(0, flockSize.Value)
-                            .Select<int, BirdiePosition>(_ => new (
+                            .Select<int, (BirdiePosition BirdiePosition, bool IsFledgling)>(_ => (new(
                                 Position: new Vector3(Utility.getRandomPositionInThisRectangle(positionArea, Game1.random), 0),
-                                Perch: null)
+                                Perch: null), IsFledgling: false)
                             );
+                        var fledglings = Enumerable
+                            .Repeat(0, locationHasFledgedNest ? flockSize.Value * 2 : 0)
+                            .Select<int, (BirdiePosition BirdiePosition, bool IsFledgling)>(_ => (new(
+                                Position: new Vector3(Utility.getRandomPositionInThisRectangle(positionArea, Game1.random), 0),
+                                Perch: null), IsFledgling: true)
+                            );
+
+                        ModEntry.Instance.Monitor.Log($"GetRandomPositionsOrPerchesFor -> found suitable area in {trial} trial(s)");
+                        return Enumerable.Concat(adults, fledglings);
                     }
                 }
                 else if (spawnType == SpawnType.Perch)
@@ -198,26 +218,55 @@ namespace OrnithologistsGuild.Game.Critters
                             return true;
                         }))
                         {
-                            return availablePerches
-                            .Where(perch => tileArea.Contains(Utilities.XY(perch.Position) / Game1.tileSize) && birdieDef.CanPerchAt(perch))
-                            .Take(flockSize.Value)
-                            .Select(perch => new BirdiePosition(perch.Position, perch));
+                            var locationHasFledgedNest = location.GetTreesWithNests()
+                                .Any(tree => tree.HasNestOwnedBy(birdieDef) && tree.GetNest().Stage == NestStage.Fledged);
+
+                            var totalPerches = locationHasFledgedNest ? flockSize.Value * 3 : flockSize.Value;
+                            var perches = availablePerches
+                                .Where(perch => tileArea.Contains(Utilities.XY(perch.Position) / Game1.tileSize) && birdieDef.CanPerchAt(perch))
+                                .Take(totalPerches);
+
+                            var adults = perches
+                                .Take(flockSize.Value)
+                                .Select(perch => new BirdiePosition(perch.Position, perch));
+                            var fledglings = availablePerches
+                                .Take(totalPerches - flockSize.Value)
+                                .Select(perch => new BirdiePosition(perch.Position, perch));
+
+                            ModEntry.Instance.Monitor.Log($"GetRandomPositionsOrPerchesFor -> found suitable perches in {trial} trial(s)");
+                            return Enumerable.Concat(
+                                adults.Select(birdiePosition => (birdiePosition, false)),
+                                fledglings.Select(birdiePosition => (birdiePosition, true)));
                         }
                     } else
                     {
-                        // Take at most 3 of each type of perch (this will
-                        // favor feeders, baths, and map tiles for relocation)
+                        // Take at most 3 of each type of perch (this will favor
+                        // feeders, baths, trees with owned nests, and map tiles for relocation)
+                        ModEntry.Instance.Monitor.Log($"GetRandomPositionsOrPerchesFor -> found suitable perch in {trial} trial(s)");
                         return Utilities.Randomize(
-                            availablePerches
-                                .GroupBy(perch => perch.Type)
+                        availablePerches
+                                .Where(perch =>
+                                {
+                                    // Perch onscreen
+                                    if (mustBeOffscreen && Utility.isOnScreen(Utilities.XY(perch.Position), Game1.tileSize)) return false;
+
+                                    // Too close/straight to existing birdie
+                                    if (birdie != null && !birdie.CheckRelocationDistance(Utilities.XY(perch.Position) / Game1.tileSize)) return false;
+
+                                    // Too close to character
+                                    if (Utility.isThereAFarmerOrCharacterWithinDistance(Utilities.XY(perch.Position) / Game1.tileSize, birdieDef.GetContextualCautiousness(), location) != null) return false;
+
+                                    return true;
+                                })
+                                .GroupBy(perch => (PerchType: perch.Type, OwnedNest: perch.Tree?.HasNestOwnedBy(birdieDef) == true))
                                 .SelectMany(group => group.Take(3)))
-                            .Select(perch => new BirdiePosition(perch.Position, perch))
-                            .Take(1);
+                            .Take(1)
+                            .Select(perch => (new BirdiePosition(perch.Position, perch), false));
                     }
                 }
             }
 
-            return Enumerable.Empty<BirdiePosition>();
+            return Enumerable.Empty<(BirdiePosition BirdiePosition, bool IsFledgling)>();
         }
     }
 }

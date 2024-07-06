@@ -15,6 +15,7 @@ namespace OrnithologistsGuild
         public static PerchType? debug_PerchType = null;
         private static bool debug_EnableBirdWhisperer = false;
         public static Vector2? debug_BirdWhisperer = null;
+        public static bool debug_Conditions = false;
 
         private void RegisterDebugCommands()
         {
@@ -22,6 +23,8 @@ namespace OrnithologistsGuild
             Helper.ConsoleCommands.Add("ogs", "Consistently spawns specified birdie ID", OnDebugCommand);
             Helper.ConsoleCommands.Add("ogp", "Forces birdies to perch on specified perch type", OnDebugCommand);
             Helper.ConsoleCommands.Add("ogw", "Bird Whisperer: ask a random bird (nicely) to relocate to wherever you click", OnDebugCommand);
+            Helper.ConsoleCommands.Add("ogc", "Prints bird condition debug information for all birds or the specified birdie ID", OnDebugCommand);
+            Helper.ConsoleCommands.Add("ogn", "Prints bird nest debug information for the current game location", OnDebugCommand);
         }
 
         private void OnDebugCommand(string cmd, string[] args)
@@ -94,6 +97,49 @@ namespace OrnithologistsGuild
                 debug_EnableBirdWhisperer = !debug_EnableBirdWhisperer;
                 if (debug_EnableBirdWhisperer) Monitor.Log($"`ogw` enabled: click a tile", LogLevel.Info);
                 else Monitor.Log($"`ogw` disabled", LogLevel.Warn);
+            }
+            else if (cmd.Equals("ogc"))
+            {
+                if (args.Length > 0)
+                {
+                    BirdieDef birdieDef = ContentPackManager.BirdieDefs.Values.FirstOrDefault(birdieDef => birdieDef.ID.Equals(args.Length == 0 ? "HouseSparrow" : args[0], System.StringComparison.OrdinalIgnoreCase));
+                    if (birdieDef != null)
+                    {
+                        birdieDef.GetContextualWeight(true, Game1.player.currentLocation, null, null, true);
+                    }
+                    else
+                    {
+                        Monitor.Log($"`ogc` failed (birdie \"{args[0]}\" not found)", LogLevel.Warn);
+                    }
+                }
+                else
+                {
+                    if (!debug_Conditions)
+                    {
+                        Monitor.Log($"`ogc` enabled: conditions will be logged", LogLevel.Info);
+                        debug_Conditions = true;
+                    }
+                    else
+                    {
+                        Monitor.Log($"`ogc` disabled", LogLevel.Info);
+                        debug_Conditions = false;
+                    }
+                }
+            }
+            else if (cmd.Equals("ogn"))
+            {
+                var trees = Game1.currentLocation.GetTreesWithNests();
+                if (trees.Any())
+                {
+                    foreach(var tree in trees)
+                    {
+                        ModEntry.Instance.Monitor.Log($"{tree.GetNest().Owner.ID} nest at {tree.Tile} is {tree.GetNest().Age} days old and {tree.GetNest().Stage}");
+                    }
+                }
+                else
+                {
+                    ModEntry.Instance.Monitor.Log("No nests in current game location");
+                }
             }
         }
 

@@ -36,6 +36,10 @@
       "Action": "Include",
       "FromFile": "assets/object/usables.json"
     },
+    {
+      "Action": "Include",
+      "FromFile": "assets/object/misc.json"
+    },
     // NPCs
     {
       "Action": "Include",

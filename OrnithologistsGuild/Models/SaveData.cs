@@ -35,7 +35,18 @@ namespace OrnithologistsGuild.Models
 
         public PlayerSaveData()
         {
-            this.LifeList = new LifeList();
+            LifeList = new LifeList();
+        }
+    }
+
+	[Obsolete]
+    public class LegacySaveData
+    {
+        public LifeList LifeList;
+
+        public LegacySaveData()
+        {
+            LifeList = new LifeList();
         }
     }
 }

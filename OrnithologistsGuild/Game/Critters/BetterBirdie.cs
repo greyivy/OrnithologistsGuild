@@ -19,6 +19,8 @@ namespace OrnithologistsGuild.Game.Critters
 
         public Perch Perch;
 
+        public bool IsFledgling;
+
         public Vector3 Position3 {
             get => new Vector3(position.X, position.Y, yOffset);
             set
@@ -36,6 +38,7 @@ namespace OrnithologistsGuild.Game.Critters
         public bool IsFlying => Is(BetterBirdieState.Relocating) || Is(BetterBirdieState.FlyingAway);
         public bool IsPerched => Perch != null;
         public bool IsRoosting => IsPerched && (Perch.Type == PerchType.MapTile || Perch.Type == PerchType.Tree);
+        public bool IsInNest => IsPerched && Perch.Tree?.HasNest() == true;
         public bool IsInBath => IsPerched && Perch.Type == PerchType.Bath;
         public bool IsInWater => Environment.isWaterTile((int)TileLocation.X, (int)TileLocation.Y);
 
@@ -46,10 +49,32 @@ namespace OrnithologistsGuild.Game.Critters
 
         private float FlySpeedOffset; // Individual birds fly at slightly different speeds
 
-        public BetterBirdie(BirdieDef birdieDef, Vector2 tileLocation, Perch perch = null) : base(0, Vector2.Zero)
+        private bool HasBuiltNest = false;
+
+        private TimeSpan AfterElapsed = TimeSpan.Zero;
+        private List<(TimeSpan Trigger, Action Action, BetterBirdieState? InitiatedBy)> DelayedActions = new();
+
+        private void After(TimeSpan after, Action action, BetterBirdieState? initiatedBy)
+        {
+            DelayedActions.Add((AfterElapsed + after, action, initiatedBy));
+        }
+        private void AfterBetween(TimeSpan a, TimeSpan b, Action action, BetterBirdieState? initiatedBy)
+        {
+            var difference = b - a;
+            var offset = Game1.random.NextInt64(difference.Ticks);
+
+            After(a + TimeSpan.FromTicks(offset), action, initiatedBy);
+        }
+        private void ClearDelayedActionsInitiatedBy(BetterBirdieState state)
+        {
+            DelayedActions.RemoveAll(a => a.InitiatedBy == state);
+        }
+
+        public BetterBirdie(BirdieDef birdieDef, Vector2 tileLocation, Perch perch = null, bool isFledgling = false) : base(0, Vector2.Zero)
         {
             BirdieDef = birdieDef;
             Perch = perch;
+            IsFledgling = isFledgling;
 
             if (birdieDef.AssetPath != null)
             {
@@ -91,6 +116,17 @@ namespace OrnithologistsGuild.Game.Critters
         {
             Environment = environment;
 
+            // Process any delayed actions
+            AfterElapsed += time.ElapsedGameTime;
+            foreach (var delayedAction in DelayedActions.ToArray())
+            {
+                if (delayedAction.Trigger <= AfterElapsed)
+                {
+                    delayedAction.Action();
+                    DelayedActions.Remove(delayedAction);
+                }
+            }
+
             if (!IsFlying)
             {
                 if (IsRoosting &&
@@ -129,6 +165,13 @@ namespace OrnithologistsGuild.Game.Critters
             flip = !flip;
         }
 
+        private bool CanMoveLeft() => !(
+            Environment.isCollidingPosition(getBoundingBox(-1, 0), Game1.viewport, false, 0, false, null, false, false, true) ||
+            Environment.isCollidingPosition(getBoundingBox(-2, 0), Game1.viewport, false, 0, false, null, false, false, true));
+        private bool CanMoveRight() => !(
+            Environment.isCollidingPosition(getBoundingBox(1, 0), Game1.viewport, false, 0, false, null, false, false, true) ||
+            Environment.isCollidingPosition(getBoundingBox(2, 0), Game1.viewport, false, 0, false, null, false, false, true));
+
         private void CheckCharacterProximity(GameTime time, GameLocation environment)
         {
             CharacterCheckTimer -= time.ElapsedGameTime.Milliseconds;
@@ -154,7 +197,26 @@ namespace OrnithologistsGuild.Game.Critters
             if (Game1.random.NextDouble() < 0.8) StateMachine.Trigger(BetterBirdieTrigger.FlyAway);
             else StateMachine.Trigger(BetterBirdieTrigger.Relocate);
         }
-    
+
+        private void MaybeBuildNest()
+        {
+            // 20% chance to consider building a nest if the conditions are right
+            var shouldBuildNest =
+                !HasBuiltNest &&
+                Perch?.Type == PerchType.Tree &&
+                !Perch.Tree.HasNest() &&
+                NestManager.CanBuildNestAt(Environment) &&
+                Game1.random.NextDouble() < 0.2;
+
+            if (shouldBuildNest)
+            {
+                Perch.Tree.SetNest(new Nest(BirdieDef, NestType.TreeTop, SDate.Now()));
+                HasBuiltNest = true;
+
+                ModEntry.Instance.Monitor.Log($"MaybeBuildNest {BirdieDef.ID} nest -> {Perch.Tree.Tile}");
+            }
+        }
+
         #region Rendering
         public void drawBirdie(SpriteBatch b)
         {
@@ -166,10 +228,20 @@ namespace OrnithologistsGuild.Game.Critters
                     var clipBottom = Is(BetterBirdieState.Bathing) ? BirdieDef.BathingClipBottom : 0;
                     var bathYOffset = clipBottom > 0 ? (IsInBath ? (clipBottom * 3) : (clipBottom * 6)) : 0;
 
-                    var screenPosition = Game1.GlobalToLocal(Game1.viewport, position + new Vector2(-64f, -128f + yJumpOffset + yOffset + bathYOffset));
                     var sourceRectangle = new Rectangle(sprite.sourceRect.X, sprite.sourceRect.Y + clipBottom, sprite.sourceRect.Width, sprite.sourceRect.Height - (clipBottom * 2));
 
-                    b.Draw(sprite.Texture, screenPosition, sourceRectangle, Color.White, 0, Vector2.Zero, 4f, (flip || (sprite.CurrentAnimation != null && sprite.CurrentAnimation[sprite.currentAnimationIndex].flip)) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, ZIndex);
+                    var spriteEffects = (flip || (sprite.CurrentAnimation != null && sprite.CurrentAnimation[sprite.currentAnimationIndex].flip)) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+                    if (IsFledgling)
+                    {
+                        var screenPosition = Game1.GlobalToLocal(Game1.viewport, position + new Vector2(-48f, -96f + yJumpOffset + yOffset + bathYOffset));
+                        b.Draw(sprite.Texture, screenPosition, sourceRectangle, Color.White * (Perch?.Tree?.alpha ?? 1f), 0, Vector2.Zero, 3f, spriteEffects, ZIndex);
+                    }
+                    else
+                    {
+                        var screenPosition = Game1.GlobalToLocal(Game1.viewport, position + new Vector2(-64f, -128f + yJumpOffset + yOffset + bathYOffset));
+                        b.Draw(sprite.Texture, screenPosition, sourceRectangle, Color.White * (Perch?.Tree?.alpha ?? 1f), 0, Vector2.Zero, 4f, spriteEffects, ZIndex);
+                    }
                 }
 
                 if (!IsInBath)
@@ -243,7 +315,7 @@ namespace OrnithologistsGuild.Game.Critters
                         gravityAffectedDY = -(BirdieDef.FlapDuration * (4f/500f));
 
                         // Play flapping noise
-                        if (Utility.isOnScreen(position, Game1.tileSize)) Game1.playSound("batFlap");
+                        if (Utility.isOnScreen(position, Game1.tileSize)) Environment.localSound("batFlap", position);
                     }),
                     new FarmerSprite.AnimationFrame (baseFrame + 8, (int)MathF.Round(0.27f * BirdieDef.FlapDuration)),
                     new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * BirdieDef.FlapDuration))

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using OrnithologistsGuild.Content;
 using StardewValley;
+using StardewValley.TerrainFeatures;
 
 namespace OrnithologistsGuild
 {
@@ -22,6 +25,15 @@ namespace OrnithologistsGuild
 
             return new string[] { "default" };
         }
+
+        public static IEnumerable<Tree> GetTrees(this GameLocation gameLocation) =>
+            gameLocation.terrainFeatures?.Values
+                    .Where(tf => tf is Tree)
+                    .Select(tree => (Tree)tree);
+
+        public static IEnumerable<Tree> GetTreesWithNests(this GameLocation gameLocation) =>
+            gameLocation.GetTrees()
+                .Where(tree => tree.HasNest());
     }
 }
 
