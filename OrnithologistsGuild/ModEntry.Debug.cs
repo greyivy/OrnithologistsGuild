@@ -141,12 +141,12 @@ namespace OrnithologistsGuild
                 {
                     foreach (var tree in trees)
                     {
-                        ModEntry.Instance.Monitor.Log($"{tree.GetNest().Owner.ID} nest at {tree.Tile} is {tree.GetNest().Age} days old and {tree.GetNest().Stage}");
+                        Instance.Monitor.Log($"{tree.GetNest().Owner.ID} nest at {tree.Tile} is {tree.GetNest().Age} days old and {tree.GetNest().Stage}", LogLevel.Info);
                     }
                 }
                 else
                 {
-                    ModEntry.Instance.Monitor.Log("No nests in current game location");
+                    Instance.Monitor.Log("No nests in current game location", LogLevel.Info);
                 }
             }
         }

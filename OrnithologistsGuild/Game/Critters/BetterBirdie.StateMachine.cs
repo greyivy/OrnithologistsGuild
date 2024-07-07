@@ -71,8 +71,6 @@ namespace OrnithologistsGuild.Game.Critters
                     .TransitionTo(BetterBirdieState.Swimming).On(BetterBirdieTrigger.Swim)
                     .OnEnter(e =>
                     {
-                        MaybeBuildNest();
-
                         // Reset animation to base frame
                         sprite.currentFrame = IsInWater ? baseFrame + 9 : baseFrame;
 
@@ -295,7 +293,7 @@ namespace OrnithologistsGuild.Game.Critters
                         sprite.currentFrame = baseFrame + 5;
 
                         AfterBetween(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(15),
-                            () => StateMachine.Trigger(BetterBirdieTrigger.Stop), BetterBirdieState.Stopping);
+                            () => StateMachine.Trigger(BetterBirdieTrigger.Stop), BetterBirdieState.Sleeping);
                     })
                     .Update(a =>
                     {
@@ -387,6 +385,8 @@ namespace OrnithologistsGuild.Game.Critters
 
                             RelocateDuration = null;
                             RelocateElapsed = null;
+
+                            MaybeBuildNest();
                         }
                     })
                     .Update(a =>

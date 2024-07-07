@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Threading.Channels;
 using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
-using StardewValley.BellsAndWhistles;
-using StardewValley.Locations;
-using xTile;
 
 namespace OrnithologistsGuild
 {
@@ -55,14 +51,12 @@ namespace OrnithologistsGuild
                 // ... but allow spawning Birdies when it's raining ...
                 if (__instance.IsRainingHere()) baseChance /= 2;
 
-                double birdieChance = baseChance;
-
                 // ... or on the Beach
                 if (__instance.critters != null && __instance.critters.Count <= (__instance.IsSummerHere() ? 20 : 10))
                 {
-                    Monitor.Log($"{nameof(addBirdies_Prefix)}: chance={birdieChance} onlyIfOnScreen={onlyIfOnScreen}");
+                    Monitor.Log($"{nameof(addBirdies_Prefix)}: chance={baseChance} onlyIfOnScreen={onlyIfOnScreen}");
 
-                    BetterBirdieSpawner.AddBirdies(__instance, birdieChance, !onlyIfOnScreen /* for some reason this is inverted in the original game code */);
+                    BetterBirdieSpawner.AddBirdies(__instance, baseChance, !onlyIfOnScreen /* for some reason this is inverted in the original game code */);
                 }
             }
             catch (Exception ex)

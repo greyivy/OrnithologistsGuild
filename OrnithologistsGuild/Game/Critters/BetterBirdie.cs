@@ -200,13 +200,13 @@ namespace OrnithologistsGuild.Game.Critters
 
         private void MaybeBuildNest()
         {
-            // 20% chance to consider building a nest if the conditions are right
+            // 25% chance to consider building a nest if the conditions are right
             var shouldBuildNest =
                 !HasBuiltNest &&
                 Perch?.Type == PerchType.Tree &&
                 !Perch.Tree.HasNest() &&
                 NestManager.CanBuildNestAt(Environment) &&
-                Game1.random.NextDouble() < 0.2;
+                Game1.random.NextDouble() < 0.25;
 
             if (shouldBuildNest)
             {
@@ -309,13 +309,15 @@ namespace OrnithologistsGuild.Game.Critters
                     new FarmerSprite.AnimationFrame (baseFrame + 6, (int)MathF.Round(0.27f * BirdieDef.FlapDuration)),
                     new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * BirdieDef.FlapDuration), secondaryArm: false, flip, frameBehavior: (Farmer who) =>
                     {
-                        // Make bird shoot up a bit while flapping for more realistic flight
-                        // e.g. flapDuration = 500, gravityAffectedDY = 4
-                        // e.g. flapDuration = 250, gravityAffectedDY = 2
-                        gravityAffectedDY = -(BirdieDef.FlapDuration * (4f/500f));
+                        if (BirdieDef.FlapDuration >= 100) {
+                            // Make bird shoot up a bit while flapping for more realistic flight
+                            // e.g. flapDuration = 500, gravityAffectedDY = 4
+                            // e.g. flapDuration = 250, gravityAffectedDY = 2
+                            gravityAffectedDY = -(BirdieDef.FlapDuration * (4f/500f));
 
-                        // Play flapping noise
-                        if (Utility.isOnScreen(position, Game1.tileSize)) Environment.localSound("batFlap", position);
+                            // Play flapping noise
+                            Environment.localSound("batFlap", TileLocation);
+                        }
                     }),
                     new FarmerSprite.AnimationFrame (baseFrame + 8, (int)MathF.Round(0.27f * BirdieDef.FlapDuration)),
                     new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * BirdieDef.FlapDuration))

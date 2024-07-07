@@ -34,12 +34,6 @@ namespace OrnithologistsGuild
 
             if (!location.IsOutdoors) return;
 
-            // TODO redo chance system
-            // Original SDV source:
-            // `double chance1 = Math.Max(0.15, Math.Min(0.5, (double) (this.map.Layers[0].LayerWidth * this.map.Layers[0].LayerHeight) / 15000.0));
-            // ...followed by other chances for other types of birds, e.g. woodpecker (which is 1/5th of `chance1`)
-            chance = System.Math.Clamp(chance, 0.15, 0.35);
-
             ModEntry.Instance.Monitor.Log($"AddBirdies onScreen={onScreen} chance={chance}");
 
             // First, get locations of all bird feeders
