@@ -59,7 +59,9 @@
                 "Ivy_OrnithologistsGuild.24": "{{i18n:map.OrnithologistsGuild.strings.24}}",
                 "Ivy_OrnithologistsGuild.25": "{{i18n:map.OrnithologistsGuild.strings.25}}",
                 "Ivy_OrnithologistsGuild.26": "{{i18n:map.OrnithologistsGuild.strings.26}}",
-                "Ivy_OrnithologistsGuild.27": "{{i18n:map.OrnithologistsGuild.strings.27}}"
+                "Ivy_OrnithologistsGuild.27": "{{i18n:map.OrnithologistsGuild.strings.27}}",
+                "Ivy_OrnithologistsGuild.28": "{{i18n:map.OrnithologistsGuild.strings.28}}",
+                "Ivy_OrnithologistsGuild.29": "{{i18n:map.OrnithologistsGuild.strings.29}}",
             }
         },
         // Events
