@@ -16,6 +16,11 @@
             "Target": "Tilesheets/Ivy_OrnithologistsGuild_WoodenPlatform",
             "FromFile": "assets/map/WoodenPlatform.png"
         },
+        {
+            "Action": "Load",
+            "Target": "Tilesheets/Ivy_OrnithologistsGuild_Hummingbird",
+            "FromFile": "assets/map/Hummingbird.png"
+        },
         // BigCraftables
         {
             "Action": "EditData",
@@ -77,6 +82,25 @@
                         "Ivy_OrnithologistsGuild",
                         "Ivy_OrnithologistsGuild_Feeder"
                     ]
+                },
+                "Ivy_OrnithologistsGuild_Hummingbird": {
+                    "Name": "Ivy_OrnithologistsGuild_Hummingbird",
+                    "DisplayName": "{{i18n:big-craftable.Hummingbird.name}}",
+                    "Description": "{{i18n:big-craftable.Hummingbird.description}}",
+                    "Price": 5000,
+                    "CanBePlacedIndoors": false,
+                    "Texture": "Tilesheets/Ivy_OrnithologistsGuild_Hummingbird",
+                    "SpriteIndex": 0,
+                    "CustomFields": {
+                        "Ivy_OrnithologistsGuild_Type": "Hummingbird",
+                        "Ivy_OrnithologistsGuild_Range": 25,
+                        "Ivy_OrnithologistsGuild_MaxFlocks": 3,
+                        "Ivy_OrnithologistsGuild_ZOffset": -10
+                    },
+                    "ContextTags": [
+                        "Ivy_OrnithologistsGuild",
+                        "Ivy_OrnithologistsGuild_Feeder"
+                    ]
                 }
             }
         },
@@ -90,7 +114,9 @@
                 // 25 Iron, 5 Refined Quartz
                 "{{i18n:big-craftable.PlasticTube.name}}": "335 25 338 5/Home/Ivy_OrnithologistsGuild_PlasticTube/true/default/{{i18n:big-craftable.PlasticTube.name}}",
                 // 250 Wood, 20 Hardwood, 5 Iron
-                "{{i18n:big-craftable.WoodenPlatform.name}}": "388 250 709 20 335 5/Home/Ivy_OrnithologistsGuild_WoodenPlatform/true/default/{{i18n:big-craftable.WoodenPlatform.name}}"
+                "{{i18n:big-craftable.WoodenPlatform.name}}": "388 250 709 20 335 5/Home/Ivy_OrnithologistsGuild_WoodenPlatform/true/default/{{i18n:big-craftable.WoodenPlatform.name}}",
+                // 5 Iron, 5 Refined Quartz, 4 Sunflower
+                "{{i18n:big-craftable.Hummingbird.name}}": "335 5 338 5 421 4/Home/Ivy_OrnithologistsGuild_Hummingbird/true/default/{{i18n:big-craftable.Hummingbird.name}}"
             }
         },
         // Machines
@@ -265,6 +291,29 @@
                             "OutputItem": [
                                 {
                                     "IncrementMachineParentSheetIndex": 7,
+                                    "OutputMethod": "OrnithologistsGuild.SpecializedMethods, OrnithologistsGuild:GetFeederOutput"
+                                }
+                            ],
+                            "DaysUntilReady": 1
+                        }
+                    ],
+                    "AllowFairyDust": false,
+                    "AllowLoadWhenFull": true,
+                    "ShowNextIndexWhenReady": true,
+                    "WobbleWhileWorking": false
+                },
+                "(BC)Ivy_OrnithologistsGuild_Hummingbird": {
+                    "OutputRules": [
+                        {
+                            "Id": "Sugar",
+                            "Triggers": [
+                                {
+                                    "RequiredItemId": "(O)245"
+                                }
+                            ],
+                            "OutputItem": [
+                                {
+                                    "IncrementMachineParentSheetIndex": 9,
                                     "OutputMethod": "OrnithologistsGuild.SpecializedMethods, OrnithologistsGuild:GetFeederOutput"
                                 }
                             ],

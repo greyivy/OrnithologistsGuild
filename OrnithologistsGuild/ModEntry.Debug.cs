@@ -35,9 +35,14 @@ namespace OrnithologistsGuild
                 {
                     if (args[0].Equals("food", System.StringComparison.OrdinalIgnoreCase))
                     {
-                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(O)270", 32)); // Corn
-                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(O)770", 32)); // Mixed Seed
-                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(O)431", 32)); // Sunflower Seeds
+                        foreach (var foodDef in ContentManager.Foods)
+                        {
+                            if (!string.IsNullOrEmpty(foodDef.QualifiedItemId))
+                            {
+                                Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create(foodDef.QualifiedItemId, 32));
+                            }
+                        }
+                        
                         Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(O)832", 32)); // Pineapple
                         Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(BC)Ivy_OrnithologistsGuild_SeedHuller", 1));
                         return;
@@ -47,6 +52,7 @@ namespace OrnithologistsGuild
                         Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(BC)Ivy_OrnithologistsGuild_WoodenHopper", 1));
                         Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(BC)Ivy_OrnithologistsGuild_WoodenPlatform", 1));
                         Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(BC)Ivy_OrnithologistsGuild_PlasticTube", 1));
+                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(BC)Ivy_OrnithologistsGuild_Hummingbird", 1));
                         return;
                     }
                     else if (args[0].Equals("bath", System.StringComparison.OrdinalIgnoreCase))
@@ -73,7 +79,8 @@ namespace OrnithologistsGuild
                 if (birdieDef != null)
                 {
                     Monitor.Log($"`ogs` enabled: only spawning {birdieDef.ID}", LogLevel.Info);
-                } else
+                }
+                else
                 {
                     Monitor.Log($"`ogs` disabled (birdie \"{args[0]}\" not found)", LogLevel.Warn);
                 }
@@ -86,7 +93,8 @@ namespace OrnithologistsGuild
                 {
                     debug_PerchType = (PerchType)System.Enum.Parse(typeof(PerchType), args[0]);
                     Monitor.Log($"`ogp` enabled: only relocating to {debug_PerchType} perches", LogLevel.Info);
-                } else
+                }
+                else
                 {
                     debug_PerchType = null;
                     Monitor.Log($"`ogp` disabled", LogLevel.Warn);
@@ -131,7 +139,7 @@ namespace OrnithologistsGuild
                 var trees = Game1.currentLocation.GetTreesWithNests();
                 if (trees.Any())
                 {
-                    foreach(var tree in trees)
+                    foreach (var tree in trees)
                     {
                         ModEntry.Instance.Monitor.Log($"{tree.GetNest().Owner.ID} nest at {tree.Tile} is {tree.GetNest().Age} days old and {tree.GetNest().Stage}");
                     }

@@ -38,6 +38,11 @@
                             "AvailableStock": 1
                         },
                         {
+                            "ItemId": "(BC)Ivy_OrnithologistsGuild_Hummingbird",
+                            "Price": 50000,
+                            "AvailableStock": 1
+                        },
+                        {
                             "ItemId": "(BC)Ivy_OrnithologistsGuild_StoneBath",
                             "Price": 25000,
                             "AvailableStock": 1

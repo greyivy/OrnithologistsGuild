@@ -142,7 +142,7 @@ namespace OrnithologistsGuild.Game.Critters
 
                     // Fly away when tree is shaken (see TreePatches)
                 }
-                else
+                else if (!IsRoosting)
                 {
                     CheckCharacterProximity(time, environment);
                 }

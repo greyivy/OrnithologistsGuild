@@ -9,7 +9,6 @@ namespace OrnithologistsGuild.Game
 {
     public class NestManager
     {
-        // TODO disable nesting for some birds
         public const string KeyNest = "Ivy_OrnithologistsGuild__Nest";
 
         private static ConditionalWeakTable<Tree, Nest> nestCache = new ConditionalWeakTable<Tree, Nest>();

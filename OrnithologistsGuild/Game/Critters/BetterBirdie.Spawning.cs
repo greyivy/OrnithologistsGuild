@@ -223,7 +223,7 @@ namespace OrnithologistsGuild.Game.Critters
 
                             var totalPerches = locationHasFledgedNest ? flockSize.Value * 3 : flockSize.Value;
                             var perches = availablePerches
-                                .Where(perch => tileArea.Contains(Utilities.XY(perch.Position) / Game1.tileSize) && birdieDef.CanPerchAt(perch))
+                                .Where(perch => tileArea.Contains(Utilities.XY(perch.Position) / Game1.tileSize))
                                 .Take(totalPerches);
 
                             var adults = perches
