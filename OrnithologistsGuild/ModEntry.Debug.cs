@@ -47,7 +47,7 @@ namespace OrnithologistsGuild
                         Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(BC)Ivy_OrnithologistsGuild_SeedHuller", 1));
                         return;
                     }
-                    else if (args[0].Equals("feeder", System.StringComparison.OrdinalIgnoreCase))
+                    else if (args[0].Equals("feeders", System.StringComparison.OrdinalIgnoreCase))
                     {
                         Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(BC)Ivy_OrnithologistsGuild_WoodenHopper", 1));
                         Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(BC)Ivy_OrnithologistsGuild_WoodenPlatform", 1));
@@ -55,7 +55,7 @@ namespace OrnithologistsGuild
                         Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(BC)Ivy_OrnithologistsGuild_Hummingbird", 1));
                         return;
                     }
-                    else if (args[0].Equals("bath", System.StringComparison.OrdinalIgnoreCase))
+                    else if (args[0].Equals("baths", System.StringComparison.OrdinalIgnoreCase))
                     {
                         Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(BC)Ivy_OrnithologistsGuild_StoneBath", 1));
                         Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(BC)Ivy_OrnithologistsGuild_HeatedStoneBath", 1));
@@ -71,7 +71,7 @@ namespace OrnithologistsGuild
                     }
                 }
 
-                Monitor.Log("`ogd`: must specify either `food`, `feeder`, `bath`, or `tools`", LogLevel.Warn);
+                Monitor.Log("`ogd`: must specify either `food`, `feeders`, `baths`, or `tools`", LogLevel.Warn);
             }
             else if (cmd.Equals("ogs"))
             {

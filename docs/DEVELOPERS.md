@@ -17,6 +17,7 @@ Table of Contents
 * [Using the biomes system](#using-the-biomes-system)
    * [Specifying biomes on a custom map](#specifying-biomes-on-a-custom-map)
    * [List of biomes](#list-of-biomes)
+* [Debug commands](#debug-commands)
 
 
 # Creating a content pack
@@ -61,6 +62,7 @@ All content packs require a `content.json` file in their root.
 | `BathingClipBottom`| Number of pixels to clip from the bottom of the sprite when the bird is bathing (see `CanBathe`)                                                                                             | `false`  | `8`                                 |
 | `Attributes`       | Number of discoverable attributes (see [Translations](#translations))                                                                                                                        | `true`   |                                     |
 | `CanUseBaths`      | Whether the bird should use bird baths (see `BathingClipBottom`)                                                                                                                             | `true`   |                                     |
+| `CanNestInTrees`   | Whether the bird should build nests in trees (requires `PerchPreference` > 0)                                                                                                                | `true`   |                                     |
 | `MaxFlockSize`     | Maximum number of birds to spawn in a single flock                                                                                                                                           | `true`   |                                     |
 | `Cautiousness`     | How close a player must in, in tiles, for a bird to frighten                                                                                                                                 | `true`   |                                     |
 | `FlapDuration`     | Duration, in ms, between flaps                                                                                                                                                               | `true`   |                                     |
@@ -228,3 +230,11 @@ If no biomes are specified, the `default` biome will be applied and a general se
 - `island` (not yet implemented)
 
 Custom biome names can be used as well.
+
+# Debug commands
+- `ogd {food|feeders|baths|tools}`: Adds debug items to inventory
+- `ogs {birdie ID}`: Consistently spawns specified birdie ID
+- `ogp {MapTile|Bath|Feeder|Tree}`: Forces birdies to perch on specified perch type
+- `ogw`: Bird Whisperer: ask a random bird (nicely) to relocate to wherever you click
+- `ogc`: Prints bird condition debug information for all birds or the specified birdie ID
+- `ogn {birdie ID}`: Prints bird nest debug information for the current game location
