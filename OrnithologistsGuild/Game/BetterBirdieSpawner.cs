@@ -47,7 +47,9 @@ namespace OrnithologistsGuild
                         var foodDef = FoodDef.FromFeeder(obj);
                         if (foodDef != null)
                         {
-                            AddBirdiesNearFeeder(location, obj, foodDef, chance, onScreen);
+                            var feederFlockChance = System.Math.Min(0.75, (chance * 1.5));
+
+                            AddBirdiesNearFeeder(location, obj, foodDef, feederFlockChance, onScreen);
                         }
                     }
                 }
@@ -58,11 +60,13 @@ namespace OrnithologistsGuild
 
         private static void AddRandomBirdies(GameLocation gameLocation, double chance, bool onScreen)
         {
-            ModEntry.Instance.Monitor.Log("AddRandomBirdies");
+            ModEntry.Instance.Monitor.Log($"AddRandomBirdies onScreen={onScreen} chance={chance}");
 
             // Chance to add another flock
             int flocksAdded = 0;
-            while ((ModEntry.debug_AlwaysSpawn != null && flocksAdded == 0) || Game1.random.NextDouble() < chance / (flocksAdded + 1)) // Chance lowers after every flock
+            int debug_AlwaysSpawn_Trial = 0;
+
+            while ((ModEntry.debug_AlwaysSpawn != null && debug_AlwaysSpawn_Trial < 100 && flocksAdded == 0) || Game1.random.NextDouble() < chance / (flocksAdded + 1)) // Chance lowers after every flock
             {
                 // Determine flock parameters
                 BirdieDef flockBirdieDef = ModEntry.debug_AlwaysSpawn == null ? GetRandomBirdieDef(gameLocation) : ModEntry.debug_AlwaysSpawn;
@@ -71,26 +75,26 @@ namespace OrnithologistsGuild
                 var spawnLocations = BetterBirdie.GetRandomPositionsOrPerchesFor(gameLocation, flockBirdieDef, mustBeOffscreen: !onScreen);
                 SpawnBirdies(gameLocation, flockBirdieDef, spawnLocations);
                 if (spawnLocations.Any()) flocksAdded++;
+
+                debug_AlwaysSpawn_Trial++;
             }
         }
 
         private static void AddBirdiesNearFeeder(GameLocation location, Object feeder, FoodDef food, double chance, bool onScreen)
         {
-            ModEntry.Instance.Monitor.Log("AddBirdiesNearFeeder");
+            ModEntry.Instance.Monitor.Log($"AddBirdiesNearFeeder onScreen={onScreen} chance={chance}");
 
             var feederProperties = feeder.GetFeederProperties();
 
             // Build a rectangle around the feeder based on the range
             var feederRect = Utility.getRectangleCenteredAt(feeder.TileLocation, (feederProperties.Range * 2) + 1);
 
-            BirdieDef flockBirdieDef = null;
-
             // Chance to add another flock
             int flocksAdded = 0;
-            while (flocksAdded < feederProperties.MaxFlocks && Game1.random.NextDouble() < (chance * 2))
+            while (flocksAdded < feederProperties.MaxFlocks && Game1.random.NextDouble() < chance / (flocksAdded + 1)) // Chance lowers after every flock
             {
                 // Determine flock parameters
-                flockBirdieDef = GetRandomFeederBirdieDef(feederProperties, food);
+                var flockBirdieDef = GetRandomFeederBirdieDef(feederProperties, food);
                 if (flockBirdieDef == null) return;
 
                 var shouldAddBirdToFeeder = flocksAdded == 0 && Game1.random.NextDouble() < 0.65;
