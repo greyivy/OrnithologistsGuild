@@ -2,7 +2,7 @@
 
 # Ornithologist's Guild
 
-[**Nexus Mods page**](https://www.nexusmods.com/stardewvalley/mods/14510)
+[**Nexus Mods**](https://www.nexusmods.com/stardewvalley/mods/14510) or [**ModDrop**](https://www.moddrop.com/stardew-valley/mods/1601413-bird-overhaul-ornithologists-guild-16-ready)
 
 ## Mod developer?
 
