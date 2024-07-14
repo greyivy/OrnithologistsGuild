@@ -219,11 +219,6 @@ namespace OrnithologistsGuild
                     var id = birdie.BirdieDef.ID;
 
                     if (birdie.IsFlying || birdie.IsSpotted) continue;
-                    if (spottedBirdieUniqueIds.Contains(birdie.BirdieDef.UniqueID))
-                    {
-                        birdie.IsSpotted = true;
-                        continue;
-                    }
 
                     if (Game1.random.NextDouble() < 0.25)
                     {
@@ -231,8 +226,8 @@ namespace OrnithologistsGuild
                         Game1.drawObjectDialogue(I18n.Items_Binoculars_Frighten());
                     }
 
-                    int? newAttribute;
-                    var sighting = SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList.GetOrAddEntry(birdie.BirdieDef, out newAttribute);
+                    var sighting = SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID)
+                        .LifeList.GetOrAddEntry(birdie.BirdieDef, out var newAttribute, out var existingAttribute);
 
                     var contentPack = birdie.BirdieDef.ContentPackDef.ContentPack;
 
@@ -240,7 +235,8 @@ namespace OrnithologistsGuild
                     var commonNameString = contentPack.Translation.Get($"birdie.{id}.commonName");
                     var scientificNameString = contentPack.Translation.Get($"birdie.{id}.scientificName");
                     var funFactString = contentPack.Translation.Get($"birdie.{id}.funFact");
-                    var attributeStrings = Enumerable.Range(1, birdie.BirdieDef.Attributes).ToDictionary(i => i, i => contentPack.Translation.Get($"birdie.{id}.attribute.{i}"));
+                    var attributeStrings = Enumerable.Range(1, birdie.BirdieDef.Attributes).ToDictionary(i => i,
+                        i => contentPack.Translation.Get($"birdie.{id}.attribute.{i}"));
 
                     var lines = new List<string>();
 
@@ -270,13 +266,18 @@ namespace OrnithologistsGuild
                         lines.Add(I18n.Items_Binoculars_Placeholder());
                         lines.Add(string.Empty);
                         lines.Add(string.Join(Utilities.GetLocaleSeparator(), attributeStrings.Select(a => sighting.Sightings.Select(s => s.Attribute).Contains(a.Key) ? a.Value : I18n.Items_Binoculars_Placeholder())));
+
+                        if (existingAttribute.HasValue)
+                        {
+                            lines.Add(string.Empty);
+                            lines.Add(I18n.Items_Binoculars_AlreadySightedAtDateAndLocation());
+                        }
                     }
 
                     Game1.drawObjectDialogue(string.Join("^", lines));
 
                     // Ignore the birds on consecutive uses of the binoculars
                     birdie.IsSpotted = true;
-                    spottedBirdieUniqueIds.Add(birdie.BirdieDef.UniqueID);
 
                     break;
                 }

@@ -188,11 +188,11 @@
             "Action": "EditData",
             "Target": "Characters/Dialogue/OrinothlogistsGuild_Kyle",
             "Entries": {
-                "Custom_Ivy_OrnithologistsGuild_Mon": "{{i18n:npc.Kyle.dialogue.PowerUp_Mon}}",
-                "Custom_Ivy_OrnithologistsGuild_Tue": "{{i18n:npc.Kyle.dialogue.PowerUp_Tue}}",
-                "Custom_Ivy_OrnithologistsGuild_Wed": "{{i18n:npc.Kyle.dialogue.PowerUp_Wed}}",
+                "Custom_Ivy_OrnithologistsGuild_Mon": "{{i18n:npc.Kyle.dialogue.PowerUp_Mon | PlayerName={{Ivy.OrnithologistsGuild/PowerUpPlayerName}}}}",
+                "Custom_Ivy_OrnithologistsGuild_Tue": "{{i18n:npc.Kyle.dialogue.PowerUp_Tue | PlayerName={{Ivy.OrnithologistsGuild/PowerUpPlayerName}}}}",
+                "Custom_Ivy_OrnithologistsGuild_Wed": "{{i18n:npc.Kyle.dialogue.PowerUp_Wed | PlayerName={{uppercase: {{PlayerName}}}}}}",
                 "Custom_Ivy_OrnithologistsGuild_Thu": "{{i18n:npc.Kyle.dialogue.PowerUp_Thu}}",
-                "Custom_Ivy_OrnithologistsGuild_Sat": "{{i18n:npc.Kyle.dialogue.PowerUp_Sat}}",
+                "Custom_Ivy_OrnithologistsGuild_Sat": "{{i18n:npc.Kyle.dialogue.PowerUp_Sat | PlayerName={{Ivy.OrnithologistsGuild/PowerUpPlayerName}}}}",
                 "Custom_Ivy_OrnithologistsGuild_Sun": "{{i18n:npc.Kyle.dialogue.PowerUp_Sun}}",
             },
             "When": {

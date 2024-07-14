@@ -11,20 +11,30 @@ namespace OrnithologistsGuild.Models
     {
         public int IdentifiedCount { get
             {
-                return this.Values.Where(v => v.Identified).Count();
+                return Values.Where(v => v.Identified).Count();
             } }
 
-        public LifeListEntry GetOrAddEntry(BirdieDef birdieDef, out int? newAttribute)
+        public LifeListEntry GetOrAddEntry(BirdieDef birdieDef, out int? newAttribute, out int? latestAttribute)
         {
             newAttribute = null;
+            latestAttribute = null;
 
-            if (!this.ContainsKey(birdieDef.UniqueID))
+            LifeListEntry lifeListEntry;
+            if (!TryGetValue(birdieDef.UniqueID, out lifeListEntry))
             {
-               this.Add(birdieDef.UniqueID, new Models.LifeListEntry());
+                lifeListEntry = new LifeListEntry();
+                Add(birdieDef.UniqueID, lifeListEntry);
             }
 
-            var lifeListEntry = this[birdieDef.UniqueID];
             if (lifeListEntry.Identified) return lifeListEntry; // Already added
+
+            var existingSightingAtDateAndLocation = lifeListEntry.Sightings.FirstOrDefault(sighting =>
+                sighting.DaysSinceStart == SDate.From(Game1.Date).DaysSinceStart &&
+                sighting.LocationName.Equals(Game1.player.currentLocation.Name));
+            if (existingSightingAtDateAndLocation != null) { // Already sighted at this day / location
+                latestAttribute = existingSightingAtDateAndLocation.Attribute;
+                return lifeListEntry;
+            }
 
             var attributes = Enumerable.Range(1, birdieDef.Attributes);
             var undiscoveredAttributes = attributes.Except(lifeListEntry.Sightings.Select(logEntry => logEntry.Attribute)).ToList();
@@ -51,12 +61,12 @@ namespace OrnithologistsGuild.Models
 
         public LifeListEntry()
         {
-            this.Sightings = new List<LifeListSighting>();
+            Sightings = new List<LifeListSighting>();
         }
 
         public void AddSighting(int attribute)
         {
-            this.Sightings.Add(new LifeListSighting()
+            Sightings.Add(new LifeListSighting()
             {
                 DaysSinceStart = SDate.From(Game1.Date).DaysSinceStart,
                 TimeOfDay = Game1.timeOfDay,
@@ -77,5 +87,4 @@ namespace OrnithologistsGuild.Models
 
         public int Attribute;
     }
-
 }

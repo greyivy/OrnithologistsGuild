@@ -25,6 +25,7 @@
     "items.LifeList.emptyTip": "Tip: binoculars can help you identify the birds around you.",
     "items.LifeList.sighted": "Sighted {{date}} ({{location}}): {{attribute}}",
     "items.LifeList.identified": "Identified {{date}} ({{location}}): {{attribute}}",
+    "items.Binoculars.alreadySightedAtDateAndLocation": "Hmm... maybe I need to come back another day or spot this bird in another habitat to get a better view.",
     "items.Binoculars.newlyIdentified": "Newly identified:",
     "items.Binoculars.alreadyIdentified": "Already identified:",
     "items.Binoculars.notYetIdentified": "Not yet identified:",

@@ -89,7 +89,8 @@ namespace OrnithologistsGuild
 
             if (lifeList.IdentifiedCount > 0)
             {
-                var identified = ContentPackManager.BirdieDefs.Values.Where(birdieDef => lifeList.ContainsKey(birdieDef.UniqueID) && lifeList[birdieDef.UniqueID].Identified).ToList();
+                var identified = ContentPackManager.BirdieDefs.Values.Where(birdieDef =>
+                    lifeList.TryGetValue(birdieDef.UniqueID, out var lifeListEntry) && lifeListEntry.Identified).ToList();
 
                 List<Response> choices = identified
                     .OrderBy(birdieDef =>

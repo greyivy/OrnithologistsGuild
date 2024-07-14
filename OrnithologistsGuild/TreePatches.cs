@@ -79,8 +79,7 @@ namespace OrnithologistsGuild
                 else if (nest != null && !hasSprite)
                 {
                     // Nest added -- attach sprite
-                    var internalAssetName = ModEntry.Instance.Helper.ModContent.GetInternalAssetName("assets/nest.png").BaseName;
-                    sprite = new AnimatedSprite(internalAssetName, 0, 16, 16);
+                    sprite = new AnimatedSprite("Mods/Ivy.OrnithologistsGuild/Nest", 0, 16, 16);
                     nestSpriteCache.AddOrUpdate(__instance, sprite);
                 }
 

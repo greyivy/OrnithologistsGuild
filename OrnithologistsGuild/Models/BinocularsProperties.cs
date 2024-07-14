@@ -34,12 +34,14 @@ namespace OrnithologistsGuild.Models
         {
             if (!IsBinoculars(binoculars)) return null;
 
-            if (!cachedBinocularsProperties.ContainsKey(binoculars.QualifiedItemId))
+            BinocularsProperties binocularsProperties;
+            if (!cachedBinocularsProperties.TryGetValue(binoculars.QualifiedItemId, out binocularsProperties))
             {
-                cachedBinocularsProperties[binoculars.QualifiedItemId] = new BinocularsProperties(binoculars);
+                binocularsProperties = new BinocularsProperties(binoculars);
+                cachedBinocularsProperties[binoculars.QualifiedItemId] = binocularsProperties;
             }
 
-            return cachedBinocularsProperties[binoculars.QualifiedItemId];
+            return binocularsProperties;
         }
 
         public static bool IsBinoculars(this Object maybeBinoculars) => maybeBinoculars.HasContextTag(BinocularsProperties.CONTEXT_TAG);

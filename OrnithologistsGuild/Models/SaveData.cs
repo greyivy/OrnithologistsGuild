@@ -20,12 +20,14 @@ namespace OrnithologistsGuild.Models
 				throw new ArgumentOutOfRangeException(nameof(uniquePlayerId), "Farmhands only have access to their own PlayerSaveData");
 			}
 
-			if (!Players.ContainsKey(uniquePlayerId))
+			PlayerSaveData playerSaveData;
+			if (!Players.TryGetValue(uniquePlayerId, out playerSaveData))
 			{
-				Players[uniquePlayerId] = new PlayerSaveData();
+				playerSaveData = new PlayerSaveData();
+                Players[uniquePlayerId] = playerSaveData;
 			}
 
-			return Players[uniquePlayerId];
+			return playerSaveData;
 		}
 	}
 
@@ -50,4 +52,3 @@ namespace OrnithologistsGuild.Models
         }
     }
 }
-

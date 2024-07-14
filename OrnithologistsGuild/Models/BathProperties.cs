@@ -43,12 +43,14 @@ namespace OrnithologistsGuild.Models
         {
             if (!IsBath(bath)) return null;
 
-            if (!cachedBathProperties.ContainsKey(bath.QualifiedItemId))
+            BathProperties bathProperties;
+            if (!cachedBathProperties.TryGetValue(bath.QualifiedItemId, out bathProperties))
             {
-                cachedBathProperties[bath.QualifiedItemId] = new BathProperties(bath);
+                bathProperties = new BathProperties(bath);
+                cachedBathProperties[bath.QualifiedItemId] = bathProperties;
             }
 
-            return cachedBathProperties[bath.QualifiedItemId];
+            return bathProperties;
         }
 
         public static bool IsBath(this Object maybeBath) => maybeBath.bigCraftable.Value && maybeBath.HasContextTag(BathProperties.CONTEXT_TAG);

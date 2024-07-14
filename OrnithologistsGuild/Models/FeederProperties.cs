@@ -59,12 +59,14 @@ namespace OrnithologistsGuild.Models
         {
             if (!IsFeeder(feeder)) return null;
 
-            if (!cachedFeederProperties.ContainsKey(feeder.QualifiedItemId))
+            FeederProperties feederProperties;
+            if (!cachedFeederProperties.TryGetValue(feeder.QualifiedItemId, out feederProperties))
             {
-                cachedFeederProperties[feeder.QualifiedItemId] = new FeederProperties(feeder);
+                feederProperties = new FeederProperties(feeder);
+                cachedFeederProperties[feeder.QualifiedItemId] = feederProperties;
             }
 
-            return cachedFeederProperties[feeder.QualifiedItemId];
+            return feederProperties;
         }
 
         public static bool IsFeeder(this Object maybeFeeder) => maybeFeeder.bigCraftable.Value && maybeFeeder.HasContextTag(FeederProperties.CONTEXT_TAG);

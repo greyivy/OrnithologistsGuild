@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
-using OrnithologistsGuild.Game;
 
 namespace OrnithologistsGuild.Content
 {
