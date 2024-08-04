@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
@@ -12,12 +13,26 @@ namespace OrnithologistsGuild
 {
 	public static class TreeExtensions
 	{
+        private static readonly Dictionary<string, float> PerchableTreeHeight = new Dictionary<string, float> {
+            { Tree.bushyTree, 270 },
+            { Tree.leafyTree, 270 },
+            { Tree.pineTree, 270 },
+            { Tree.mahoganyTree, 270 },
+            { Tree.palmTree, 200 },
+            { Tree.palmTree2, 250 },
+            { Tree.greenRainTreeBushy, 280 },
+            { Tree.greenRainTreeLeafy, 280 }
+        };
+
         public static bool GetAllowPerchingOrNesting(this Tree tree)
 		{
+            var treeType = tree.treeType.Value;
+
             var tileHeight = tree.getRenderBounds().Height / Game1.tileSize;
             if (tileHeight < 4) return false; // Small tree
             if (tree.health.Value < Tree.startingHealth) return false; // Damaged tree
             if (tree.tapped.Value) return false; // Tapped tree
+            if (!PerchableTreeHeight.ContainsKey(treeType)) return false; // Non-perchable tree
 
             return true;
         }
@@ -30,11 +45,15 @@ namespace OrnithologistsGuild
 
         public static Vector3 GetPerchPosition(this Tree tree)
         {
-            var height = tree.getRenderBounds().Height;
-            return new Vector3(
-                tree.Tile.X * Game1.tileSize,
-                tree.Tile.Y * Game1.tileSize,
-                -MathF.Ceiling(height / 1.65f));
+            if (PerchableTreeHeight.TryGetValue(tree.treeType.Value, out var height))
+            {
+                return new Vector3(
+                    tree.Tile.X * Game1.tileSize,
+                    tree.Tile.Y * Game1.tileSize,
+                    -height);
+            }
+
+            return Vector3.Zero;
         }
 
         public static Vector2 GetNestPosition(this Tree tree)

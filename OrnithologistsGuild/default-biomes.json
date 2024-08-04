@@ -22,11 +22,17 @@
 
     // East Scarp compat (may be overriden by mod author in the future)
     "Custom_EastScarpe": ["city", "ocean"],
+    "EastScarp_Village": ["city", "ocean"],
     "Custom_ESMeadowFarm": ["farm"],
+    "EastScarp_MeadowFarm": ["farm"],
     "Custom_ESOrchard": ["void"],
+    "EastScarp_Orchard": ["void"],
     "Custom_ESMineEntrance": ["city"],
+    "EastScarp_MineEntrance": ["city"],
     "Custom_ESDeepMountains": ["forest"],
+    "EastScarp_DeepMountains": ["forest"],
 	"Custom_ESClearingHouse": ["void"],
+	"EastScarp_ClearingHouse": ["void"],
 	"Custom_ESParkDogs": ["farm"],
 
     // Ridgeside Village compat (credit to @Vomau) (may be overriden by mod author in the future)
