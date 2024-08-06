@@ -287,12 +287,50 @@
     },
     {
       "ID": "HouseFinch",
-      "AssetPath": "assets/HouseFinch.png",
+      "VariantIDs": ["HouseFinch_Female"],
+      "AssetPath": "assets/HouseFinch_Male.png",
       "SoundAssetPath": "assets/HouseFinch.wav",
       "Attributes": 2,
-      "MaxFlockSize": 3,
+      "MaxFlockSize": 5,
       "Cautiousness": 5,
-      "FlapDuration": 400,
+      "FlapDuration": 350,
+      "FlySpeed": 5.5,
+      "PerchPreference": 2,
+      "BaseWt": 0.2,
+      "CanNestInTrees": false,
+      "FeederBaseWts": {
+        "Hopper": 0.3,
+        "Platform": 0.1,
+        "Tube": 0.4
+      },
+      "FoodBaseWts": {
+        "MixedSeeds": 0.05,
+        "SunflowerSeeds": 0.1
+      },
+      "Conditions": [
+        {
+          "When": {
+            "Time": "{{Range: 1800, 2600}}"
+          },
+          "NilWt": true
+        },
+        {
+          "When": {
+            "Ivy.OrnithologistsGuild/LocationBiome": "void"
+          },
+          "NilWt": true
+        }
+      ]
+    },
+    {
+      "ID": "HouseFinch_Female",
+      "VariantIDs": ["HouseFinch"],
+      "AssetPath": "assets/HouseFinch_Female.png",
+      "SoundAssetPath": "assets/HouseFinch.wav",
+      "Attributes": 2,
+      "MaxFlockSize": 5,
+      "Cautiousness": 5,
+      "FlapDuration": 350,
       "FlySpeed": 5.5,
       "PerchPreference": 2,
       "BaseWt": 0.2,

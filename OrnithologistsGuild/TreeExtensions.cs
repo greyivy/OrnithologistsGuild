@@ -39,6 +39,7 @@ namespace OrnithologistsGuild
 
         public static bool HasNest(this Tree tree) => NestManager.GetNest(tree) != null;
         public static bool HasNestOwnedBy(this Tree tree, BirdieDef birdieDef) => NestManager.GetNest(tree)?.Owner == birdieDef;
+        public static bool HasNestOwnedBy(this Tree tree, IEnumerable<BirdieDef> birdieDefs) => birdieDefs.Any(birdieDef => NestManager.GetNest(tree)?.Owner == birdieDef);
         public static Nest GetNest(this Tree tree) => NestManager.GetNest(tree);
         public static void SetNest(this Tree tree, Nest nest) => NestManager.SetNest(tree, nest);
         public static void ClearNest(this Tree tree) => NestManager.ClearNest(tree);

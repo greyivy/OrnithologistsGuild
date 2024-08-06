@@ -171,13 +171,13 @@ namespace OrnithologistsGuild.Game
                 .Select(tree => new Perch(tree));
         }
 
-        public static IEnumerable<Perch> GetAllOwnedNestPerches(GameLocation location, BirdieDef birdieDef)
+        public static IEnumerable<Perch> GetAllOwnedNestPerches(GameLocation location, IEnumerable<BirdieDef> birdieDefs)
         {
             var treesWithNests = location.GetTreesWithNests();
 
             return treesWithNests
                 .Where(tree =>
-                    tree.HasNestOwnedBy(birdieDef) &&
+                    birdieDefs.Any(birdieDef => tree.HasNestOwnedBy(birdieDef)) &&
                     tree.GetNest().Stage != NestStage.Fledged &&
                     tree.GetNest().Stage != NestStage.Removed)
                 .Select(tree => new Perch(tree));
@@ -192,7 +192,7 @@ namespace OrnithologistsGuild.Game
                 .Select(bath => new Perch(bath));
         }
 
-        public static IEnumerable<Perch> GetAllFeederPerches(GameLocation location, BirdieDef birdieDef)
+        public static IEnumerable<Perch> GetAllFeederPerches(GameLocation location, IEnumerable<BirdieDef> birdieDefs)
         {
             // Get all bird feeders
             return location.Objects
@@ -200,11 +200,11 @@ namespace OrnithologistsGuild.Game
                 .Where(obj => obj.IsFeeder())
                 .Where(feeder =>
                     feeder.MinutesUntilReady > 0 && // No empty feeders
-                    birdieDef.CanPerchAt(feeder.GetFeederProperties()))
+                    birdieDefs.Any(birdieDef => birdieDef.CanPerchAt(feeder.GetFeederProperties())))
                 .Select(feeder => new Perch(feeder));
         }
 
-        public static IEnumerable<Perch> GetAllAvailablePerches(GameLocation location, BirdieDef birdieDef, bool mapTile, bool tree, bool feeder, bool bath, bool nest)
+        public static IEnumerable<Perch> GetAllAvailablePerches(GameLocation location, IEnumerable<BirdieDef> birdieDefs, bool mapTile, bool tree, bool feeder, bool bath, bool nest)
         {
             // Get all perched birdies
             var occupiedPerches = location.critters == null ?
@@ -214,9 +214,9 @@ namespace OrnithologistsGuild.Game
             return Enumerable.Empty<Perch>()
                 .Concat(mapTile ? GetAllMapPerches(location)                            : Enumerable.Empty<Perch>())
                 .Concat(tree    ? GetAllTreePerches(location)                           : Enumerable.Empty<Perch>())
-                .Concat(feeder  ? GetAllFeederPerches(location, birdieDef)              : Enumerable.Empty<Perch>())
+                .Concat(feeder  ? GetAllFeederPerches(location, birdieDefs)              : Enumerable.Empty<Perch>())
                 .Concat(bath    ? GetAllBirdBathPerches(location)                       : Enumerable.Empty<Perch>())
-                .Concat(nest    ? GetAllOwnedNestPerches(location, birdieDef)           : Enumerable.Empty<Perch>())
+                .Concat(nest    ? GetAllOwnedNestPerches(location, birdieDefs)           : Enumerable.Empty<Perch>())
                 .Except(occupiedPerches);
         }
     }

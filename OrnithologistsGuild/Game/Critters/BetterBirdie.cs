@@ -107,10 +107,13 @@ namespace OrnithologistsGuild.Game.Critters
             }
             startingPosition = position;
 
-            FlySpeedOffset = (float)Game1.random.NextDouble() - 0.5f;
+            FlySpeedOffset = Utility.RandomFloat(-0.1f, 0.1f);
 
             InitializeStateMachine();
         }
+
+        public float FlySpeed => BirdieDef.FlySpeed + FlySpeedOffset;
+        public int FlapDuration => BirdieDef.FlapDuration + (int)MathF.Round(FlySpeedOffset * 10);
 
         public override bool update(GameTime time, GameLocation environment)
         {
@@ -191,6 +194,11 @@ namespace OrnithologistsGuild.Game.Critters
             {
                 // Force relocate
                 StateMachine.Trigger(BetterBirdieTrigger.Relocate);
+                return;
+            }
+
+            if (Is(BetterBirdieState.FlyingAway) || Is(BetterBirdieState.Relocating))
+            {
                 return;
             }
 
@@ -296,7 +304,7 @@ namespace OrnithologistsGuild.Game.Critters
 
             if (Utility.isOnScreen(position, Game1.tileSize))
             {
-                var splash = new TemporaryAnimatedSprite("TileSheets\\animations", new Rectangle(0, 832, 64, 64), (BirdieDef.FlapDuration / 2) / 10, 10, 1, splashPosition, false, Game1.random.Next(0, 2) == 0);
+                var splash = new TemporaryAnimatedSprite("TileSheets\\animations", new Rectangle(0, 832, 64, 64), (FlapDuration / 2) / 10, 10, 1, splashPosition, false, Game1.random.Next(0, 2) == 0);
                 splash.layerDepth = ZIndex + 2f;
                 splash.scale = scale;
                 Environment.temporarySprites.Add(splash);
@@ -306,29 +314,29 @@ namespace OrnithologistsGuild.Game.Critters
         private List<FarmerSprite.AnimationFrame> GetFlyingAnimation()
         {
             return new List<FarmerSprite.AnimationFrame> {
-                    new FarmerSprite.AnimationFrame (baseFrame + 6, (int)MathF.Round(0.27f * BirdieDef.FlapDuration)),
-                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * BirdieDef.FlapDuration), secondaryArm: false, flip, frameBehavior: (Farmer who) =>
+                    new FarmerSprite.AnimationFrame (baseFrame + 6, (int)MathF.Round(0.27f * FlapDuration)),
+                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * FlapDuration), secondaryArm: false, flip, frameBehavior: (Farmer who) =>
                     {
                         if (BirdieDef.FlapDuration >= 100) {
                             // Make bird shoot up a bit while flapping for more realistic flight
                             // e.g. flapDuration = 500, gravityAffectedDY = 4
                             // e.g. flapDuration = 250, gravityAffectedDY = 2
-                            gravityAffectedDY = -(BirdieDef.FlapDuration * (4f/500f));
+                            gravityAffectedDY = -(FlapDuration * (4f/500f));
 
                             // Play flapping noise
                             Environment.localSound("batFlap", TileLocation);
                         }
                     }),
-                    new FarmerSprite.AnimationFrame (baseFrame + 8, (int)MathF.Round(0.27f * BirdieDef.FlapDuration)),
-                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * BirdieDef.FlapDuration))
+                    new FarmerSprite.AnimationFrame (baseFrame + 8, (int)MathF.Round(0.27f * FlapDuration)),
+                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * FlapDuration))
                 };
         }
 
         private List<FarmerSprite.AnimationFrame> GetBathingAnimation()
         {
             return new List<FarmerSprite.AnimationFrame> {
-                    new FarmerSprite.AnimationFrame (baseFrame + 6, (int)MathF.Round(0.27f * (BirdieDef.FlapDuration / 2))),
-                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * (BirdieDef.FlapDuration / 2)), secondaryArm: false, flip, frameBehavior: (Farmer who) =>
+                    new FarmerSprite.AnimationFrame (baseFrame + 6, (int)MathF.Round(0.27f * (FlapDuration / 2))),
+                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * (FlapDuration / 2)), secondaryArm: false, flip, frameBehavior: (Farmer who) =>
                     {
                         Splash(
                             1 + Utility.RandomFloat(0, 0.75f),
@@ -336,8 +344,8 @@ namespace OrnithologistsGuild.Game.Critters
                             Utility.RandomFloat(0, 1f)
                         );
                     }),
-                    new FarmerSprite.AnimationFrame (baseFrame + 8, (int)MathF.Round(0.27f * (BirdieDef.FlapDuration / 2))),
-                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * (BirdieDef.FlapDuration / 2)))
+                    new FarmerSprite.AnimationFrame (baseFrame + 8, (int)MathF.Round(0.27f * (FlapDuration / 2))),
+                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * (FlapDuration / 2)))
                 };
         }
         #endregion

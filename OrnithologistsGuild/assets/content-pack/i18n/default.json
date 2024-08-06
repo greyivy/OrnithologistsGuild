@@ -25,11 +25,17 @@
   "birdie.AmericanBushtit.attribute.2": "grey body",
   "birdie.AmericanBushtit.funFact": "On cold nights, these little puffballs huddle together in a big bundle of joy to keep warm!",
   
-  "birdie.HouseFinch.commonName": "House Finch",
+  "birdie.HouseFinch.commonName": "House Finch (male)",
   "birdie.HouseFinch.scientificName": "Haemorhous mexicanus",
   "birdie.HouseFinch.attribute.1": "red head",
   "birdie.HouseFinch.attribute.2": "brown body",
   "birdie.HouseFinch.funFact": "Females prefer redder males: a sign of a fat, well-fed mate!",
+
+  "birdie.HouseFinch_Female.commonName": "House Finch (female)",
+  "birdie.HouseFinch_Female.scientificName": "Haemorhous mexicanus",
+  "birdie.HouseFinch_Female.attribute.1": "brown head",
+  "birdie.HouseFinch_Female.attribute.2": "brown body",
+  "birdie.HouseFinch_Female.funFact": "Females prefer redder males: a sign of a fat, well-fed mate!",
   
   "birdie.HouseSparrow.commonName": "House Sparrow",
   "birdie.HouseSparrow.scientificName": "Passer domesticus",

@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using OrnithologistsGuild.Content;
 using OrnithologistsGuild.Game;
 using OrnithologistsGuild.Game.Critters;
 using OrnithologistsGuild.Models;
 using StardewModdingAPI;
 using StardewValley;
-using StardewValley.BellsAndWhistles;
 
 namespace OrnithologistsGuild
 {
@@ -181,6 +179,8 @@ namespace OrnithologistsGuild
 
                 if (nest != null && nest.Stage != NestStage.Removed)
                 {
+                    if (NestManager.IsNestAtPositionSpotted(identification.Position)) continue;
+
                     var birdieDef = nest.Owner;
                     var id = birdieDef.ID;
 
@@ -211,9 +211,13 @@ namespace OrnithologistsGuild
                     else if (nest.Stage == NestStage.Fledged) lines.Add(I18n.Items_Binoculars_NestStateFledged());
 
                     Game1.drawObjectDialogue(string.Join("^", lines));
+
+                    // Ignore the nest on consecutive uses of the binoculars
+                    NestManager.SpottedNestAtPosition(identification.Position);
+
                     break;
                 }
-                else
+                else if (identification.Birdie != null)
                 {
                     var birdie = identification.Birdie;
                     var id = birdie.BirdieDef.ID;
@@ -224,6 +228,8 @@ namespace OrnithologistsGuild
                     {
                         birdie.Frighten();
                         Game1.drawObjectDialogue(I18n.Items_Binoculars_Frighten());
+
+                        break;
                     }
 
                     var sighting = SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID)

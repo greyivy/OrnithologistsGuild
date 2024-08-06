@@ -322,10 +322,10 @@ namespace OrnithologistsGuild.Game.Critters
                     })
                     .Update(a =>
                     {
-                        if (!flip) position.X -= BirdieDef.FlySpeed - FlySpeedOffset; // Left
-                        else position.X += BirdieDef.FlySpeed + FlySpeedOffset; // Right
+                        if (!flip) position.X -= FlySpeed; // Left
+                        else position.X += FlySpeed; // Right
 
-                        yOffset -= 2f + FlySpeedOffset;
+                        yOffset -= 2f;
                     })
                 .State(BetterBirdieState.Relocating)
                     .TransitionTo(BetterBirdieState.Stopping).On(BetterBirdieTrigger.Stop)
@@ -353,7 +353,7 @@ namespace OrnithologistsGuild.Game.Critters
 
                             RelocateDistance = Vector2.Distance(position, Utilities.XY(relocateTo.Position));
 
-                            RelocateDuration = (int)(RelocateDistance.Value / ((BirdieDef.FlySpeed + FlySpeedOffset) / 15f));
+                            RelocateDuration = (int)(RelocateDistance.Value / (FlySpeed / 15f));
                             RelocateElapsed = 0;
 
                             if (position.X > RelocateTo.Position.X) flip = false;

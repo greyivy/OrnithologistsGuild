@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
@@ -12,10 +13,17 @@ namespace OrnithologistsGuild.Game
         public const string KeyNest = "Ivy_OrnithologistsGuild__Nest";
 
         private static ConditionalWeakTable<Tree, Nest> nestCache = new ConditionalWeakTable<Tree, Nest>();
+        private static HashSet<Vector2> spottedNestPositions = new HashSet<Vector2>();
 
         public static void Initialize()
         {
             ModEntry.Instance.Helper.Events.GameLoop.DayEnding += GameLoop_DayEnding;
+            ModEntry.Instance.Helper.Events.Player.Warped += Player_Warped;
+        }
+
+        private static void Player_Warped(object sender, StardewModdingAPI.Events.WarpedEventArgs e)
+        {
+            spottedNestPositions.Clear();
         }
 
         private static IEnumerable<GameLocation> GetValidNestingLocations() =>
@@ -81,6 +89,16 @@ namespace OrnithologistsGuild.Game
                 tree.modData.Remove(KeyNest);
                 nestCache.Remove(tree);
             }
+        }
+
+        public static bool IsNestAtPositionSpotted(Vector2 position)
+        {
+            return spottedNestPositions.Contains(position);
+        }
+
+        public static void SpottedNestAtPosition(Vector2 position)
+        {
+            spottedNestPositions.Add(position);
         }
     }
 }

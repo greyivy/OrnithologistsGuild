@@ -53,6 +53,8 @@ namespace OrnithologistsGuild.Content
         }
 
         public string ID;
+        public string[] VariantIDs = new string[0];
+
         public string UniqueID; // Generated
         public string AssetPath;
 
