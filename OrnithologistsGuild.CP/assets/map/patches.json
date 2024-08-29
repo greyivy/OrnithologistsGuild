@@ -85,33 +85,16 @@
             "Target": "Maps/Forest-IceFestival",
             "FromFile": "assets/map/Forest-IceFestival_OrnithologistsGuild.tmx",
             "FromArea": {
-                "X": 5,
+                "X": 0,
                 "Y": 52,
-                "Width": 10,
-                "Height": 9
+                "Width": 16,
+                "Height": 14
             },
             "ToArea": {
-                "X": 5,
+                "X": 0,
                 "Y": 52,
-                "Width": 10,
-                "Height": 9
-            }
-        },
-        {
-            "Action": "EditMap",
-            "Target": "Maps/Forest-IceFestival",
-            "FromFile": "assets/map/Forest-IceFestival_OrnithologistsGuild.tmx",
-            "FromArea": {
-                "X": 7,
-                "Y": 61,
-                "Width": 8,
-                "Height": 5
-            },
-            "ToArea": {
-                "X": 7,
-                "Y": 61,
-                "Width": 8,
-                "Height": 5
+                "Width": 16,
+                "Height": 14
             }
         },
         {

@@ -62,18 +62,6 @@
                 }
             }
         },
-        {
-            "Action": "EditData",
-            "Target": "Data/BigCraftables",
-            "Fields": {
-                "Ivy_OrnithologistsGuild_StoneBath": {
-                    "SpriteIndex": 1
-                }
-            },
-            "When": {
-                "Season": "Winter"
-            }
-        },
         // Recipes
         {
             "Action": "EditData",

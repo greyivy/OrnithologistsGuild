@@ -67,16 +67,17 @@ namespace OrnithologistsGuild
             foreach (var sighting in lifeListEntry.Sightings)
             {
                 var date = SDate.FromDaysSinceStart(sighting.DaysSinceStart);
-                var location = Game1.getLocationFromName(sighting.LocationName).Name;
+                var location = Game1.getLocationFromName(sighting.LocationName);
+                var locationName = location == null ? sighting.LocationName : location.Name;
                 var attribute = attributeStrings[sighting.Attribute];
 
                 if (lifeListEntry.Sightings.IndexOf(sighting) == lifeListEntry.Sightings.Count - 1)
                 {
-                    lines.Add(I18n.Items_LifeList_Identified(date.ToLocaleString(), location, attribute));
+                    lines.Add(I18n.Items_LifeList_Identified(date.ToLocaleString(), locationName, attribute));
                 }
                 else
                 {
-                    lines.Add(I18n.Items_LifeList_Sighted(date.ToLocaleString(), location, attribute));
+                    lines.Add(I18n.Items_LifeList_Sighted(date.ToLocaleString(), locationName, attribute));
                 }
             }
 
