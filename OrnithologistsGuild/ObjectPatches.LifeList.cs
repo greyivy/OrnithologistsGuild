@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using OrnithologistsGuild.Content;
 using StardewModdingAPI.Utilities;
 using StardewValley;
@@ -22,16 +23,21 @@ namespace OrnithologistsGuild
 
         private static void DrawBirdieList(Models.LifeList lifeList, List<Response> choices, int page = 1)
         {
+            Monitor.Log("DrawBirdieList " + page);
+
             var totalPages = Math.Ceiling((decimal)choices.Count / PAGE_SIZE);
 
             var title = I18n.Items_LifeList_Title(playerName: Game1.player.Name, identified: lifeList.IdentifiedCount, total: ContentPackManager.BirdieDefs.Count);
             var pagination = I18n.Items_LifeList_Pagination(page: page, total: totalPages);
 
-            var action = new GameLocation.afterQuestionBehavior((_, choice) => {
+            var action = new GameLocation.afterQuestionBehavior((_, choice) => Task.Run(async () => {
+                // Delay required or choices will stop executing after first dialog
+                await Task.Delay(1);
+
                 if (choice.Equals(ACTION_NEXT)) DrawBirdieList(lifeList, choices, page + 1);
                 else if (choice.Equals(ACTION_CLOSE)) { }
                 else DrawBirdieDialogue(ContentPackManager.BirdieDefs[choice], lifeList[choice]);
-            });
+            }));
 
             var pageChoices = choices.Skip((page - 1) * PAGE_SIZE).Take(PAGE_SIZE).ToList();
             if (page < totalPages) pageChoices.Add(new Response(ACTION_NEXT, I18n.Items_LifeList_ActionNext()));
