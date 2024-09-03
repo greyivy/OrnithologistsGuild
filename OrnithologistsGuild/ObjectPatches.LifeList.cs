@@ -169,7 +169,10 @@ namespace OrnithologistsGuild
 
                         var scale = 5;
                         birdieSprite.animateOnce(Game1.currentGameTime);
-                        birdieSprite.draw(b, new Vector2(__instance.xPositionOnScreen + __instance.width - (birdieSprite.SpriteWidth * scale) - 24, __instance.yPositionOnScreen + 16), 1f, 0, 0, Color.White, scale: 5);
+
+                        // Bob up and down a bit
+                        var offsetY = MathF.Sin((float)Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 1250f) * 24f;
+                        birdieSprite.draw(b, new Vector2(__instance.xPositionOnScreen + __instance.width - (birdieSprite.SpriteWidth * scale) - 48, __instance.yPositionOnScreen + 24 + offsetY), 1f, 0, 0, Color.White, scale: 5);
                     }
                 }
             }
