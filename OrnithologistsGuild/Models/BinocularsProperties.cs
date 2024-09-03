@@ -5,32 +5,27 @@ namespace OrnithologistsGuild.Models
 {
     public record BinocularsProperties
     {
-        public const string CONTEXT_TAG = "Ivy_OrnithologistsGuild_Binoculars";
+        public const string TAG = "Ivy_OrnithologistsGuild_Binoculars";
 
         private const string PROPERTY_RANGE = "Ivy_OrnithologistsGuild_Range";
 
         public int Range { get; private set; }
 
-        public BinocularsProperties(Object binoculars)
+        public BinocularsProperties(Tool binoculars)
         {
-            if (DataLoader.Objects(Game1.content).TryGetValue(binoculars.ItemId, out var objectData))
-            {
-                if (objectData.CustomFields.TryGetValue(PROPERTY_RANGE, out string range)) {
-                    Range = int.Parse(range);
-                } else {
-                    throw new System.ArgumentException($"Must contain {PROPERTY_RANGE} custom field", nameof(binoculars));
-                }
+            if (binoculars.modData.TryGetValue(PROPERTY_RANGE, out string range)) {
+                Range = int.Parse(range);
             } else {
-                throw new System.ArgumentException("Must contain custom fields", nameof(binoculars));
+                throw new System.ArgumentException($"Must contain {PROPERTY_RANGE} custom field", nameof(binoculars));
             }
         }
     }
 
-    public static class ObjectBinocularsPropertiesExtensions
+    public static class ToolBinocularsPropertiesExtensions
     {
         private static Dictionary<string, BinocularsProperties> cachedBinocularsProperties = new Dictionary<string, BinocularsProperties>();
 
-        public static BinocularsProperties GetBinocularsProperties(this Object binoculars)
+        public static BinocularsProperties GetBinocularsProperties(this Tool binoculars)
         {
             if (!IsBinoculars(binoculars)) return null;
 
@@ -44,6 +39,6 @@ namespace OrnithologistsGuild.Models
             return binocularsProperties;
         }
 
-        public static bool IsBinoculars(this Object maybeBinoculars) => maybeBinoculars.HasContextTag(BinocularsProperties.CONTEXT_TAG);
+        public static bool IsBinoculars(this Tool maybeBinoculars) => maybeBinoculars.modData.TryGetValue(BinocularsProperties.TAG, out _);
     }
 }

@@ -69,7 +69,9 @@ namespace OrnithologistsGuild
             while ((ModEntry.debug_AlwaysSpawn != null && debug_AlwaysSpawn_Trial < 100 && flocksAdded == 0) || Game1.random.NextDouble() < chance / (flocksAdded + 1)) // Chance lowers after every flock
             {
                 // Determine flock parameters
-                Dictionary<BirdieDef, float> flockBirdieDefs = ModEntry.debug_AlwaysSpawn == null ? GetRandomBirdieDefWithVariants(gameLocation) : new Dictionary<BirdieDef, float>() { { ModEntry.debug_AlwaysSpawn, 1f } };
+                Dictionary<BirdieDef, float> flockBirdieDefs = ModEntry.debug_AlwaysSpawn == null ?
+                    GetRandomBirdieDefWithVariants(gameLocation) :
+                    new Dictionary<BirdieDef, float>() { { ModEntry.debug_AlwaysSpawn, 1f } };
                 if (!flockBirdieDefs.Any()) return;
 
                 var spawnLocations = BetterBirdie.GetRandomPositionsOrPerchesFor(gameLocation, flockBirdieDefs, mustBeOffscreen: !onScreen);

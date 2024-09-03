@@ -13,12 +13,12 @@
                             "AvailableStock": 1
                         },
                         {
-                            "ItemId": "(O)Ivy_OrnithologistsGuild_AntiqueBinoculars",
+                            "ItemId": "(T)Ivy_OrnithologistsGuild_AntiqueBinoculars",
                             "Price": 5000,
                             "AvailableStock": 1
                         },
                         {
-                            "ItemId": "(O)Ivy_OrnithologistsGuild_ProBinoculars",
+                            "ItemId": "(T)Ivy_OrnithologistsGuild_ProBinoculars",
                             "Price": 25000,
                             "AvailableStock": 1
                         },
@@ -93,7 +93,7 @@
             "Entries": {
                 "Ivy_OrnithologistsGuild_AntiqueBinoculars": {
                     "Id": "Ivy_OrnithologistsGuild_AntiqueBinoculars",
-                    "ItemId": "(O)Ivy_OrnithologistsGuild_AntiqueBinoculars",
+                    "ItemId": "(T)Ivy_OrnithologistsGuild_AntiqueBinoculars",
                     "Price": 500,
                     "AvailableStock": 1,
                     "Condition": "RANDOM 0.25 @addDailyLuck"
@@ -110,7 +110,7 @@
             "Entries": {
                 "Ivy_OrnithologistsGuild_JojaBinoculars": {
                     "Id": "Ivy_OrnithologistsGuild_JojaBinoculars",
-                    "ItemId": "(O)Ivy_OrnithologistsGuild_JojaBinoculars",
+                    "ItemId": "(T)Ivy_OrnithologistsGuild_JojaBinoculars",
                     "Price": 1500
                 }
             },

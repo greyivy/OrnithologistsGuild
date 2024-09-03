@@ -1,52 +1,115 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using OrnithologistsGuild.Content;
+using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
+using StardewValley.BellsAndWhistles;
+using StardewValley.Menus;
 
 namespace OrnithologistsGuild
 {
 	public partial class ObjectPatches
 	{
-        private const string ID_LIFE_LIST = "(O)Ivy_OrnithologistsGuild_LifeList";
+        private const string ID_LIFE_LIST = "(T)Ivy_OrnithologistsGuild_LifeList";
+        private const string PAGE_BREAK_TOKEN = "%Ivy.OrnithologistsGuild.PageBreak%";
+        private const string HEADER_PATTERN = @"^\((?'index'\d+)\/\d+\)";
 
-        private const int PAGE_SIZE = 5;
-        private const string ACTION_NEXT = "ACTION_NEXT";
-        private const string ACTION_CLOSE = "ACTION_CLOSE";
+        private static List<AnimatedSprite> pageBirdieSprites = new List<AnimatedSprite>();
 
-        public static void canBeGenericFalse_Postfix(StardewValley.Object __instance, ref bool __result)
+        private static void UseLifeList()
         {
-            if (__instance.QualifiedItemId == ID_LIFE_LIST) __result = false;
-        }
+            var lifeList = SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList;
 
-        private static void DrawBirdieList(Models.LifeList lifeList, List<Response> choices, int page = 1)
-        {
-            Monitor.Log("DrawBirdieList " + page);
+            var sighted = ContentPackManager.BirdieDefs.Values
+                .Select(birdieDef => {
+                    if (lifeList.TryGetValue(birdieDef.UniqueID, out var lifeListEntry))
+                    {
+                        return (BirdieDef: birdieDef, LifeListEntry: lifeListEntry);
+                    }
+                    return (BirdieDef: birdieDef, LifeListEntry: null);
+                })
+                .Where(tuple => tuple.LifeListEntry != null)
+                .ToList();
 
-            var totalPages = Math.Ceiling((decimal)choices.Count / PAGE_SIZE);
+            var identified = sighted.Where(tuple => tuple.LifeListEntry.Identified).ToList();
 
-            var title = I18n.Items_LifeList_Title(playerName: Game1.player.Name, identified: lifeList.IdentifiedCount, total: ContentPackManager.BirdieDefs.Count);
-            var pagination = I18n.Items_LifeList_Pagination(page: page, total: totalPages);
+            var bestLocation = identified
+                .GroupBy(tuple => tuple.LifeListEntry.Sightings.Last().LocationName)
+                .OrderByDescending(group => group.Count())
+                .FirstOrDefault();
+            var bestSeason = identified
+                .GroupBy(tuple =>
+                    Utility.getSeasonNameFromNumber(SDate.FromDaysSinceStart(tuple.LifeListEntry.Sightings.Last().DaysSinceStart).SeasonIndex))
+                .OrderByDescending(group => group.Count())
+                .FirstOrDefault();
+            var bestYear = identified
+                .GroupBy(tuple => SDate.FromDaysSinceStart(tuple.LifeListEntry.Sightings.Last().DaysSinceStart).Year)
+                .OrderByDescending(group => group.Count())
+                .FirstOrDefault();
 
-            var action = new GameLocation.afterQuestionBehavior((_, choice) => Task.Run(async () => {
-                // Delay required or choices will stop executing after first dialog
-                await Task.Delay(1);
+            var pages = new List<string>();
 
-                if (choice.Equals(ACTION_NEXT)) DrawBirdieList(lifeList, choices, page + 1);
-                else if (choice.Equals(ACTION_CLOSE)) { }
-                else DrawBirdieDialogue(ContentPackManager.BirdieDefs[choice], lifeList[choice]);
+            // Add cover page
+            var coverPageLines = new List<string>();
+            coverPageLines.Add(Utilities.LocaleToUpper(I18n.Items_LifeList_Title(Game1.player.Name)));
+            coverPageLines.Add(string.Empty);
+
+            if (sighted.Count == 0)
+            {
+                coverPageLines.Add(I18n.Items_LifeList_Empty());
+                coverPageLines.Add(string.Empty);
+                coverPageLines.Add(I18n.Items_LifeList_EmptyTip());
+            }
+            else
+            {
+                coverPageLines.Add(I18n.Items_LifeList_TotalSighted(sighted.Count()));
+                coverPageLines.Add(I18n.Items_LifeList_TotalIdentified(identified.Count()));
+                coverPageLines.Add(I18n.Items_LifeList_TotalUnidentified(ContentPackManager.BirdieDefs.Values.Count - identified.Count()));
+                coverPageLines.Add(string.Empty);
+                coverPageLines.Add(I18n.Items_LifeList_BestLocation(bestLocation.Key, bestLocation.Count()));
+                coverPageLines.Add(I18n.Items_LifeList_BestSeason(bestSeason.Key, bestSeason.Count()));
+                coverPageLines.Add(I18n.Items_LifeList_BestYear(bestYear.Key, bestYear.Count()));
+            }
+
+            pages.Add(string.Join("^", coverPageLines));
+
+            // Add individual birdie pages
+            pages.AddRange(sighted.Select((tuple, i) => GetBirdiePage(i, sighted.Count, tuple.BirdieDef, tuple.LifeListEntry)));
+
+            // Create birdie sprites
+            pageBirdieSprites.AddRange(sighted.Select(tuple =>
+            {
+                var internalAssetName = tuple.BirdieDef.ContentPackDef.ContentPack.ModContent.GetInternalAssetName(tuple.BirdieDef.AssetPath).BaseName;
+                var birdieSprite = new AnimatedSprite(internalAssetName, tuple.BirdieDef.BaseFrame, 32, 32);
+                if (!tuple.LifeListEntry.Identified)
+                {
+                    birdieSprite.spriteTexture = Utilities.CensorTexture(birdieSprite.Texture);
+                }
+
+                var flyingAnimation = new List<FarmerSprite.AnimationFrame> {
+                    new FarmerSprite.AnimationFrame (tuple.BirdieDef.BaseFrame + 6, (int)MathF.Round(0.27f * tuple.BirdieDef.FlapDuration)),
+                    new FarmerSprite.AnimationFrame (tuple.BirdieDef.BaseFrame + 7, (int)MathF.Round(0.23f * tuple.BirdieDef.FlapDuration)),
+                    new FarmerSprite.AnimationFrame (tuple.BirdieDef.BaseFrame + 8, (int)MathF.Round(0.27f * tuple.BirdieDef.FlapDuration)),
+                    new FarmerSprite.AnimationFrame (tuple.BirdieDef.BaseFrame + 7, (int)MathF.Round(0.23f * tuple.BirdieDef.FlapDuration))
+                };
+                birdieSprite.setCurrentAnimation(flyingAnimation);
+                birdieSprite.loop = true;
+
+                return birdieSprite;
             }));
 
-            var pageChoices = choices.Skip((page - 1) * PAGE_SIZE).Take(PAGE_SIZE).ToList();
-            if (page < totalPages) pageChoices.Add(new Response(ACTION_NEXT, I18n.Items_LifeList_ActionNext()));
-            pageChoices.Add(new Response(ACTION_CLOSE, I18n.Items_LifeList_ActionClose()));
-
-            Game1.currentLocation.createQuestionDialogue($"{title}^{pagination}", pageChoices.ToArray(), action);
+            var letter = new LetterViewerMenu(string.Join(PAGE_BREAK_TOKEN, pages));
+            letter.whichBG = 1;
+            letter.exitFunction = () => pageBirdieSprites.Clear();
+            Game1.activeClickableMenu = letter;
         }
 
-        private static void DrawBirdieDialogue(BirdieDef birdieDef, Models.LifeListEntry lifeListEntry)
+        private static string GetBirdiePage(int index, int total, BirdieDef birdieDef, Models.LifeListEntry lifeListEntry)
         {
             var id = birdieDef.ID;
 
@@ -56,14 +119,22 @@ namespace OrnithologistsGuild
             var commonNameString = contentPack.Translation.Get($"birdie.{id}.commonName");
             var scientificNameString = contentPack.Translation.Get($"birdie.{id}.scientificName");
             var funFactString = contentPack.Translation.Get($"birdie.{id}.funFact");
-            var attributeStrings = Enumerable.Range(1, birdieDef.Attributes).ToDictionary(i => i, i => contentPack.Translation.Get($"birdie.{id}.attribute.{i}"));
+            var attributeStrings = Enumerable
+                .Range(1, birdieDef.Attributes)
+                .ToDictionary(i => i, i => lifeListEntry.Sightings.Any(sighting => sighting.Attribute == i) ?
+                    contentPack.Translation.Get($"birdie.{id}.attribute.{i}") :
+                    I18n.Items_LifeList_Placeholder());
 
             var lines = new List<string>();
 
-            lines.Add(Utilities.LocaleToUpper(commonNameString.ToString()));
-            if (scientificNameString.HasValue()) lines.Add(scientificNameString.ToString());
+            var header = $"({index + 1}/{total})";
+            var name = lifeListEntry.Identified ? commonNameString : I18n.Items_LifeList_Placeholder();
+            lines.Add(Utilities.LocaleToUpper($"{header} {name}"));
 
+            lines.Add(lifeListEntry.Identified && scientificNameString.HasValue() ? scientificNameString.ToString() : string.Empty);
             lines.Add(string.Empty);
+
+            lines.Add(I18n.Items_LifeList_Sightings());
             foreach (var sighting in lifeListEntry.Sightings)
             {
                 var date = SDate.FromDaysSinceStart(sighting.DaysSinceStart);
@@ -71,62 +142,63 @@ namespace OrnithologistsGuild
                 var locationName = location == null ? sighting.LocationName : location.Name;
                 var attribute = attributeStrings[sighting.Attribute];
 
-                if (lifeListEntry.Sightings.IndexOf(sighting) == lifeListEntry.Sightings.Count - 1)
-                {
-                    lines.Add(I18n.Items_LifeList_Identified(date.ToLocaleString(), locationName, attribute));
-                }
-                else
-                {
-                    lines.Add(I18n.Items_LifeList_Sighted(date.ToLocaleString(), locationName, attribute));
-                }
+                lines.Add(I18n.Items_LifeList_Sighting(date.ToLocaleString(), locationName, attribute));
             }
 
-            if (funFactString.HasValue())
+            if (lifeListEntry.Identified && funFactString.HasValue())
             {
                 lines.Add(string.Empty);
                 lines.Add(funFactString);
             }
 
-            Game1.drawObjectDialogue(string.Join("^", lines));
+            return string.Join('^', lines);
         }
 
-        public static void UseLifeList()
+        private static void LetterViewerMenu_draw_Postfix(LetterViewerMenu __instance, SpriteBatch b)
         {
-            var lifeList = SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList;
-
-            if (lifeList.IdentifiedCount > 0)
+            try
             {
-                var identified = ContentPackManager.BirdieDefs.Values.Where(birdieDef =>
-                    lifeList.TryGetValue(birdieDef.UniqueID, out var lifeListEntry) && lifeListEntry.Identified).ToList();
+                if (__instance.scale == 1f && pageBirdieSprites.Count > 0)
+                {
+                    var page = __instance.mailMessage[__instance.page];
+                    var headerMatch = Regex.Match(page, HEADER_PATTERN);
 
-                List<Response> choices = identified
-                    .OrderBy(birdieDef =>
+                    if (headerMatch.Success && int.TryParse(headerMatch.Groups["index"].Value, out var indexPlusOne))
                     {
-                        var id = birdieDef.ID;
-                        var contentPack = birdieDef.ContentPackDef.ContentPack;
+                        var birdieSprite = pageBirdieSprites[indexPlusOne - 1];
 
-                        return contentPack.Translation.Get($"birdie.{id}.commonName").ToString();
-                    }).Select(birdieDef =>
-                    {
-                        var id = birdieDef.ID;
-                        var contentPack = birdieDef.ContentPackDef.ContentPack;
-
-                        var commonNameString = contentPack.Translation.Get($"birdie.{id}.commonName");
-                        var scientificNameString = contentPack.Translation.Get($"birdie.{id}.scientificName");
-
-                        var commonName = Utilities.LocaleToUpper(commonNameString.ToString());
-
-                        if (scientificNameString.HasValue()) return new Response(birdieDef.UniqueID, $"{commonName} ({scientificNameString})");
-                        else return new Response(birdieDef.UniqueID, commonName);
-                    }).ToList();
-
-                DrawBirdieList(lifeList, choices, 1);
+                        var scale = 5;
+                        birdieSprite.animateOnce(Game1.currentGameTime);
+                        birdieSprite.draw(b, new Vector2(__instance.xPositionOnScreen + __instance.width - (birdieSprite.SpriteWidth * scale) - 24, __instance.yPositionOnScreen + 16), 1f, 0, 0, Color.White, scale: 5);
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var title = I18n.Items_LifeList_Title(playerName: Game1.player.Name, identified: 0, total: ContentPackManager.BirdieDefs.Count);
-                Game1.drawObjectDialogue($"{title}^{I18n.Items_LifeList_Empty()}^^{I18n.Items_LifeList_EmptyTip()}");
+                Monitor.Log($"Failed in {nameof(LetterViewerMenu_draw_Postfix)}:\n{ex}", LogLevel.Error);
             }
+        }
+
+        public static bool getStringBrokenIntoSectionsOfHeight_Prefix(string s, int width, int height, ref List<string> __result)
+        {
+            try
+            {
+                if (s.Contains(PAGE_BREAK_TOKEN))
+                {
+                    __result = s
+                        .Split(PAGE_BREAK_TOKEN)
+                        .SelectMany(page => SpriteText.getStringBrokenIntoSectionsOfHeight(page, width, height))
+                        .ToList();
+
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Monitor.Log($"Failed in {nameof(getStringBrokenIntoSectionsOfHeight_Prefix)}:\n{ex}", LogLevel.Error);
+            }
+
+            return true;
         }
     }
 }

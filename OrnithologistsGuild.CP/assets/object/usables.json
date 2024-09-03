@@ -11,78 +11,92 @@
             "Target": "Tilesheets/Ivy_OrnithologistsGuild_Binoculars",
             "FromFile": "assets/map/Binoculars.png"
         },
-        // Objects
+        // Tools
         {
             "Action": "EditData",
-            "Target": "Data/Objects",
+            "Target": "Data/Tools",
             "Entries": {
                 "Ivy_OrnithologistsGuild_LifeList": {
+                    "ClassName": "GenericTool",
                     "Name": "Ivy_OrnithologistsGuild_LifeList",
                     "DisplayName": "{{i18n:object.LifeList.name}}",
                     "Description": "{{i18n:object.LifeList.description}}",
-                    "Type": "interactive",
-                    "Category": -29,
-                    "Price": 0,
+                    "AttachmentSlots": "0",
+                    "SalePrice": 0,
                     "Texture": "Tilesheets/Ivy_OrnithologistsGuild_LifeList",
                     "SpriteIndex": 0,
-                    "ExcludeFromShippingCollection": true,
-                    "ContextTags": [
-                        "Ivy_OrnithologistsGuild"
-                    ]
+                    "UpgradeLevel": 0,
+                    "CanBeLostOnDeath": false,
+                    "SetProperties": {
+                        "InstantUse": true,
+                        "IsEfficient": true
+                    },
+                    "ModData": {
+                        "Ivy_OrnithologistsGuild": true
+                    }
                 },
                 "Ivy_OrnithologistsGuild_JojaBinoculars": {
+                    "ClassName": "GenericTool",
                     "Name": "Ivy_OrnithologistsGuild_JojaBinoculars",
                     "DisplayName": "{{i18n:object.JojaBinoculars.name}}",
                     "Description": "{{i18n:object.JojaBinoculars.description}}",
-                    "Type": "interactive",
-                    "Category": -29,
-                    "Price": 250,
+                    "AttachmentSlots": "0",
+                    "SalePrice": 250,
                     "Texture": "Tilesheets/Ivy_OrnithologistsGuild_Binoculars",
                     "SpriteIndex": 0,
-                    "ExcludeFromShippingCollection": true,
-                    "CustomFields": {
-                        "Ivy_OrnithologistsGuild_Range": 4
+                    "UpgradeLevel": 0,
+                    "CanBeLostOnDeath": true,
+                    "SetProperties": {
+                        "InstantUse": true,
+                        "IsEfficient": true
                     },
-                    "ContextTags": [
-                        "Ivy_OrnithologistsGuild",
-                        "Ivy_OrnithologistsGuild_Binoculars"
-                    ]
+                    "ModData": {
+                        "Ivy_OrnithologistsGuild": true,
+                        "Ivy_OrnithologistsGuild_Binoculars": true,
+                        "Ivy_OrnithologistsGuild_Range": 4
+                    }
                 },
                 "Ivy_OrnithologistsGuild_AntiqueBinoculars": {
+                    "ClassName": "GenericTool",
                     "Name": "Ivy_OrnithologistsGuild_AntiqueBinoculars",
                     "DisplayName": "{{i18n:object.AntiqueBinoculars.name}}",
                     "Description": "{{i18n:object.AntiqueBinoculars.description}}",
-                    "Type": "interactive",
-                    "Category": -29,
-                    "Price": 50,
+                    "AttachmentSlots": "0",
+                    "SalePrice": 50,
                     "Texture": "Tilesheets/Ivy_OrnithologistsGuild_Binoculars",
                     "SpriteIndex": 1,
-                    "ExcludeFromShippingCollection": true,
-                    "CustomFields": {
-                        "Ivy_OrnithologistsGuild_Range": 6
+                    "UpgradeLevel": 0,
+                    "CanBeLostOnDeath": true,
+                    "SetProperties": {
+                        "InstantUse": true,
+                        "IsEfficient": true
                     },
-                    "ContextTags": [
-                        "Ivy_OrnithologistsGuild",
-                        "Ivy_OrnithologistsGuild_Binoculars"
-                    ]
+                    "ModData": {
+                        "Ivy_OrnithologistsGuild": true,
+                        "Ivy_OrnithologistsGuild_Binoculars": true,
+                        "Ivy_OrnithologistsGuild_Range": 6
+                    }
                 },
                 "Ivy_OrnithologistsGuild_ProBinoculars": {
+                    "ClassName": "GenericTool",
                     "Name": "Ivy_OrnithologistsGuild_ProBinoculars",
                     "DisplayName": "{{i18n:object.ProBinoculars.name}}",
                     "Description": "{{i18n:object.ProBinoculars.description}}",
-                    "Type": "interactive",
-                    "Category": -29,
-                    "Price": 2500,
+                    "AttachmentSlots": "0",
+                    "SalePrice": 2500,
                     "Texture": "Tilesheets/Ivy_OrnithologistsGuild_Binoculars",
                     "SpriteIndex": 2,
-                    "ExcludeFromShippingCollection": true,
-                    "CustomFields": {
-                        "Ivy_OrnithologistsGuild_Range": 10
+                    "UpgradeLevel": 0,
+                    "CanBeLostOnDeath": true,
+                    "SetProperties": {
+                        "InstantUse": true,
+                        "IsEfficient": true
                     },
-                    "ContextTags": [
-                        "Ivy_OrnithologistsGuild",
-                        "Ivy_OrnithologistsGuild_Binoculars"
-                    ]
+                    "ModData": {
+                        "Ivy_OrnithologistsGuild": true,
+                        "Ivy_OrnithologistsGuild_Binoculars": true,
+                        "Ivy_OrnithologistsGuild_Range": 10
+                    }
                 }
             }
         }

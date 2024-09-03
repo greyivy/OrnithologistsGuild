@@ -42,7 +42,7 @@ namespace OrnithologistsGuild
                                 Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create(foodDef.QualifiedItemId, 32));
                             }
                         }
-                        
+
                         Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(O)832", 32)); // Pineapple
                         Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(BC)Ivy_OrnithologistsGuild_SeedHuller", 1));
                         return;
@@ -63,10 +63,10 @@ namespace OrnithologistsGuild
                     }
                     else if (args[0].Equals("tools", System.StringComparison.OrdinalIgnoreCase))
                     {
-                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(O)Ivy_OrnithologistsGuild_LifeList", 1));
-                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(O)Ivy_OrnithologistsGuild_JojaBinoculars", 1));
-                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(O)Ivy_OrnithologistsGuild_AntiqueBinoculars", 1));
-                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(O)Ivy_OrnithologistsGuild_ProBinoculars", 1));
+                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(T)Ivy_OrnithologistsGuild_LifeList", 1));
+                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(T)Ivy_OrnithologistsGuild_JojaBinoculars", 1));
+                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(T)Ivy_OrnithologistsGuild_AntiqueBinoculars", 1));
+                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(T)Ivy_OrnithologistsGuild_ProBinoculars", 1));
                         return;
                     }
                 }

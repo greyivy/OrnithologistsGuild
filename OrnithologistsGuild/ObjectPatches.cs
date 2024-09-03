@@ -1,5 +1,6 @@
 ﻿using System;
 using HarmonyLib;
+using Microsoft.Xna.Framework.Graphics;
 using OrnithologistsGuild.Models;
 using StardewModdingAPI;
 using StardewValley;
@@ -16,80 +17,77 @@ namespace OrnithologistsGuild
 
             // Shared
             harmony.Patch(
-               original: AccessTools.Method(typeof(StardewValley.Object), nameof(StardewValley.Object.maximumStackSize)),
-               postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(maximumStackSize_Postfix))
-            );
-            harmony.Patch(
-               original: AccessTools.Method(typeof(StardewValley.Object), nameof(StardewValley.Object.performUseAction)),
-               postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(performUseAction_Postfix))
-            );
-
-            // Life List
-            harmony.Patch(
-               original: AccessTools.Method(typeof(StardewValley.Object), nameof(StardewValley.Object.canBeShipped)),
-               postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(canBeGenericFalse_Postfix))
-            );
-            harmony.Patch(
-               original: AccessTools.Method(typeof(StardewValley.Object), nameof(StardewValley.Object.canBeTrashed)),
-               postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(canBeGenericFalse_Postfix))
-            );
-            harmony.Patch(
-               original: AccessTools.Method(typeof(StardewValley.Object), nameof(StardewValley.Object.canBeGivenAsGift)),
-               postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(canBeGenericFalse_Postfix))
-            );
-            // Note: this applies to `Item`, not `Object`
-            harmony.Patch(
-               original: AccessTools.Method(typeof(StardewValley.Item), nameof(StardewValley.Object.canBeDropped)),
-               postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(canBeGenericFalse_Postfix))
+               original: AccessTools.Method(typeof(StardewValley.Tool), nameof(StardewValley.Tool.DoFunction)),
+               postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(DoFunction_Postfix))
             );
 
             // Binoculars
             harmony.Patch(
-               original: AccessTools.Method(typeof(StardewValley.Object), nameof(StardewValley.Object.actionWhenBeingHeld)),
+               original: AccessTools.Method(typeof(StardewValley.FarmerRenderer), nameof(StardewValley.FarmerRenderer.drawHairAndAccesories)),
+               postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(drawHairAndAccesories_Postfix))
+            );
+            harmony.Patch(
+               original: AccessTools.Method(typeof(Game1), nameof(Game1.pressUseToolButton)),
+               postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(pressUseToolButton_Postfix))
+            );
+            harmony.Patch(
+               original: AccessTools.Method(typeof(StardewValley.Tool), nameof(StardewValley.Tool.actionWhenBeingHeld)),
                postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(actionWhenBeingHeld_Postfix))
             );
             harmony.Patch(
-               original: AccessTools.Method(typeof(StardewValley.Object), nameof(StardewValley.Object.actionWhenStopBeingHeld)),
+               original: AccessTools.Method(typeof(StardewValley.Tool), nameof(StardewValley.Tool.actionWhenStopBeingHeld)),
                postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(actionWhenStopBeingHeld_Postfix))
             );
             harmony.Patch(
-               original: AccessTools.Method(typeof(StardewValley.Object), nameof(StardewValley.Object.drawWhenHeld)),
-               postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(drawWhenHeld_Postfix))
+               original: AccessTools.Method(typeof(StardewValley.Farmer), nameof(StardewValley.Farmer.draw), new Type[] { typeof(SpriteBatch) }),
+               postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(Farmer_draw_Postfix))
             );
+
+            // Life List
+            harmony.Patch(
+               original: AccessTools.Method(typeof(StardewValley.Menus.LetterViewerMenu), nameof(StardewValley.Menus.LetterViewerMenu.draw), new Type[] { typeof(SpriteBatch) }),
+               postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(LetterViewerMenu_draw_Postfix))
+            );
+            harmony.Patch(
+              original: AccessTools.Method(typeof(StardewValley.BellsAndWhistles.SpriteText), nameof(StardewValley.BellsAndWhistles.SpriteText.getStringBrokenIntoSectionsOfHeight)),
+              prefix: new HarmonyMethod(typeof(ObjectPatches), nameof(getStringBrokenIntoSectionsOfHeight_Prefix))
+            );
+            
         }
 
-        public static void performUseAction_Postfix(StardewValley.Object __instance, GameLocation location, ref bool __result)
+        /// <summary>
+        /// Allows <see cref="DoFunction_Postfix"/> to function when <see cref="Farmer.canOnlyWalk"/> is false.
+        /// </summary>
+        public static void pressUseToolButton_Postfix(ref bool __result)
         {
             try
             {
-                bool removeFromInventory = false;
-
-                if (__instance.IsBinoculars()) UseBinoculars(__instance, location, out removeFromInventory);
-                else if (__instance.QualifiedItemId == ID_LIFE_LIST) UseLifeList();
-
-                if (removeFromInventory)
+                if (__result && Game1.player.canOnlyWalk &&
+                    Game1.player.CurrentTool != null &&
+                    Game1.player.CurrentTool.IsBinoculars())
                 {
-                    __result = true;
+                    Game1.player.CurrentTool.DoFunction(Game1.player.currentLocation, (int)Game1.player.lastClick.X, (int)Game1.player.lastClick.Y, 1, Game1.player);
                 }
             }
             catch (Exception ex)
             {
-                Monitor.Log($"Failed in {nameof(performUseAction_Postfix)}:\n{ex}", LogLevel.Error);
+                Monitor.Log($"Failed in {nameof(pressUseToolButton_Postfix)}:\n{ex}", LogLevel.Error);
             }
         }
 
-        public static void maximumStackSize_Postfix(StardewValley.Object __instance, ref int __result)
+        public static void DoFunction_Postfix(Tool __instance, GameLocation location, int x, int y, int power, Farmer who)
         {
             try
             {
-                if (__instance.IsBinoculars() || __instance.QualifiedItemId == ID_LIFE_LIST)
+                if (who.IsLocalPlayer)
                 {
-                    __result = 1;
+                    if (__instance.IsBinoculars()) UseBinoculars(__instance, location, who);
+                    else if (__instance.QualifiedItemId == ID_LIFE_LIST) UseLifeList();
                 }
             }
             catch (Exception ex)
             {
-                Monitor.Log($"Failed in {nameof(maximumStackSize_Postfix)}:\n{ex}", LogLevel.Error);
+                Monitor.Log($"Failed in {nameof(DoFunction_Postfix)}:\n{ex}", LogLevel.Error);
             }
         }
     }

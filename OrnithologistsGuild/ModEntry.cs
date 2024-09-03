@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using HarmonyLib;
 using Microsoft.Xna.Framework.Graphics;
 using OrnithologistsGuild.Content;
 using OrnithologistsGuild.Game;
@@ -27,8 +29,6 @@ namespace OrnithologistsGuild
 
             Helper.Events.Input.ButtonPressed += Input_ButtonPressed;
 
-            Helper.Events.Content.AssetRequested += Content_OnAssetRequested;
-
             SaveDataManager.Initialize();
         }
 
@@ -47,6 +47,8 @@ namespace OrnithologistsGuild
 
         private void GameLoop_SaveLoaded(object sender, SaveLoadedEventArgs e)
         {
+            MigrateLegacyItems();
+
             SaveDataManager.Load();
             Mail.Initialize();
             NestManager.Initialize();
@@ -65,6 +67,29 @@ namespace OrnithologistsGuild
                     }
                 }
             }
+        }
+
+        private void MigrateLegacyItems()
+        {
+            Dictionary<string, string> LegacyItemMigrations = new Dictionary<string, string>()
+            {
+                { "(O)Ivy_OrnithologistsGuild_LifeList", "(T)Ivy_OrnithologistsGuild_LifeList" },
+                { "(O)Ivy_OrnithologistsGuild_JojaBinoculars", "(T)Ivy_OrnithologistsGuild_JojaBinoculars" },
+                { "(O)Ivy_OrnithologistsGuild_AntiqueBinoculars", "(T)Ivy_OrnithologistsGuild_AntiqueBinoculars" },
+                { "(O)Ivy_OrnithologistsGuild_ProBinoculars", "(T)Ivy_OrnithologistsGuild_ProBinoculars" }
+            };
+
+            StardewValley.Internal.ForEachItemHelper.ForEachItemInWorld(new StardewValley.Delegates.ForEachItemDelegate(
+                (Item item, Action remove, Action<Item> replaceWith) =>
+                {
+                    if (LegacyItemMigrations.TryGetValue(item.QualifiedItemId, out var newQualifiedItemId))
+                    {
+                        Monitor.Log($"Migrating {item.QualifiedItemId} -> {newQualifiedItemId}", LogLevel.Info);
+                        replaceWith(ItemRegistry.Create(newQualifiedItemId));
+                    }
+
+                    return true;
+                }));
         }
 
         private void GameLoop_GameLaunched(object sender, GameLaunchedEventArgs e)
@@ -118,14 +143,6 @@ namespace OrnithologistsGuild
             ObjectPatches.Initialize(Monitor, harmony);
 
             RegisterDebugCommands();
-        }
-
-        private void Content_OnAssetRequested(object sender, AssetRequestedEventArgs e)
-        {
-            if (e.Name.IsEquivalentTo("Mods/Ivy.OrnithologistsGuild/Nest"))
-            {
-                e.LoadFromModFile<Texture2D>("assets/nest.png", AssetLoadPriority.Low);
-            }
         }
     }
 }

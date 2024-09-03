@@ -8,19 +8,89 @@ using OrnithologistsGuild.Game.Critters;
 using OrnithologistsGuild.Models;
 using StardewModdingAPI;
 using StardewValley;
+using StardewValley.Tools;
+using static StardewValley.FarmerRenderer;
 
 namespace OrnithologistsGuild
 {
-	public partial class ObjectPatches
-	{
-        private const string ID_JOJA_BINOCULARS = "(O)Ivy_OrnithologistsGuild_JojaBinoculars";
-        private const string ID_ANTIQUE_BINOCULARS = "(O)Ivy_OrnithologistsGuild_AntiqueBinoculars";
-        private const string ID_PRO_BINOCULARS = "(O)Ivy_OrnithologistsGuild_ProBinoculars";
+    public partial class ObjectPatches {
+        private const string ID_JOJA_BINOCULARS = "(T)Ivy_OrnithologistsGuild_JojaBinoculars";
+        private const string ID_ANTIQUE_BINOCULARS = "(T)Ivy_OrnithologistsGuild_AntiqueBinoculars";
+        private const string ID_PRO_BINOCULARS = "(T)Ivy_OrnithologistsGuild_ProBinoculars";
 
-        private static readonly int AnimateDuration = 750;
-        private static int? AnimateElapsed;
+        private const int ANIMATE_DURATION = 750;
+        private static int? animateElapsed;
+        private static string animateToolId;
 
-        public static void actionWhenBeingHeld_Postfix(StardewValley.Object __instance, Farmer who)
+        private static Lazy<Texture2D> binocularsTexture = new Lazy<Texture2D>(() => Game1.content.Load<Texture2D>("Mods/Ivy.OrnithologistsGuild/Binoculars"));
+
+        /// <summary>
+        /// Draws the binoculars.
+        /// </summary>
+        public static void drawHairAndAccesories_Postfix(FarmerRenderer __instance, SpriteBatch b, int facingDirection, Farmer who, Vector2 position, Vector2 origin, float scale, int currentFrame, float rotation, Color overrideColor, float layerDepth)
+        {
+            try
+            {
+                if (who.CurrentItem is GenericTool binoculars && binoculars.IsBinoculars())
+                {
+                    FarmerSpriteLayers accessoryLayer = FarmerSpriteLayers.Accessory;
+                    if (who.accessory.Value >= 0 && __instance.drawAccessoryBelowHair(who.accessory.Value))
+                    {
+                        accessoryLayer = FarmerSpriteLayers.AccessoryUnderHair;
+                    }
+
+                    var sourceRect = new Rectangle(binoculars.CurrentParentTileIndex * 16, 0, 16, 16);
+
+                    if (Utilities.TryGetNonPublicFieldValue(__instance, "positionOffset", out Vector2 positionOffset) &&
+                        Utilities.TryGetNonPublicFieldValue(__instance, "rotationAdjustment", out Vector2 rotationAdjustment))
+                    {
+                        switch (facingDirection)
+                        {
+                            case 0:
+                                break;
+                            case 1:
+                                sourceRect.Offset(0, 16);
+                                b.Draw(
+                                    binocularsTexture.Value,
+                                    position + origin + positionOffset + rotationAdjustment +
+                                        new Vector2(
+                                            featureXOffsetPerFrame[currentFrame] * 4,
+                                            4 + featureYOffsetPerFrame[currentFrame] * 4 + __instance.heightOffset.Value + 20),
+                                    sourceRect, overrideColor, rotation, origin, 4f * scale, SpriteEffects.None, GetLayerDepth(layerDepth, accessoryLayer));
+                                break;
+                            case 2:
+                                b.Draw(
+                                    binocularsTexture.Value,
+                                    position + origin + positionOffset + rotationAdjustment +
+                                        new Vector2(
+                                            featureXOffsetPerFrame[currentFrame] * 4,
+                                            8 + featureYOffsetPerFrame[currentFrame] * 4 + __instance.heightOffset.Value + 24),
+                                    sourceRect, overrideColor, rotation, origin, 4f * scale, SpriteEffects.None, GetLayerDepth(layerDepth, accessoryLayer));
+                                break;
+                            case 3:
+                                sourceRect.Offset(0, 16);
+                                b.Draw(
+                                    binocularsTexture.Value,
+                                    position + origin + positionOffset + rotationAdjustment +
+                                        new Vector2(
+                                            -featureXOffsetPerFrame[currentFrame] * 4,
+                                            4 + featureYOffsetPerFrame[currentFrame] * 4 + __instance.heightOffset.Value + 20),
+                                    sourceRect, overrideColor, rotation, origin, 4f * scale, SpriteEffects.FlipHorizontally, GetLayerDepth(layerDepth, accessoryLayer));
+                                break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Monitor.Log($"Failed in {nameof(drawHairAndAccesories_Postfix)}:\n{ex}", LogLevel.Error);
+            }
+        }
+
+        /// <summary>
+        /// Disallow run when binoculars are being held.
+        /// </summary>
+        public static void actionWhenBeingHeld_Postfix(Tool __instance, Farmer who)
         {
             try
             {
@@ -35,7 +105,10 @@ namespace OrnithologistsGuild
                 Monitor.Log($"Failed in {nameof(actionWhenBeingHeld_Postfix)}:\n{ex}", LogLevel.Error);
             }
         }
-        public static void actionWhenStopBeingHeld_Postfix(StardewValley.Object __instance, Farmer who)
+        /// <summary>
+        /// Allow run when binoculars are not being held.
+        /// </summary>
+        public static void actionWhenStopBeingHeld_Postfix(Tool __instance, Farmer who)
         {
             try
             {
@@ -54,38 +127,49 @@ namespace OrnithologistsGuild
             }
         }
 
-        public static void drawWhenHeld_Postfix(StardewValley.Object __instance, SpriteBatch spriteBatch, Vector2 objectPosition, Farmer f)
+        /// <summary>
+        /// Draws the binocular range circle.
+        /// </summary>
+        public static void Farmer_draw_Postfix(Farmer __instance, SpriteBatch b)
         {
             try
             {
-                if (__instance.IsBinoculars())
+                if (__instance.CurrentTool?.IsBinoculars() == true)
                 {
-                    if (AnimateElapsed.HasValue)
+                    if (animateElapsed.HasValue)
                     {
-                        var binocularsProperties = __instance.GetBinocularsProperties();
+                        var binocularsProperties = __instance.CurrentTool.GetBinocularsProperties();
 
-                        AnimateElapsed += Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-                        if (AnimateElapsed <= AnimateDuration)
+                        animateElapsed += Game1.currentGameTime.ElapsedGameTime.Milliseconds;
+
+                        if (animateToolId != __instance.CurrentTool?.QualifiedItemId)
                         {
-                            var factor = Utilities.EaseOutSine(((float)AnimateElapsed.Value / (float)AnimateDuration));
+                            // Animation stopped due to switching tools
+                            animateElapsed = null;
+                            animateToolId = null;
+                        }
+                        else if (animateElapsed <= ANIMATE_DURATION)
+                        {
+                            var factor = Utilities.EaseOutSine((float)animateElapsed / (float)ANIMATE_DURATION);
 
                             var animatedRange = Utility.Lerp(0, binocularsProperties.Range * Game1.tileSize, factor);
-                            var opacity = Utility.Lerp(0.7f, 0.1f, factor);
+                            var opacity = Utility.Lerp(0.7f, 0.01f, factor);
 
                             MonoGame.Primitives2D.DrawCircle(
-                                spriteBatch,
-                                objectPosition + new Vector2(0.5f * Game1.tileSize, 1.5f * Game1.tileSize),
+                                b,
+                                __instance.getLocalPosition(Game1.viewport) + new Vector2(0.5f * Game1.tileSize, 0),
                                 animatedRange,
                                 (int)animatedRange / 4,
-                                Color.AliceBlue * opacity,
+                                (Game1.season == Season.Winter ? Color.MidnightBlue : Color.AliceBlue) * opacity,
                                 (Game1.tileSize / 16) * 2);
                         }
                         else
                         {
                             // Animation complete
-                            AnimateElapsed = null;
+                            animateElapsed = null;
+                            animateToolId = null;
 
-                            IdentifyBirdies(f.currentLocation, f, binocularsProperties);
+                            IdentifyBirdies(__instance.currentLocation, __instance, binocularsProperties);
                         }
                     }
 
@@ -97,22 +181,19 @@ namespace OrnithologistsGuild
             }
         }
 
-        private static void UseBinoculars(StardewValley.Object binoculars, GameLocation location, out bool removeFromInventory)
+        private static void UseBinoculars(Tool binoculars, GameLocation location, Farmer who)
         {
-            removeFromInventory = false;
-
             if (
                 location != null &&
                 location.IsOutdoors &&
-                !AnimateElapsed.HasValue)
+                !animateElapsed.HasValue)
             {
-                if (binoculars.QualifiedItemId == ID_JOJA_BINOCULARS) UseJojaBinoculars();
-                else if (binoculars.QualifiedItemId == ID_ANTIQUE_BINOCULARS) UseAntiqueBinoculars(binoculars, out removeFromInventory);
-                else if (binoculars.QualifiedItemId == ID_PRO_BINOCULARS) UseProBinoculars();
+                if (binoculars.QualifiedItemId == ID_JOJA_BINOCULARS) UseJojaBinoculars(who);
+                else if (binoculars.QualifiedItemId == ID_ANTIQUE_BINOCULARS) UseAntiqueBinoculars(binoculars, who);
+                else if (binoculars.QualifiedItemId == ID_PRO_BINOCULARS) UseProBinoculars(who);
             }
         }
-
-        private static void UseJojaBinoculars()
+        private static void UseJojaBinoculars(Farmer who)
         {
             if (!ConfigManager.Config.NoBreakOrJam && Game1.random.NextDouble() < 0.1)
             {
@@ -121,31 +202,30 @@ namespace OrnithologistsGuild
             else
             {
                 // Start binoculars animation
-                AnimateElapsed = 0;
+                animateElapsed = 0;
+                animateToolId = who.CurrentTool?.QualifiedItemId;
             }
         }
-
-        private static void UseAntiqueBinoculars(StardewValley.Object binoculars, out bool removeFromInventory)
+        private static void UseAntiqueBinoculars(Tool binoculars, Farmer who)
         {
             if (!ConfigManager.Config.NoBreakOrJam && Game1.random.NextDouble() < 0.025)
             {
                 Game1.drawObjectDialogue(I18n.Items_AntiqueBinoculars_Message());
 
-                removeFromInventory = true;
+                Game1.player.removeItemFromInventory(binoculars);
             }
             else
             {
                 // Start binoculars animation
-                AnimateElapsed = 0;
-
-                removeFromInventory = false;
+                animateElapsed = 0;
+                animateToolId = who.CurrentTool?.QualifiedItemId;
             }
         }
-
-        private static void UseProBinoculars()
+        private static void UseProBinoculars(Farmer who)
         {
             // Start binoculars animation
-            AnimateElapsed = 0;
+            animateElapsed = 0;
+            animateToolId = who.CurrentTool?.QualifiedItemId;
         }
 
         private record Identification(Vector2 Position, BetterBirdie Birdie = null, Nest Nest = null);
@@ -288,7 +368,6 @@ namespace OrnithologistsGuild
                     break;
                 }
 
-                
                 //else if (critter is Woodpecker && Vector2.Distance(midPoint, critter.position) <= actualRange)
                 //{
 

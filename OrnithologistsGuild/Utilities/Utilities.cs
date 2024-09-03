@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 
 namespace OrnithologistsGuild
@@ -64,6 +66,52 @@ namespace OrnithologistsGuild
         public static Vector2 XY(Vector3 value)
         {
             return new Vector2(value.X, value.Y);
+        }
+
+        public static bool TryGetNonPublicFieldValue<TInstance, TValue>(TInstance instance, string fieldName, out TValue value)
+        {
+            FieldInfo privateFieldInfo = typeof(TInstance).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (privateFieldInfo != null)
+            {
+                value = (TValue)privateFieldInfo.GetValue(instance);
+                return true;
+            }
+
+            value = default;
+            return false;
+        }
+
+        public static Texture2D CensorTexture(Texture2D texture)
+        {
+            // Get the texture data
+            Color[] originalData = new Color[texture.Width * texture.Height];
+            texture.GetData(originalData);
+
+            // Create an array to hold the new pixel data
+            Color[] newData = new Color[originalData.Length];
+
+            for (int i = 0; i < originalData.Length; i++)
+            {
+                int r = 85;
+                int g = 85;
+                int b = 85;
+
+                if (originalData[i].A > 0)
+                {
+                    // Set the new color
+                    newData[i] = new Color(r, g, b, originalData[i].A);
+                }
+                else
+                {
+                    newData[i] = Color.Transparent;
+                }
+            }
+
+            // Create a new texture to hold the adjusted data
+            Texture2D newTexture = new Texture2D(texture.GraphicsDevice, texture.Width, texture.Height);
+            newTexture.SetData(newData);
+
+            return newTexture;
         }
     }
 }
