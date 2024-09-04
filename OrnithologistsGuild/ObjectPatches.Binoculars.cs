@@ -266,29 +266,32 @@ namespace OrnithologistsGuild
 
                     var lines = new List<string>();
 
-                    if (SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList.TryGetValue(birdieDef.UniqueID, out var lifeListEntry) && lifeListEntry.Identified) {
+                    var isIdentified = SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList.TryGetValue(birdieDef.UniqueID, out var lifeListEntry) && lifeListEntry.Identified;
+
+                    var idPart = isIdentified ? I18n.Items_Binoculars_NestId() : I18n.Items_Binoculars_NestNoId();
+                    if (nest.Stage == NestStage.Built) lines.Add($"{I18n.Items_Binoculars_NestStateBuilt()} {idPart}");
+                    else if (nest.Stage == NestStage.EggsLaid) lines.Add($"{I18n.Items_Binoculars_NestStateEggsLaid()} {idPart}");
+                    else if (nest.Stage == NestStage.EggsHatched) lines.Add($"{I18n.Items_Binoculars_NestStateEggsHatched()} {idPart}");
+                    else if (nest.Stage == NestStage.Fledged) lines.Add($"{I18n.Items_Binoculars_NestStateFledged()} {idPart}");
+
+                    if (isIdentified) {
                         // Birdie identified
                         var contentPack = birdieDef.ContentPackDef.ContentPack;
                         var commonNameString = contentPack.Translation.Get($"birdie.{id}.commonName");
                         var scientificNameString = contentPack.Translation.Get($"birdie.{id}.scientificName");
+                        var funFactString = contentPack.Translation.Get($"birdie.{id}.funFact");
 
-                        lines.Add(I18n.Items_Binoculars_NestId());
                         lines.Add(string.Empty);
 
                         lines.Add(Utilities.LocaleToUpper(commonNameString.ToString()));
                         if (scientificNameString.HasValue()) lines.Add(scientificNameString.ToString());
-                    }
-                    else
-                    {
-                        // Birdie not identified
-                        lines.Add(I18n.Items_Binoculars_NestNoId());
-                    }
 
-                    lines.Add(string.Empty);
-                    if (nest.Stage == NestStage.Built) lines.Add(I18n.Items_Binoculars_NestStateBuilt());
-                    else if (nest.Stage == NestStage.EggsLaid) lines.Add(I18n.Items_Binoculars_NestStateEggsLaid());
-                    else if (nest.Stage == NestStage.EggsHatched) lines.Add(I18n.Items_Binoculars_NestStateEggsHatched());
-                    else if (nest.Stage == NestStage.Fledged) lines.Add(I18n.Items_Binoculars_NestStateFledged());
+                        if (funFactString.HasValue())
+                        {
+                            lines.Add(string.Empty);
+                            lines.Add(I18n.Items_Binoculars_LifeList());
+                        }
+                    }
 
                     Game1.drawObjectDialogue(string.Join("^", lines));
 
@@ -329,6 +332,7 @@ namespace OrnithologistsGuild
                     if (sighting.Identified)
                     {
                         lines.Add(newAttribute.HasValue ? I18n.Items_Binoculars_NewlyIdentified() : I18n.Items_Binoculars_AlreadyIdentified());
+                        lines.Add(string.Empty);
 
                         lines.Add(Utilities.LocaleToUpper(commonNameString.ToString()));
                         if (scientificNameString.HasValue()) lines.Add(scientificNameString.ToString());
@@ -337,21 +341,20 @@ namespace OrnithologistsGuild
                         {
                             lines.Add(string.Empty);
                             lines.Add(string.Join(Utilities.GetLocaleSeparator(), attributeStrings.Values));
+                        }
 
-                            if (funFactString.HasValue())
-                            {
-                                lines.Add(string.Empty);
-                                lines.Add(funFactString);
-                            }
+                        if (funFactString.HasValue())
+                        {
+                            lines.Add(string.Empty);
+                            lines.Add(I18n.Items_Binoculars_LifeList());
                         }
                     }
                     else
                     {
                         lines.Add(I18n.Items_Binoculars_NotYetIdentified());
-                        lines.Add(I18n.Items_Binoculars_Placeholder());
-                        lines.Add(I18n.Items_Binoculars_Placeholder());
                         lines.Add(string.Empty);
-                        lines.Add(string.Join(Utilities.GetLocaleSeparator(), attributeStrings.Select(a => sighting.Sightings.Select(s => s.Attribute).Contains(a.Key) ? a.Value : I18n.Items_Binoculars_Placeholder())));
+                        lines.Add(string.Join(Utilities.GetLocaleSeparator(), attributeStrings.Select(a =>
+                            sighting.Sightings.Select(s => s.Attribute).Contains(a.Key) ? a.Value : I18n.Placeholder())));
 
                         if (existingAttribute.HasValue)
                         {

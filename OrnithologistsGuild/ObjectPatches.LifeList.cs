@@ -13,20 +13,23 @@ using StardewValley.Menus;
 
 namespace OrnithologistsGuild
 {
-	public partial class ObjectPatches
-	{
+    public partial class ObjectPatches
+    {
         private const string ID_LIFE_LIST = "(T)Ivy_OrnithologistsGuild_LifeList";
         private const string PAGE_BREAK_TOKEN = "%Ivy.OrnithologistsGuild.PageBreak%";
         private const string HEADER_PATTERN = @"^\((?'index'\d+)\/\d+\)";
 
         private static List<AnimatedSprite> pageBirdieSprites = new List<AnimatedSprite>();
 
+        private static string PluralizeBird(int count) => count == 1 ? I18n.Bird() : I18n.Birds();
+
         private static void UseLifeList()
         {
             var lifeList = SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList;
 
             var sighted = ContentPackManager.BirdieDefs.Values
-                .Select(birdieDef => {
+                .Select(birdieDef =>
+                {
                     if (lifeList.TryGetValue(birdieDef.UniqueID, out var lifeListEntry))
                     {
                         return (BirdieDef: birdieDef, LifeListEntry: lifeListEntry);
@@ -37,6 +40,8 @@ namespace OrnithologistsGuild
                 .ToList();
 
             var identified = sighted.Where(tuple => tuple.LifeListEntry.Identified).ToList();
+
+            var remainingCount = ContentPackManager.BirdieDefs.Values.Count - identified.Count;
 
             var bestLocation = identified
                 .GroupBy(tuple => tuple.LifeListEntry.Sightings.Last().LocationName)
@@ -67,13 +72,13 @@ namespace OrnithologistsGuild
             }
             else
             {
-                coverPageLines.Add(I18n.Items_LifeList_TotalSighted(sighted.Count()));
-                coverPageLines.Add(I18n.Items_LifeList_TotalIdentified(identified.Count()));
-                coverPageLines.Add(I18n.Items_LifeList_TotalUnidentified(ContentPackManager.BirdieDefs.Values.Count - identified.Count()));
+                coverPageLines.Add(I18n.Items_LifeList_TotalSighted(sighted.Count, PluralizeBird(sighted.Count)));
+                coverPageLines.Add(I18n.Items_LifeList_TotalIdentified(identified.Count, PluralizeBird(identified.Count)));
+                coverPageLines.Add(I18n.Items_LifeList_TotalUnidentified(remainingCount, PluralizeBird(remainingCount)));
                 coverPageLines.Add(string.Empty);
-                coverPageLines.Add(I18n.Items_LifeList_BestLocation(bestLocation.Key, bestLocation.Count()));
-                coverPageLines.Add(I18n.Items_LifeList_BestSeason(bestSeason.Key, bestSeason.Count()));
-                coverPageLines.Add(I18n.Items_LifeList_BestYear(bestYear.Key, bestYear.Count()));
+                coverPageLines.Add(I18n.Items_LifeList_BestLocation(bestLocation.Key, bestLocation.Count(), PluralizeBird(bestLocation.Count())));
+                coverPageLines.Add(I18n.Items_LifeList_BestSeason(bestSeason.Key, bestSeason.Count(), PluralizeBird(bestSeason.Count())));
+                coverPageLines.Add(I18n.Items_LifeList_BestYear(bestYear.Key, bestYear.Count(), PluralizeBird(bestYear.Count())));
             }
 
             pages.Add(string.Join("^", coverPageLines));
@@ -123,12 +128,12 @@ namespace OrnithologistsGuild
                 .Range(1, birdieDef.Attributes)
                 .ToDictionary(i => i, i => lifeListEntry.Sightings.Any(sighting => sighting.Attribute == i) ?
                     contentPack.Translation.Get($"birdie.{id}.attribute.{i}") :
-                    I18n.Items_LifeList_Placeholder());
+                    I18n.Placeholder());
 
             var lines = new List<string>();
 
             var header = $"({index + 1}/{total})";
-            var name = lifeListEntry.Identified ? commonNameString : I18n.Items_LifeList_Placeholder();
+            var name = lifeListEntry.Identified ? commonNameString : I18n.Placeholder();
             lines.Add(Utilities.LocaleToUpper($"{header} {name}"));
 
             lines.Add(lifeListEntry.Identified && scientificNameString.HasValue() ? scientificNameString.ToString() : string.Empty);
@@ -170,9 +175,10 @@ namespace OrnithologistsGuild
                         var scale = 5;
                         birdieSprite.animateOnce(Game1.currentGameTime);
 
-                        // Bob up and down a bit
+                        // Bob up and down at most 24px
                         var offsetY = MathF.Sin((float)Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 1250f) * 24f;
-                        birdieSprite.draw(b, new Vector2(__instance.xPositionOnScreen + __instance.width - (birdieSprite.SpriteWidth * scale) - 48, __instance.yPositionOnScreen + 24 + offsetY), 1f, 0, 0, Color.White, scale: 5);
+                        var offsetX = MathF.Sin((float)Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 2000f) * 24f;
+                        birdieSprite.draw(b, new Vector2(__instance.xPositionOnScreen + __instance.width - (birdieSprite.SpriteWidth * scale) - 36 + offsetX, __instance.yPositionOnScreen + 36 + offsetY), 1f, 0, 0, Color.White, scale: 5);
                     }
                 }
             }

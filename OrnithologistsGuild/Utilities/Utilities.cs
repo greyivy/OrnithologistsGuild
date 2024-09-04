@@ -5,6 +5,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
+using StardewValley.BellsAndWhistles;
 
 namespace OrnithologistsGuild
 {
@@ -92,9 +93,9 @@ namespace OrnithologistsGuild
 
             for (int i = 0; i < originalData.Length; i++)
             {
-                int r = 85;
-                int g = 85;
-                int b = 85;
+                int r = 100;
+                int g = 100;
+                int b = 100;
 
                 if (originalData[i].A > 0)
                 {
