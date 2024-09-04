@@ -14,7 +14,7 @@ namespace OrnithologistsGuild
                 "Mods_Ivy_OrnithologistsGuild_Introduction",
                 // Adds conversation topic "Ivy_OrnithologistGuild_Introduction" for 14 days
                 $"{I18n.Mail_Introduction()} %item conversationTopic Ivy_OrnithologistGuild_Introduction 14 %%",
-                new List<Item> { ItemRegistry.Create("(O)Ivy_OrnithologistsGuild_LifeList", 1) },
+                new List<Item> { ItemRegistry.Create("(T)Ivy_OrnithologistsGuild_LifeList", 1) },
                 (l) =>
                     !Game1.player.mailReceived.Contains(l.Id) &&
                     (SDate.From(Game1.Date) >= new SDate(5, "spring", 1) ||

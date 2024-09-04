@@ -37,6 +37,7 @@ namespace OrnithologistsGuild
                     return (BirdieDef: birdieDef, LifeListEntry: null);
                 })
                 .Where(tuple => tuple.LifeListEntry != null)
+                .OrderBy(tuple => tuple.LifeListEntry.Sightings.First().DaysSinceStart)
                 .ToList();
 
             var identified = sighted.Where(tuple => tuple.LifeListEntry.Identified).ToList();
