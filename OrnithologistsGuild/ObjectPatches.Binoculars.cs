@@ -14,10 +14,6 @@ using static StardewValley.FarmerRenderer;
 namespace OrnithologistsGuild
 {
     public partial class ObjectPatches {
-        private const string ID_JOJA_BINOCULARS = "(T)Ivy_OrnithologistsGuild_JojaBinoculars";
-        private const string ID_ANTIQUE_BINOCULARS = "(T)Ivy_OrnithologistsGuild_AntiqueBinoculars";
-        private const string ID_PRO_BINOCULARS = "(T)Ivy_OrnithologistsGuild_ProBinoculars";
-
         private const int ANIMATE_DURATION = 750;
         private static int? animateElapsed;
         private static string animateToolId;
@@ -188,9 +184,9 @@ namespace OrnithologistsGuild
                 location.IsOutdoors &&
                 !animateElapsed.HasValue)
             {
-                if (binoculars.QualifiedItemId == ID_JOJA_BINOCULARS) UseJojaBinoculars(who);
-                else if (binoculars.QualifiedItemId == ID_ANTIQUE_BINOCULARS) UseAntiqueBinoculars(binoculars, who);
-                else if (binoculars.QualifiedItemId == ID_PRO_BINOCULARS) UseProBinoculars(who);
+                if (binoculars.QualifiedItemId == Constants.BINOCULARS_JOJA_FQID) UseJojaBinoculars(who);
+                else if (binoculars.QualifiedItemId == Constants.BINOCULARS_ANTIQUE_FQID) UseAntiqueBinoculars(binoculars, who);
+                else UseBinoculars(who); // No special behavior
             }
         }
         private static void UseJojaBinoculars(Farmer who)
@@ -199,12 +195,7 @@ namespace OrnithologistsGuild
             {
                 Game1.drawObjectDialogue(I18n.Items_JojaBinoculars_Message());
             }
-            else
-            {
-                // Start binoculars animation
-                animateElapsed = 0;
-                animateToolId = who.CurrentTool?.QualifiedItemId;
-            }
+            else UseBinoculars(who);
         }
         private static void UseAntiqueBinoculars(Tool binoculars, Farmer who)
         {
@@ -214,14 +205,9 @@ namespace OrnithologistsGuild
 
                 Game1.player.removeItemFromInventory(binoculars);
             }
-            else
-            {
-                // Start binoculars animation
-                animateElapsed = 0;
-                animateToolId = who.CurrentTool?.QualifiedItemId;
-            }
+            else UseBinoculars(who);
         }
-        private static void UseProBinoculars(Farmer who)
+        private static void UseBinoculars(Farmer who)
         {
             // Start binoculars animation
             animateElapsed = 0;
@@ -307,7 +293,9 @@ namespace OrnithologistsGuild
 
                     if (birdie.IsFlying || birdie.IsSpotted) continue;
 
-                    if (Game1.random.NextDouble() < 0.25)
+                    // Still = 30% scare chance, walking = 60% scare chance
+                    var scareChance = 0.3f + ((who.getMostRecentMovementVector().Length() / 2f) * 0.3f);
+                    if (Game1.random.NextDouble() < Utility.Clamp(scareChance, 0.3f, 0.6f))
                     {
                         birdie.Frighten();
                         Game1.drawObjectDialogue(I18n.Items_Binoculars_Frighten());

@@ -73,23 +73,37 @@ namespace OrnithologistsGuild
         {
             Dictionary<string, string> LegacyItemMigrations = new Dictionary<string, string>()
             {
-                { "(O)Ivy_OrnithologistsGuild_LifeList", "(T)Ivy_OrnithologistsGuild_LifeList" },
-                { "(O)Ivy_OrnithologistsGuild_JojaBinoculars", "(T)Ivy_OrnithologistsGuild_JojaBinoculars" },
-                { "(O)Ivy_OrnithologistsGuild_AntiqueBinoculars", "(T)Ivy_OrnithologistsGuild_AntiqueBinoculars" },
-                { "(O)Ivy_OrnithologistsGuild_ProBinoculars", "(T)Ivy_OrnithologistsGuild_ProBinoculars" }
+                { "(O)Ivy_OrnithologistsGuild_LifeList", Constants.LIFE_LIST_FQID },
+                { "(O)Ivy_OrnithologistsGuild_JojaBinoculars", Constants.BINOCULARS_JOJA_FQID },
+                { "(O)Ivy_OrnithologistsGuild_AntiqueBinoculars", Constants.BINOCULARS_ANTIQUE_FQID },
+                { "(O)Ivy_OrnithologistsGuild_ProBinoculars", Constants.BINOCULARS_PRO_FQID }
             };
 
             StardewValley.Internal.ForEachItemHelper.ForEachItemInWorld(new StardewValley.Delegates.ForEachItemDelegate(
-                (Item item, Action remove, Action<Item> replaceWith) =>
+            (Item item, Action remove, Action<Item> replaceWith) =>
+            {
+                if (LegacyItemMigrations.TryGetValue(item.QualifiedItemId, out var newQualifiedItemId))
                 {
-                    if (LegacyItemMigrations.TryGetValue(item.QualifiedItemId, out var newQualifiedItemId))
+                    Monitor.Log($"Migrating {item.QualifiedItemId} -> {newQualifiedItemId}", LogLevel.Info);
+                    try
                     {
-                        Monitor.Log($"Migrating {item.QualifiedItemId} -> {newQualifiedItemId}", LogLevel.Info);
                         replaceWith(ItemRegistry.Create(newQualifiedItemId));
                     }
+                    catch (Exception ex1)
+                    {
+                        Monitor.Log($"Migrating {item.QualifiedItemId} -> {newQualifiedItemId} failed. Attempting to remove broken item.\n{ex1}", LogLevel.Warn);
+                        try
+                        {
+                            remove();
+                        } catch (Exception ex2)
+                        {
+                            Monitor.Log($"Removing broken {item.QualifiedItemId} failed. Please manually remove the broken item.\n{ex2}", LogLevel.Error);
+                        }
+                    }
+                }
 
-                    return true;
-                }));
+                return true;
+            }));
         }
 
         private void GameLoop_GameLaunched(object sender, GameLaunchedEventArgs e)

@@ -316,7 +316,7 @@
         },
         {
           "When": {
-            "Ivy.OrnithologistsGuild/LocationBiome": "void"
+            "Ivy.OrnithologistsGuild/LocationBiome": "void, island"
           },
           "NilWt": true
         }
@@ -503,6 +503,51 @@
         {
           "When": {
             "Ivy.OrnithologistsGuild/LocationBiome |contains=desert": "false"
+          },
+          "NilWt": true
+        }
+      ]
+    },
+    {
+      "ID": "CedarWaxwing",
+      "AssetPath": "assets/CedarWaxwing.png",
+      "SoundAssetPath": "assets/CedarWaxwing.wav",
+      "Attributes": 3,
+      "MaxFlockSize": 10,
+      "Cautiousness": 5,
+      "FlapDuration": 350,
+      "FlySpeed": 5.5,
+      "PerchPreference": 5,
+      "BaseWt": 0.05,
+      "CanNestInTrees": true,
+      "FeederBaseWts": {
+        "Platform": 0.05
+      },
+      "FoodBaseWts": {
+        "Fruit": 0.05
+      },
+      "Conditions": [
+        {
+          "When": {
+            "Time": "{{Range: 1800, 2600}}"
+          },
+          "NilWt": true
+        },
+        {
+          "When": {
+            "Time": "{{Range: 1000, 1500}}"
+          },
+          "SubWt": 0.05
+        },
+        {
+          "When": {
+            "Season": "Summer, Fall"
+          },
+          "AddWt": 0.05
+        },
+        {
+          "When": {
+            "Ivy.OrnithologistsGuild/LocationBiome": "void, desert"
           },
           "NilWt": true
         }

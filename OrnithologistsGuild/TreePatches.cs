@@ -152,7 +152,7 @@ namespace OrnithologistsGuild
                 {
                     __instance.ClearNest();
 
-                    Game1.createItemDebris(ItemRegistry.Create("(O)Ivy_OrnithologistsGuild_Nest", 1), __instance.GetNestPosition(), Game1.recentMultiplayerRandom.Next(1) == 0 ? 1 : 3, __instance.Location);
+                    Game1.createItemDebris(ItemRegistry.Create(Constants.NEST_FQID, 1), __instance.GetNestPosition(), Game1.recentMultiplayerRandom.Next(1) == 0 ? 1 : 3, __instance.Location);
                 }
             }
             catch (Exception ex)

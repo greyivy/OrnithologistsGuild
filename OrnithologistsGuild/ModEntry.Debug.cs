@@ -63,10 +63,10 @@ namespace OrnithologistsGuild
                     }
                     else if (args[0].Equals("tools", System.StringComparison.OrdinalIgnoreCase))
                     {
-                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(T)Ivy_OrnithologistsGuild_LifeList", 1));
-                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(T)Ivy_OrnithologistsGuild_JojaBinoculars", 1));
-                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(T)Ivy_OrnithologistsGuild_AntiqueBinoculars", 1));
-                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create("(T)Ivy_OrnithologistsGuild_ProBinoculars", 1));
+                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create(Constants.LIFE_LIST_FQID, 1));
+                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create(Constants.BINOCULARS_JOJA_FQID, 1));
+                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create(Constants.BINOCULARS_ANTIQUE_FQID, 1));
+                        Game1.player.addItemByMenuIfNecessary(ItemRegistry.Create(Constants.BINOCULARS_PRO_FQID, 1));
                         return;
                     }
                 }

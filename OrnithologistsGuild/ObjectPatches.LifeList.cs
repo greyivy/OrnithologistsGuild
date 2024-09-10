@@ -15,9 +15,8 @@ namespace OrnithologistsGuild
 {
     public partial class ObjectPatches
     {
-        private const string ID_LIFE_LIST = "(T)Ivy_OrnithologistsGuild_LifeList";
         private const string PAGE_BREAK_TOKEN = "%Ivy.OrnithologistsGuild.PageBreak%";
-        private const string HEADER_PATTERN = @"^\((?'index'\d+)\/\d+\)";
+        private const string HEADER_PATTERN = @"^\((?'index'\d+)\/\d+\)\s";
 
         private static List<AnimatedSprite> pageBirdieSprites = new List<AnimatedSprite>();
 
@@ -77,9 +76,9 @@ namespace OrnithologistsGuild
                 coverPageLines.Add(I18n.Items_LifeList_TotalIdentified(identified.Count, PluralizeBird(identified.Count)));
                 coverPageLines.Add(I18n.Items_LifeList_TotalUnidentified(remainingCount, PluralizeBird(remainingCount)));
                 coverPageLines.Add(string.Empty);
-                coverPageLines.Add(I18n.Items_LifeList_BestLocation(bestLocation.Key, bestLocation.Count(), PluralizeBird(bestLocation.Count())));
-                coverPageLines.Add(I18n.Items_LifeList_BestSeason(bestSeason.Key, bestSeason.Count(), PluralizeBird(bestSeason.Count())));
-                coverPageLines.Add(I18n.Items_LifeList_BestYear(bestYear.Key, bestYear.Count(), PluralizeBird(bestYear.Count())));
+                if (bestLocation?.Key != null) coverPageLines.Add(I18n.Items_LifeList_BestLocation(bestLocation.Key, bestLocation.Count(), PluralizeBird(bestLocation.Count())));
+                if (bestSeason?.Key != null) coverPageLines.Add(I18n.Items_LifeList_BestSeason(bestSeason.Key, bestSeason.Count(), PluralizeBird(bestSeason.Count())));
+                if (bestYear?.Key != null) coverPageLines.Add(I18n.Items_LifeList_BestYear(bestYear.Key, bestYear.Count(), PluralizeBird(bestYear.Count())));
             }
 
             pages.Add(string.Join("^", coverPageLines));

@@ -35,7 +35,7 @@
   "birdie.HouseFinch_Female.scientificName": "Haemorhous mexicanus",
   "birdie.HouseFinch_Female.attribute.1": "brown head",
   "birdie.HouseFinch_Female.attribute.2": "brown body",
-  "birdie.HouseFinch_Female.funFact": "Females prefer redder males: a sign of a fat, well-fed mate!",
+  "birdie.HouseFinch_Female.funFact": "House Finches have their own unique \"accents\" depending on where you find them!",
   
   "birdie.HouseSparrow.commonName": "House Sparrow",
   "birdie.HouseSparrow.scientificName": "Passer domesticus",
@@ -76,5 +76,12 @@
   "birdie.AnnasHummingbird.attribute.1": "slender beak",
   "birdie.AnnasHummingbird.attribute.2": "magenta neck",
   "birdie.AnnasHummingbird.attribute.3": "green back",
-  "birdie.AnnasHummingbird.funFact": "Hummingbirds' tiny legs can neither hop nor walk, but they're able to scoot sideways when perched."
+  "birdie.AnnasHummingbird.funFact": "Hummingbirds' tiny legs can neither hop nor walk, but they're able to scoot sideways when perched.",
+
+  "birdie.CedarWaxwing.commonName": "Cedar Waxwing",
+  "birdie.CedarWaxwing.scientificName": "Bombycilla cedrorum",
+  "birdie.CedarWaxwing.attribute.1": "black mask",
+  "birdie.CedarWaxwing.attribute.2": "waxy feathers",
+  "birdie.CedarWaxwing.attribute.3": "head floof",
+  "birdie.CedarWaxwing.funFact": "Cedar Waxwings have a reputation for loving fruit! Unlike other birds, they'll even eat the fruit seeds."
 }
