@@ -8,6 +8,8 @@ using StardewValley.TerrainFeatures;
 
 namespace OrnithologistsGuild.Game
 {
+    record InvalidateNestCacheMessage();
+
     public class NestManager
     {
         public const string KeyNest = "Ivy_OrnithologistsGuild__Nest";
@@ -70,25 +72,28 @@ namespace OrnithologistsGuild.Game
         }
         public static Nest GetNest(Tree tree)
         {
-            Nest nest;
+            Nest nest = null;
 
-            if (!nestCache.TryGetValue(tree, out nest))
+            if (tree.modData.TryGetValue(KeyNest, out var nestString))
             {
-                if (tree.modData.TryGetValue(KeyNest, out var nestString) && Nest.TryParse(nestString, out nest))
+                if (!nestCache.TryGetValue(tree, out nest) && Nest.TryParse(nestString, out nest))
                 {
+                    // Cache the deserialized nest
                     nestCache.AddOrUpdate(tree, nest);
                 }
+            }
+            else if (nestCache.TryGetValue(tree, out _))
+            {
+                // Nest removed
+                nestCache.Remove(tree);
             }
 
             return nest;
         }
         public static void ClearNest(Tree tree)
         {
-            if (Game1.IsMasterGame)
-            {
-                tree.modData.Remove(KeyNest);
-                nestCache.Remove(tree);
-            }
+            tree.modData.Remove(KeyNest);
+            nestCache.Remove(tree);
         }
 
         public static bool IsNestAtPositionSpotted(Vector2 position)
