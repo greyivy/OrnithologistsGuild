@@ -22,9 +22,11 @@ namespace OrnithologistsGuild
 
         private static string PluralizeBird(int count) => count == 1 ? I18n.Bird() : I18n.Birds();
 
-        private static void UseLifeList()
+        private static void UseLifeList(Farmer who)
         {
-            var lifeList = SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList;
+            if (!who.IsLocalPlayer) return;
+
+            var lifeList = SaveDataManager.SaveData.ForPlayer(who.UniqueMultiplayerID).LifeList;
 
             var sighted = ContentPackManager.BirdieDefs.Values
                 .Select(birdieDef =>
@@ -61,7 +63,7 @@ namespace OrnithologistsGuild
 
             // Add cover page
             var coverPageLines = new List<string>();
-            coverPageLines.Add(Utilities.LocaleToUpper(I18n.Items_LifeList_Title(Game1.player.Name)));
+            coverPageLines.Add(Utilities.LocaleToUpper(I18n.Items_LifeList_Title(who.Name)));
             coverPageLines.Add(string.Empty);
 
             if (sighted.Count == 0)

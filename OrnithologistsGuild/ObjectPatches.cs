@@ -79,11 +79,8 @@ namespace OrnithologistsGuild
         {
             try
             {
-                if (who.IsLocalPlayer)
-                {
-                    if (__instance.IsBinoculars()) UseBinoculars(__instance, location, who);
-                    else if (__instance.QualifiedItemId == Constants.LIFE_LIST_FQID) UseLifeList();
-                }
+                if (__instance.IsBinoculars()) UseBinoculars(__instance, location, who);
+                else if (__instance.QualifiedItemId == Constants.LIFE_LIST_FQID) UseLifeList(who);
             }
             catch (Exception ex)
             {

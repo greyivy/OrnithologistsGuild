@@ -14,9 +14,11 @@ using static StardewValley.FarmerRenderer;
 namespace OrnithologistsGuild
 {
     public partial class ObjectPatches {
+        private record BincoularsAnimation(int Elapsed, string CurrentToolId);
+
         private const int ANIMATE_DURATION = 750;
-        private static int? animateElapsed;
-        private static string animateToolId;
+
+        private static Dictionary<long, BincoularsAnimation> currentAnimations = new Dictionary<long, BincoularsAnimation>();
 
         private static Lazy<Texture2D> binocularsTexture = new Lazy<Texture2D>(() => Game1.content.Load<Texture2D>("Mods/Ivy.OrnithologistsGuild/Binoculars"));
 
@@ -132,21 +134,21 @@ namespace OrnithologistsGuild
             {
                 if (__instance.CurrentTool?.IsBinoculars() == true)
                 {
-                    if (animateElapsed.HasValue)
+                    if (currentAnimations.TryGetValue(__instance.UniqueMultiplayerID, out var animation))
                     {
                         var binocularsProperties = __instance.CurrentTool.GetBinocularsProperties();
 
-                        animateElapsed += Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-
-                        if (animateToolId != __instance.CurrentTool?.QualifiedItemId)
+                        animation = animation with { Elapsed = animation.Elapsed + Game1.currentGameTime.ElapsedGameTime.Milliseconds };
+                        currentAnimations[__instance.UniqueMultiplayerID] = animation;
+                        
+                        if (animation.CurrentToolId != __instance.CurrentTool?.QualifiedItemId)
                         {
                             // Animation stopped due to switching tools
-                            animateElapsed = null;
-                            animateToolId = null;
+                            currentAnimations.Remove(__instance.UniqueMultiplayerID);
                         }
-                        else if (animateElapsed <= ANIMATE_DURATION)
+                        else if (animation.Elapsed <= ANIMATE_DURATION)
                         {
-                            var factor = Utilities.EaseOutSine((float)animateElapsed / (float)ANIMATE_DURATION);
+                            var factor = Utilities.EaseOutSine((float)animation.Elapsed / (float)ANIMATE_DURATION);
 
                             var animatedRange = Utility.Lerp(0, binocularsProperties.Range * Game1.tileSize, factor);
                             var opacity = Utility.Lerp(0.7f, 0.01f, factor);
@@ -162,10 +164,12 @@ namespace OrnithologistsGuild
                         else
                         {
                             // Animation complete
-                            animateElapsed = null;
-                            animateToolId = null;
+                            currentAnimations.Remove(__instance.UniqueMultiplayerID);
 
-                            IdentifyBirdies(__instance.currentLocation, __instance, binocularsProperties);
+                            if (__instance.IsLocalPlayer)
+                            {
+                                IdentifyBirdies(__instance.currentLocation, __instance, binocularsProperties);
+                            }
                         }
                     }
 
@@ -182,7 +186,7 @@ namespace OrnithologistsGuild
             if (
                 location != null &&
                 location.IsOutdoors &&
-                !animateElapsed.HasValue)
+                !currentAnimations.ContainsKey(who.UniqueMultiplayerID))
             {
                 if (binoculars.QualifiedItemId == Constants.BINOCULARS_JOJA_FQID) UseJojaBinoculars(who);
                 else if (binoculars.QualifiedItemId == Constants.BINOCULARS_ANTIQUE_FQID) UseAntiqueBinoculars(binoculars, who);
@@ -191,7 +195,7 @@ namespace OrnithologistsGuild
         }
         private static void UseJojaBinoculars(Farmer who)
         {
-            if (!ConfigManager.Config.NoBreakOrJam && Game1.random.NextDouble() < 0.1)
+            if (who.IsLocalPlayer && !ConfigManager.Config.NoBreakOrJam && Game1.random.NextDouble() < 0.1)
             {
                 Game1.drawObjectDialogue(I18n.Items_JojaBinoculars_Message());
             }
@@ -199,19 +203,18 @@ namespace OrnithologistsGuild
         }
         private static void UseAntiqueBinoculars(Tool binoculars, Farmer who)
         {
-            if (!ConfigManager.Config.NoBreakOrJam && Game1.random.NextDouble() < 0.025)
+            if (who.IsLocalPlayer && !ConfigManager.Config.NoBreakOrJam && Game1.random.NextDouble() < 0.025)
             {
                 Game1.drawObjectDialogue(I18n.Items_AntiqueBinoculars_Message());
 
-                Game1.player.removeItemFromInventory(binoculars);
+                who.removeItemFromInventory(binoculars);
             }
             else UseBinoculars(who);
         }
         private static void UseBinoculars(Farmer who)
         {
             // Start binoculars animation
-            animateElapsed = 0;
-            animateToolId = who.CurrentTool?.QualifiedItemId;
+            currentAnimations.Add(who.UniqueMultiplayerID, new BincoularsAnimation(0, who.CurrentTool?.QualifiedItemId));
         }
 
         private record Identification(Vector2 Position, BetterBirdie Birdie = null, Nest Nest = null);
@@ -252,7 +255,7 @@ namespace OrnithologistsGuild
 
                     var lines = new List<string>();
 
-                    var isIdentified = SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList.TryGetValue(birdieDef.UniqueID, out var lifeListEntry) && lifeListEntry.Identified;
+                    var isIdentified = SaveDataManager.SaveData.ForPlayer(who.UniqueMultiplayerID).LifeList.TryGetValue(birdieDef.UniqueID, out var lifeListEntry) && lifeListEntry.Identified;
 
                     var idPart = isIdentified ? I18n.Items_Binoculars_NestId() : I18n.Items_Binoculars_NestNoId();
                     if (nest.Stage == NestStage.Built) lines.Add($"{I18n.Items_Binoculars_NestStateBuilt()} {idPart}");
@@ -303,7 +306,7 @@ namespace OrnithologistsGuild
                         break;
                     }
 
-                    var sighting = SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID)
+                    var sighting = SaveDataManager.SaveData.ForPlayer(who.UniqueMultiplayerID)
                         .LifeList.GetOrAddEntry(birdie.BirdieDef, out var newAttribute, out var existingAttribute);
 
                     var contentPack = birdie.BirdieDef.ContentPackDef.ContentPack;
