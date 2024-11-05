@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <GamePath>/Users/ivy/Applications/Stardew Valley Development.app/Contents/MacOS</GamePath>
+    <GamePath>/Users/ivy/Applications/Stardew Valley.app/Contents/MacOS</GamePath>
     <AssemblyName>OrnithologistsGuild</AssemblyName>
     <EnableHarmony>true</EnableHarmony>
     <BundleExtraAssemblies>ThirdParty</BundleExtraAssemblies>

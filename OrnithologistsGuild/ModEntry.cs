@@ -47,8 +47,6 @@ namespace OrnithologistsGuild
 
         private void GameLoop_SaveLoaded(object sender, SaveLoadedEventArgs e)
         {
-            MigrateLegacyItems();
-
             SaveDataManager.Load();
             Mail.Initialize();
             NestManager.Initialize();
@@ -67,42 +65,6 @@ namespace OrnithologistsGuild
                     }
                 }
             }
-        }
-
-        private void MigrateLegacyItems()
-        {
-            Dictionary<string, string> LegacyItemMigrations = new Dictionary<string, string>()
-            {
-                { "(O)Ivy_OrnithologistsGuild_LifeList", Constants.LIFE_LIST_FQID },
-                { "(O)Ivy_OrnithologistsGuild_JojaBinoculars", Constants.BINOCULARS_JOJA_FQID },
-                { "(O)Ivy_OrnithologistsGuild_AntiqueBinoculars", Constants.BINOCULARS_ANTIQUE_FQID },
-                { "(O)Ivy_OrnithologistsGuild_ProBinoculars", Constants.BINOCULARS_PRO_FQID }
-            };
-
-            StardewValley.Internal.ForEachItemHelper.ForEachItemInWorld(delegate (in ForEachItemContext ctx) {
-
-                if (LegacyItemMigrations.TryGetValue(ctx.Item.QualifiedItemId, out var newQualifiedItemId))
-                {
-                    Monitor.Log($"Migrating {ctx.Item.QualifiedItemId} -> {newQualifiedItemId}", LogLevel.Info);
-                    try
-                    {
-                        ctx.ReplaceItemWith(ItemRegistry.Create(newQualifiedItemId));
-                    }
-                    catch (Exception ex1)
-                    {
-                        Monitor.Log($"Migrating {ctx.Item.QualifiedItemId} -> {newQualifiedItemId} failed. Attempting to remove broken item.\n{ex1}", LogLevel.Warn);
-                        try
-                        {
-                            ctx.RemoveItem();
-                        } catch (Exception ex2)
-                        {
-                            Monitor.Log($"Removing broken {ctx.Item.QualifiedItemId} failed. Please manually remove the broken item.\n{ex2}", LogLevel.Error);
-                        }
-                    }
-                }
-
-                return true;
-            });
         }
 
         private void GameLoop_GameLaunched(object sender, GameLaunchedEventArgs e)
