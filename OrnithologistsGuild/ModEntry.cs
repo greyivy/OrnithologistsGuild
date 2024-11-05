@@ -79,31 +79,30 @@ namespace OrnithologistsGuild
                 { "(O)Ivy_OrnithologistsGuild_ProBinoculars", Constants.BINOCULARS_PRO_FQID }
             };
 
-            StardewValley.Internal.ForEachItemHelper.ForEachItemInWorld(new StardewValley.Delegates.ForEachItemDelegate(
-            (Item item, Action remove, Action<Item> replaceWith) =>
-            {
-                if (LegacyItemMigrations.TryGetValue(item.QualifiedItemId, out var newQualifiedItemId))
+            StardewValley.Internal.ForEachItemHelper.ForEachItemInWorld(delegate (in ForEachItemContext ctx) {
+
+                if (LegacyItemMigrations.TryGetValue(ctx.Item.QualifiedItemId, out var newQualifiedItemId))
                 {
-                    Monitor.Log($"Migrating {item.QualifiedItemId} -> {newQualifiedItemId}", LogLevel.Info);
+                    Monitor.Log($"Migrating {ctx.Item.QualifiedItemId} -> {newQualifiedItemId}", LogLevel.Info);
                     try
                     {
-                        replaceWith(ItemRegistry.Create(newQualifiedItemId));
+                        ctx.ReplaceItemWith(ItemRegistry.Create(newQualifiedItemId));
                     }
                     catch (Exception ex1)
                     {
-                        Monitor.Log($"Migrating {item.QualifiedItemId} -> {newQualifiedItemId} failed. Attempting to remove broken item.\n{ex1}", LogLevel.Warn);
+                        Monitor.Log($"Migrating {ctx.Item.QualifiedItemId} -> {newQualifiedItemId} failed. Attempting to remove broken item.\n{ex1}", LogLevel.Warn);
                         try
                         {
-                            remove();
+                            ctx.RemoveItem();
                         } catch (Exception ex2)
                         {
-                            Monitor.Log($"Removing broken {item.QualifiedItemId} failed. Please manually remove the broken item.\n{ex2}", LogLevel.Error);
+                            Monitor.Log($"Removing broken {ctx.Item.QualifiedItemId} failed. Please manually remove the broken item.\n{ex2}", LogLevel.Error);
                         }
                     }
                 }
 
                 return true;
-            }));
+            });
         }
 
         private void GameLoop_GameLaunched(object sender, GameLaunchedEventArgs e)
