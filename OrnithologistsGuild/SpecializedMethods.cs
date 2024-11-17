@@ -13,7 +13,7 @@ namespace OrnithologistsGuild
             { "(O)336" /* Gold Bar */, 1 }
         };
 
-        public static Item GetFeederOutput(Object machine, Item inputItem, bool probe, MachineItemOutput outputData, out int? overrideMinutesUntilReady)
+        public static Item GetFeederOutput(Object machine, Item inputItem, bool probe, MachineItemOutput outputData, StardewValley.Farmer player, out int? overrideMinutesUntilReady)
 		{
             overrideMinutesUntilReady = null;
 
