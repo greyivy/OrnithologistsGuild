@@ -39,7 +39,7 @@
   "items.Binoculars.lifeList": "I should open my Life List to read more about them.",
   "items.AntiqueBinoculars.message": "The ancient binoculars fell apart in your hands.",
   "items.JojaBinoculars.message": "The cheaply made binoculars jammed when you tried to focus them.",
-  // mail data, moved from C#
+  // mail data
   "mail.Introduction": "Dear @, ^^Your grandmother, an avid birder of many years, left you this. We hope you find a way to continue her tradition this spring. ^^Good luck, and watch for bird's nests! ^The Pelican Town Ornithologist's Guild",
   "mail.LifeList1": "Dear @, ^^Congrats, you've identified your first bird! We think these may be of some help. ^^Good luck and happy birding, ^The Pelican Town Ornithologist's Guild",
   "mail.LifeList3": "Dear @, ^^Three birds identified! You're on a roll. Leave some of this delicious corn for the birds! ^^Good luck and happy birding, ^The Pelican Town Ornithologist's Guild",
