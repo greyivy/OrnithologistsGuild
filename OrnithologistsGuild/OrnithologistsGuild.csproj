@@ -1,7 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- <Import Project="$(MSBuildUserExtensionsPath)/sdv.props"
-    Condition="Exists('$(MSBuildUserExtensionsPath)/sdv.props')" /> -->
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <!-- <GamePath>/Users/ivy/Applications/Stardew Valley.app/Contents/MacOS</GamePath> -->
