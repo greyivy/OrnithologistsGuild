@@ -44,6 +44,11 @@
     {
       "Action": "Include",
       "FromFile": "assets/npc/Kyle.json"
+    },
+    // Mail
+    {
+      "Action": "Include",
+      "FromFile": "assets/mail.json"
     }
   ]
 }

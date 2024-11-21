@@ -31,6 +31,7 @@ namespace OrnithologistsGuild
             Helper.Events.Input.ButtonPressed += Input_ButtonPressed;
 
             SaveDataManager.Initialize();
+            GSQ.Initialize(ModManifest.UniqueID, Monitor);
         }
 
         private void Input_ButtonPressed(object sender, ButtonPressedEventArgs e)
@@ -51,10 +52,11 @@ namespace OrnithologistsGuild
             MigrateLegacyItems();
 
             SaveDataManager.Load();
-            Mail.Initialize();
+            // Mail.Initialize();
             NestManager.Initialize();
 
-            if (ConfigManager.Config.LogMissingBiomes) {
+            if (ConfigManager.Config.LogMissingBiomes)
+            {
                 foreach (var location in StardewValley.Game1.locations)
                 {
                     var biomes = location.GetBiomes();
@@ -80,7 +82,8 @@ namespace OrnithologistsGuild
                 { "(O)Ivy_OrnithologistsGuild_ProBinoculars", Constants.BINOCULARS_PRO_FQID }
             };
 
-            StardewValley.Internal.ForEachItemHelper.ForEachItemInWorld(delegate (in ForEachItemContext ctx) {
+            StardewValley.Internal.ForEachItemHelper.ForEachItemInWorld(delegate (in ForEachItemContext ctx)
+            {
 
                 if (LegacyItemMigrations.TryGetValue(ctx.Item.QualifiedItemId, out var newQualifiedItemId))
                 {
@@ -95,7 +98,8 @@ namespace OrnithologistsGuild
                         try
                         {
                             ctx.RemoveItem();
-                        } catch (Exception ex2)
+                        }
+                        catch (Exception ex2)
                         {
                             Monitor.Log($"Removing broken {ctx.Item.QualifiedItemId} failed. Please manually remove the broken item.\n{ex2}", LogLevel.Error);
                         }
@@ -117,7 +121,8 @@ namespace OrnithologistsGuild
                 return Game1.player.currentLocation.GetBiomes();
             });
             // Player name for PowerUp e.g. `Ivy` -> `I-V-Y`
-            CP.RegisterToken(ModManifest, "PowerUpPlayerName", () => {
+            CP.RegisterToken(ModManifest, "PowerUpPlayerName", () =>
+            {
                 string[] GetValue(string playerName)
                 {
                     return new[] { string.Join('-', playerName.ToUpper().ToCharArray()) };

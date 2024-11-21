@@ -23,16 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="birds.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="foods.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="content-pack\content.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="content-pack\i18n\default.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="default-biomes.json">
@@ -40,10 +31,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="MailFrameworkMod">
-      <Private>False</Private>
-      <HintPath>$(GamePath)/Mods/MailFrameworkMod/MailFrameworkMod.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 </Project>
