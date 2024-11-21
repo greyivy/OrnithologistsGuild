@@ -13,7 +13,8 @@ using static StardewValley.FarmerRenderer;
 
 namespace OrnithologistsGuild
 {
-    public partial class ObjectPatches {
+    public partial class ObjectPatches
+    {
         private record BincoularsAnimation(int Elapsed, string CurrentToolId);
 
         private const int ANIMATE_DURATION = 750;
@@ -39,43 +40,39 @@ namespace OrnithologistsGuild
 
                     var sourceRect = new Rectangle(binoculars.CurrentParentTileIndex * 16, 0, 16, 16);
 
-                    if (Utilities.TryGetNonPublicFieldValue(__instance, "positionOffset", out Vector2 positionOffset) &&
-                        Utilities.TryGetNonPublicFieldValue(__instance, "rotationAdjustment", out Vector2 rotationAdjustment))
+                    switch (facingDirection)
                     {
-                        switch (facingDirection)
-                        {
-                            case 0:
-                                break;
-                            case 1:
-                                sourceRect.Offset(0, 16);
-                                b.Draw(
-                                    binocularsTexture.Value,
-                                    position + origin + positionOffset + rotationAdjustment +
-                                        new Vector2(
-                                            featureXOffsetPerFrame[currentFrame] * 4,
-                                            4 + featureYOffsetPerFrame[currentFrame] * 4 + __instance.heightOffset.Value + 20),
-                                    sourceRect, overrideColor, rotation, origin, 4f * scale, SpriteEffects.None, GetLayerDepth(layerDepth, accessoryLayer));
-                                break;
-                            case 2:
-                                b.Draw(
-                                    binocularsTexture.Value,
-                                    position + origin + positionOffset + rotationAdjustment +
-                                        new Vector2(
-                                            featureXOffsetPerFrame[currentFrame] * 4,
-                                            8 + featureYOffsetPerFrame[currentFrame] * 4 + __instance.heightOffset.Value + 24),
-                                    sourceRect, overrideColor, rotation, origin, 4f * scale, SpriteEffects.None, GetLayerDepth(layerDepth, accessoryLayer));
-                                break;
-                            case 3:
-                                sourceRect.Offset(0, 16);
-                                b.Draw(
-                                    binocularsTexture.Value,
-                                    position + origin + positionOffset + rotationAdjustment +
-                                        new Vector2(
-                                            -featureXOffsetPerFrame[currentFrame] * 4,
-                                            4 + featureYOffsetPerFrame[currentFrame] * 4 + __instance.heightOffset.Value + 20),
-                                    sourceRect, overrideColor, rotation, origin, 4f * scale, SpriteEffects.FlipHorizontally, GetLayerDepth(layerDepth, accessoryLayer));
-                                break;
-                        }
+                        case 0:
+                            break;
+                        case 1:
+                            sourceRect.Offset(0, 16);
+                            b.Draw(
+                                binocularsTexture.Value,
+                                position + origin + __instance.positionOffset + __instance.rotationAdjustment +
+                                    new Vector2(
+                                        featureXOffsetPerFrame[currentFrame] * 4,
+                                        4 + featureYOffsetPerFrame[currentFrame] * 4 + __instance.heightOffset.Value + 20),
+                                sourceRect, overrideColor, rotation, origin, 4f * scale, SpriteEffects.None, GetLayerDepth(layerDepth, accessoryLayer));
+                            break;
+                        case 2:
+                            b.Draw(
+                                binocularsTexture.Value,
+                                position + origin + __instance.positionOffset + __instance.rotationAdjustment +
+                                    new Vector2(
+                                        featureXOffsetPerFrame[currentFrame] * 4,
+                                        8 + featureYOffsetPerFrame[currentFrame] * 4 + __instance.heightOffset.Value + 24),
+                                sourceRect, overrideColor, rotation, origin, 4f * scale, SpriteEffects.None, GetLayerDepth(layerDepth, accessoryLayer));
+                            break;
+                        case 3:
+                            sourceRect.Offset(0, 16);
+                            b.Draw(
+                                binocularsTexture.Value,
+                                position + origin + __instance.positionOffset + __instance.rotationAdjustment +
+                                    new Vector2(
+                                        -featureXOffsetPerFrame[currentFrame] * 4,
+                                        4 + featureYOffsetPerFrame[currentFrame] * 4 + __instance.heightOffset.Value + 20),
+                                sourceRect, overrideColor, rotation, origin, 4f * scale, SpriteEffects.FlipHorizontally, GetLayerDepth(layerDepth, accessoryLayer));
+                            break;
                     }
                 }
             }
@@ -140,7 +137,7 @@ namespace OrnithologistsGuild
 
                         animation = animation with { Elapsed = animation.Elapsed + Game1.currentGameTime.ElapsedGameTime.Milliseconds };
                         currentAnimations[__instance.UniqueMultiplayerID] = animation;
-                        
+
                         if (animation.CurrentToolId != __instance.CurrentTool?.QualifiedItemId)
                         {
                             // Animation stopped due to switching tools
@@ -263,7 +260,8 @@ namespace OrnithologistsGuild
                     else if (nest.Stage == NestStage.EggsHatched) lines.Add($"{I18n.Items_Binoculars_NestStateEggsHatched()} {idPart}");
                     else if (nest.Stage == NestStage.Fledged) lines.Add($"{I18n.Items_Binoculars_NestStateFledged()} {idPart}");
 
-                    if (isIdentified) {
+                    if (isIdentified)
+                    {
                         // Birdie identified
                         var contentPack = birdieDef.ContentPackDef.ContentPack;
                         var commonNameString = contentPack.Translation.Get($"birdie.{id}.commonName");
