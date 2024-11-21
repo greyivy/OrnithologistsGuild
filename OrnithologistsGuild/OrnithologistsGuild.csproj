@@ -1,75 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <!-- <Import Project="$(MSBuildUserExtensionsPath)/sdv.props"
+    Condition="Exists('$(MSBuildUserExtensionsPath)/sdv.props')" /> -->
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <GamePath>/Users/ivy/Applications/Stardew Valley.app/Contents/MacOS</GamePath>
+    <!-- <GamePath>/Users/ivy/Applications/Stardew Valley.app/Contents/MacOS</GamePath> -->
     <AssemblyName>OrnithologistsGuild</AssemblyName>
     <EnableHarmony>true</EnableHarmony>
     <BundleExtraAssemblies>ThirdParty</BundleExtraAssemblies>
-    <ModFolderName>Ornithologists Guild</ModFolderName>
+    <!-- <ModFolderName>Ornithologists Guild</ModFolderName> -->
     <Configurations>Release;Debug</Configurations>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <CustomCommands>
-      <CustomCommands>
-        <Command>
-          <type>AfterBuild</type>
-          <command>bash ${SolutionDir}/generate_zip.sh</command>
-          <workingdir>${SolutionDir}/</workingdir>
-        </Command>
-      </CustomCommands>
-    </CustomCommands>
-  </PropertyGroup>
   <ItemGroup>
-    <None Remove="Pathoschild.Stardew.ModBuildConfig" />
-    <None Remove="lib\" />
-    <None Remove="assets\" />
-    <None Remove="Game\" />
-    <None Remove="MailFrameworkMod" />
-    <None Remove="SimpleStateMachineLibrary" />
-    <None Remove="StateMachine" />
-    <None Remove="MonoGame.Primitives2D" />
-    <None Remove="Utilities\" />
-    <None Remove="Game\Critters\" />
-    <None Remove="ContentPatcher" />
-    <None Remove="Content\" />
-    <None Remove="content-pack\" />
-    <None Remove="content-pack\i18n\" />
-    <None Remove="Models\" />
-    <None Remove="i18n\" />
-    <None Remove="Pathoschild.Stardew.ModTranslationClassBuilder" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
-    <PackageReference Include="StateMachine" Version="1.2.4" />
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.3.2" />
     <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.2.0" />
+    <PackageReference Include="StateMachine" Version="1.2.4" />
   </ItemGroup>
+
   <ItemGroup>
-    <Folder Include="lib\" />
-    <Folder Include="assets\" />
-    <Folder Include="Game\" />
-    <Folder Include="Utilities\" />
-    <Folder Include="Game\Critters\" />
-    <Folder Include="Content\" />
-    <Folder Include="content-pack\" />
-    <Folder Include="content-pack\i18n\" />
-    <Folder Include="Models\" />
-    <Folder Include="i18n\" />
+    <ContentPacks Include="../OrnithologistsGuild.CP" Version="1.9.4" />
   </ItemGroup>
+
   <ItemGroup>
-    <Reference Include="ContentPatcher" Private="False">
-      <HintPath>lib\ContentPatcher.dll</HintPath>
-    </Reference>
-    <Reference Include="MailFrameworkMod">
-      <HintPath>lib\MailFrameworkMod.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="assets\goldfinch.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="birds.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -85,8 +38,12 @@
     <None Update="default-biomes.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="assets\nest.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MailFrameworkMod">
+      <Private>False</Private>
+      <HintPath>$(GamePath)/Mods/MailFrameworkMod/MailFrameworkMod.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
