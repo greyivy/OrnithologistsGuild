@@ -52,7 +52,8 @@ namespace OrnithologistsGuild
             {
                 var locale = ModEntry.Instance.Helper.Translation.Locale;
                 return $"{System.Globalization.CultureInfo.GetCultureInfo(locale).TextInfo.ListSeparator} ";
-            } catch
+            }
+            catch
             {
                 return ", ";
             }
@@ -67,19 +68,6 @@ namespace OrnithologistsGuild
         public static Vector2 XY(Vector3 value)
         {
             return new Vector2(value.X, value.Y);
-        }
-
-        public static bool TryGetNonPublicFieldValue<TInstance, TValue>(TInstance instance, string fieldName, out TValue value)
-        {
-            FieldInfo privateFieldInfo = typeof(TInstance).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
-            if (privateFieldInfo != null)
-            {
-                value = (TValue)privateFieldInfo.GetValue(instance);
-                return true;
-            }
-
-            value = default;
-            return false;
         }
 
         public static Texture2D CensorTexture(Texture2D texture)

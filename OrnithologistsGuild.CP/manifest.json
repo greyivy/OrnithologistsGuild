@@ -15,7 +15,7 @@
     },
     {
       "UniqueID": "Ivy.OrnithologistsGuild",
-      "MinimumVersion": "1.9.2"
+      "MinimumVersion": "1.9.4"
     }
   ],
   "RequiredForEveryone": true,
