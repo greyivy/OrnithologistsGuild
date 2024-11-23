@@ -8,7 +8,7 @@ namespace OrnithologistsGuild
     /// <summary>
     /// Add game state queries for use in conditions.
     /// </summary>
-    public static class GSQ
+    public static class GameStateQueries
     {
         private static IMonitor Monitor;
 
@@ -34,7 +34,7 @@ namespace OrnithologistsGuild
                 Monitor.Log(error, LogLevel.Error);
                 return false;
             }
-            return SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList.IdentifiedCount >= identify;
+            return (SaveDataManager.SaveData?.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList.IdentifiedCount ?? 0) >= identify;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace OrnithologistsGuild
         /// <returns></returns>
         public static bool IDENTIFIED_ALL(string[] query, GameStateQueryContext context)
         {
-            return SaveDataManager.SaveData.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList.IdentifiedCount >= ContentPackManager.BirdieDefs.Count;
+            return (SaveDataManager.SaveData?.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList.IdentifiedCount ?? 0) >= ContentPackManager.BirdieDefs.Count;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace OrnithologistsGuild
             Helper.Events.Input.ButtonPressed += Input_ButtonPressed;
 
             SaveDataManager.Initialize();
-            GSQ.Initialize(ModManifest.UniqueID, Monitor);
+            GameStateQueries.Initialize(ModManifest.UniqueID, Monitor);
         }
 
         private void Input_ButtonPressed(object sender, ButtonPressedEventArgs e)
@@ -52,7 +52,6 @@ namespace OrnithologistsGuild
             MigrateLegacyItems();
 
             SaveDataManager.Load();
-            // Mail.Initialize();
             NestManager.Initialize();
 
             if (ConfigManager.Config.LogMissingBiomes)

@@ -48,7 +48,7 @@ namespace OrnithologistsGuild.Content
         {
             var mail = data.AsDictionary<string, string>().Data;
             // give lifelist
-            mail["Mods_Ivy_OrnithologistsGuild_Introduction"] = $"{I18n.Mail_Introduction()}%item id (T)Ivy_OrnithologistsGuild_LifeList %% %item conversationTopic Ivy_OrnithologistGuild_Introduction 14 %% [#]{I18n.Mail_Introduction_Title()}";
+            mail["Mods_Ivy_OrnithologistsGuild_Introduction"] = $"{I18n.Mail_Introduction()}%item id {Constants.LIFE_LIST_FQID} %% %item conversationTopic Ivy_OrnithologistGuild_Introduction 14 %% [#]{I18n.Mail_Introduction_Title()}";
             // 1 bird identified, mixed seeds
             mail["Mods_Ivy_OrnithologistsGuild_LifeList1"] = $"{I18n.Mail_LifeList1()}%item id (O)770 5 %% [#]{I18n.Mail_LifeList1_Title()}";
             // 3 birds identified, corn
