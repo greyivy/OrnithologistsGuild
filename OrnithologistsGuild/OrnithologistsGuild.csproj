@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <!-- <GamePath>/Users/ivy/Applications/Stardew Valley.app/Contents/MacOS</GamePath> -->
+    <GamePath>/Users/ivy/Applications/Stardew Valley.app/Contents/MacOS</GamePath>
     <AssemblyName>OrnithologistsGuild</AssemblyName>
     <EnableHarmony>true</EnableHarmony>
     <BundleExtraAssemblies>ThirdParty</BundleExtraAssemblies>
-    <!-- <ModFolderName>Ornithologists Guild</ModFolderName> -->
+    <ModFolderName>Ornithologists Guild</ModFolderName>
     <Configurations>Release;Debug</Configurations>
   </PropertyGroup>
 
@@ -16,7 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ContentPacks Include="../OrnithologistsGuild.CP" Version="1.9.4" />
+    <ContentPacks Include="../OrnithologistsGuild.CP" FolderName="[CP] Ornithologists Guild"
+      Version="1.9.4" />
   </ItemGroup>
 
   <ItemGroup>
