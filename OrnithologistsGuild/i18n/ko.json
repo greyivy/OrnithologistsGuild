@@ -38,7 +38,7 @@
   "items.Binoculars.nestStateFledged": "둥지! 아기 새들이 첫 비행을 한 것 같아요!",
   "items.Binoculars.lifeList": "더 자세히 알아보려면 노트를 참조해야 합니다.",
   "items.AntiqueBinoculars.message": "오래된 쌍안경은 당신의 손에서 산산이 조각났습니다.",
-  "items.JojaBinoculars.message": "저렴한 쌍안경의 초점을 맞추려고 하니 고장났습니다."
+  "items.JojaBinoculars.message": "저렴한 쌍안경의 초점을 맞추려고 하니 고장났습니다.",
   // mail data
   "mail.Introduction": "친애하는 @, ^^오랜 세월 열성적인 조류 관찰자였던 할머니께서 이걸 남기셨습니다. 이번 봄에도 할머니의 전통을 이어갈 방법을 찾으시길 바랍니다. ^^행운을 빌고 새 둥지를 지켜보세요! ^펠리칸 마을 조류학자 길드",
   "mail.LifeList1": "친애하는 @, ^^축하합니다. 첫 새를 발견하셨네요! 도움이 될 것 같습니다. ^^행운을 빌고 즐거운 조류 관찰이 되세요. ^펠리칸 마을 조류학자 길드",
@@ -52,5 +52,5 @@
   "mail.LifeList3.title": "조류학자 길드: 세 마리의 새",
   "mail.LifeList5.title": "조류학자 길드: 다섯 마리의 새",
   "mail.LifeList7.title": "조류학자 길드: 일곱 마리의 새",
-  "mail.LifeListAll.title": "조류학자 길드: 모든 새들"
+  "mail.LifeListAll.title": "조류학자 길드: 모든 새들",
 }
