@@ -48,71 +48,70 @@ namespace OrnithologistsGuild.Content
         {
             var mail = data.AsDictionary<string, string>().Data;
             // give lifelist
-            mail["Mods_Ivy_OrnithologistsGuild_Introduction"] = $"{I18n.Mail_Introduction()}%item id {Constants.LIFE_LIST_FQID} %% %item conversationTopic Ivy_OrnithologistGuild_Introduction 14 %% [#]{I18n.Mail_Introduction_Title()}";
+            mail[Constants.MAIL_INTRODUCTION] = $"{I18n.Mail_Introduction()}%item id {Constants.LIFE_LIST_FQID} %% %item conversationTopic Ivy_OrnithologistGuild_Introduction 14 %% [#]{I18n.Mail_Introduction_Title()}";
             // 1 bird identified, mixed seeds
-            mail["Mods_Ivy_OrnithologistsGuild_LifeList1"] = $"{I18n.Mail_LifeList1()}%item id (O)770 5 %% [#]{I18n.Mail_LifeList1_Title()}";
+            mail[Constants.MAIL_LIFE_LIST_1] = $"{I18n.Mail_LifeList1()}%item id (O)770 5 %% [#]{I18n.Mail_LifeList1_Title()}";
             // 3 birds identified, corn
-            mail["Mods_Ivy_OrnithologistsGuild_LifeList3"] = $"{I18n.Mail_LifeList3()}%item id (O)270 5 %% [#]{I18n.Mail_LifeList3_Title()}";
+            mail[Constants.MAIL_LIFE_LIST_3] = $"{I18n.Mail_LifeList3()}%item id (O)270 5 %% [#]{I18n.Mail_LifeList3_Title()}";
             // 5 birds identified, sunflower seeds
-            mail["Mods_Ivy_OrnithologistsGuild_LifeList5"] = $"{I18n.Mail_LifeList5()}%item id (O)431 5 %% [#]{I18n.Mail_LifeList5_Title()}";
+            mail[Constants.MAIL_LIFE_LIST_5] = $"{I18n.Mail_LifeList5()}%item id (O)431 5 %% [#]{I18n.Mail_LifeList5_Title()}";
             // 7 birds identified, salmonberries
-            mail["Mods_Ivy_OrnithologistsGuild_LifeList7"] = $"{I18n.Mail_LifeList7()}%item id (O)296 5 %% [#]{I18n.Mail_LifeList7_Title()}";
+            mail[Constants.MAIL_LIFE_LIST_7] = $"{I18n.Mail_LifeList7()}%item id (O)296 5 %% [#]{I18n.Mail_LifeList7_Title()}";
             // all bird identified, golden egg
-            mail["Mods_Ivy_OrnithologistsGuild_LifeListAll"] = $"{I18n.Mail_LifeListAll()}%item id (O)928 %% %item conversationTopic Ivy_OrnithologistGuild_LifeListAll 14 %% [#]{I18n.Mail_LifeListAll_Title()}";
+            mail[Constants.MAIL_LIFE_LIST_ALL] = $"{I18n.Mail_LifeListAll()}%item id (O)928 %% %item conversationTopic Ivy_OrnithologistGuild_LifeListAll 14 %% [#]{I18n.Mail_LifeListAll_Title()}";
         }
 
         private static void Edit_DataTriggerActions(IAssetData data)
         {
             string modId = ModEntry.Instance.ModManifest.UniqueID;
+            ModEntry.Instance.Monitor.Log("ID:" + modId);
             var tActs = data.GetData<List<TriggerActionData>>();
             // send intro mail once, immediately on day start/mod install
             tActs.Add(new()
             {
-                Id = $"{modId}_Mail_Introduction",
+                Id = Constants.MAIL_INTRODUCTION,
                 Trigger = "DayStarted",
                 Condition = "DATE_RANGE spring 5 1",
-                Action = "AddMail Current Mods_Ivy_OrnithologistsGuild_Introduction Now",
+                Action = $"AddMail Current {Constants.MAIL_INTRODUCTION} Now",
                 // set MarkActionApplied=true to do this only once, this is the default value
                 //MarkActionApplied = true
             });
             // send identified count mails at end of day (for tomorrow), when goal is reached
             tActs.Add(new()
             {
-                Id = $"{modId}_Mail_LifeList1",
+                Id = Constants.MAIL_LIFE_LIST_1,
                 Trigger = "DayEnding",
-                Condition = "Ivy.OrnithologistsGuild_IDENTIFIED_AT_LEAST 1",
-                Action = "AddMail Current Mods_Ivy_OrnithologistsGuild_LifeList1",
+                Condition = $"{Constants.CONDITION_IDENTIFIED_AT_LEAST} 1",
+                Action = $"AddMail Current {Constants.MAIL_LIFE_LIST_1}",
             });
             tActs.Add(new()
             {
-                Id = $"{modId}_Mail_LifeList3",
+                Id = Constants.MAIL_LIFE_LIST_3,
                 Trigger = "DayEnding",
-                Condition = "Ivy.OrnithologistsGuild_IDENTIFIED_AT_LEAST 3",
-                Action = "AddMail Current Mods_Ivy_OrnithologistsGuild_LifeList3",
+                Condition = $"{Constants.CONDITION_IDENTIFIED_AT_LEAST} 3",
+                Action = $"AddMail Current {Constants.MAIL_LIFE_LIST_3}",
             });
             tActs.Add(new()
             {
-                Id = $"{modId}_Mail_LifeList5",
+                Id = Constants.MAIL_LIFE_LIST_5,
                 Trigger = "DayEnding",
-                Condition = "Ivy.OrnithologistsGuild_IDENTIFIED_AT_LEAST 5",
-                Action = "AddMail Current Mods_Ivy_OrnithologistsGuild_LifeList5",
+                Condition = $"{Constants.CONDITION_IDENTIFIED_AT_LEAST} 5",
+                Action = $"AddMail Current {Constants.MAIL_LIFE_LIST_5}",
             });
             tActs.Add(new()
             {
-                Id = $"{modId}_Mail_LifeList7",
+                Id = Constants.MAIL_LIFE_LIST_7,
                 Trigger = "DayEnding",
-                Condition = "Ivy.OrnithologistsGuild_IDENTIFIED_AT_LEAST 7",
-                Action = "AddMail Current Mods_Ivy_OrnithologistsGuild_LifeList7",
+                Condition = $"{Constants.CONDITION_IDENTIFIED_AT_LEAST} 7",
+                Action = $"AddMail Current {Constants.MAIL_LIFE_LIST_7}",
             });
             tActs.Add(new()
             {
-                Id = $"{modId}_Mail_LifeListAll",
+                Id = Constants.MAIL_LIFE_LIST_ALL,
                 Trigger = "DayEnding",
-                Condition = "Ivy.OrnithologistsGuild_IDENTIFIED_ALL",
-                Action = "AddMail Current Mods_Ivy_OrnithologistsGuild_LifeListAll",
+                Condition = Constants.CONDITION_IDENTIFIED_ALL,
+                Action = $"AddMail Current {Constants.MAIL_LIFE_LIST_ALL}",
             });
         }
-
     }
 }
-

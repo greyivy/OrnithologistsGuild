@@ -12,12 +12,12 @@ namespace OrnithologistsGuild
     {
         private static IMonitor Monitor;
 
-        public static void Initialize(string modId, IMonitor monitor)
+        public static void Initialize(IMonitor monitor)
         {
             Monitor = monitor;
 
-            GameStateQuery.Register($"{modId}_IDENTIFIED_AT_LEAST", IDENTIFIED_AT_LEAST);
-            GameStateQuery.Register($"{modId}_IDENTIFIED_ALL", IDENTIFIED_ALL);
+            GameStateQuery.Register(Constants.CONDITION_IDENTIFIED_AT_LEAST, IDENTIFIED_AT_LEAST);
+            GameStateQuery.Register(Constants.CONDITION_IDENTIFIED_ALL, IDENTIFIED_ALL);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace OrnithologistsGuild
                 Monitor.Log(error, LogLevel.Error);
                 return false;
             }
-            return (SaveDataManager.SaveData?.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList.IdentifiedCount ?? 0) >= identify;
+            return (SaveDataManager.SaveData?.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList?.IdentifiedCount ?? 0) >= identify;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace OrnithologistsGuild
         /// <returns></returns>
         public static bool IDENTIFIED_ALL(string[] query, GameStateQueryContext context)
         {
-            return (SaveDataManager.SaveData?.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList.IdentifiedCount ?? 0) >= ContentPackManager.BirdieDefs.Count;
+            return (SaveDataManager.SaveData?.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList?.IdentifiedCount ?? 0) >= ContentPackManager.BirdieDefs.Count;
         }
     }
 }

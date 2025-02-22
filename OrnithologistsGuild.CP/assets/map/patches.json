@@ -37,10 +37,14 @@
                 "Width": 10,
                 "Height": 9
             },
-            "MapProperties": {
-                "Perches": "10 58 -146 0",
-                "Light": "9 56 1 9 57 1"
-            }
+            "TextOperations": [
+                {
+                    "Operation": "Append",
+                    "Target": ["MapProperties", "Light"],
+                    "Value": "9 56 1 9 57 1",
+                    "Delimiter": " "
+                }
+            ]
         },
         {
             "Action": "EditMap",

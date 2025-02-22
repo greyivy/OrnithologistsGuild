@@ -31,7 +31,7 @@ namespace OrnithologistsGuild
             Helper.Events.Input.ButtonPressed += Input_ButtonPressed;
 
             SaveDataManager.Initialize();
-            GameStateQueries.Initialize(ModManifest.UniqueID, Monitor);
+            GameStateQueries.Initialize(Monitor);
         }
 
         private void Input_ButtonPressed(object sender, ButtonPressedEventArgs e)
