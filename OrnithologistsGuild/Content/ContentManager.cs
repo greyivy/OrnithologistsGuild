@@ -64,12 +64,11 @@ namespace OrnithologistsGuild.Content
         private static void Edit_DataTriggerActions(IAssetData data)
         {
             string modId = ModEntry.Instance.ModManifest.UniqueID;
-            ModEntry.Instance.Monitor.Log("ID:" + modId);
             var tActs = data.GetData<List<TriggerActionData>>();
             // send intro mail once, immediately on day start/mod install
             tActs.Add(new()
             {
-                Id = Constants.MAIL_INTRODUCTION,
+                Id = $"{modId}_Mail_Introduction",
                 Trigger = "DayStarted",
                 Condition = "DATE_RANGE spring 5 1",
                 Action = $"AddMail Current {Constants.MAIL_INTRODUCTION} Now",
@@ -79,35 +78,35 @@ namespace OrnithologistsGuild.Content
             // send identified count mails at end of day (for tomorrow), when goal is reached
             tActs.Add(new()
             {
-                Id = Constants.MAIL_LIFE_LIST_1,
+                Id = $"{modId}_Mail_LifeList1",
                 Trigger = "DayEnding",
                 Condition = $"{Constants.CONDITION_IDENTIFIED_AT_LEAST} 1",
                 Action = $"AddMail Current {Constants.MAIL_LIFE_LIST_1}",
             });
             tActs.Add(new()
             {
-                Id = Constants.MAIL_LIFE_LIST_3,
+                Id = $"{modId}_Mail_LifeList3",
                 Trigger = "DayEnding",
                 Condition = $"{Constants.CONDITION_IDENTIFIED_AT_LEAST} 3",
                 Action = $"AddMail Current {Constants.MAIL_LIFE_LIST_3}",
             });
             tActs.Add(new()
             {
-                Id = Constants.MAIL_LIFE_LIST_5,
+                Id = $"{modId}_Mail_LifeList5",
                 Trigger = "DayEnding",
                 Condition = $"{Constants.CONDITION_IDENTIFIED_AT_LEAST} 5",
                 Action = $"AddMail Current {Constants.MAIL_LIFE_LIST_5}",
             });
             tActs.Add(new()
             {
-                Id = Constants.MAIL_LIFE_LIST_7,
+                Id = $"{modId}_Mail_LifeList7",
                 Trigger = "DayEnding",
                 Condition = $"{Constants.CONDITION_IDENTIFIED_AT_LEAST} 7",
                 Action = $"AddMail Current {Constants.MAIL_LIFE_LIST_7}",
             });
             tActs.Add(new()
             {
-                Id = Constants.MAIL_LIFE_LIST_ALL,
+                Id = $"{modId}_Mail_LifeListAll",
                 Trigger = "DayEnding",
                 Condition = Constants.CONDITION_IDENTIFIED_ALL,
                 Action = $"AddMail Current {Constants.MAIL_LIFE_LIST_ALL}",
