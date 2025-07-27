@@ -30,6 +30,8 @@ namespace OrnithologistsGuild.Content
                 SoundEffect audio = SoundEffect.FromFile(filePathCombined);
 
                 cueDef.SetSound(audio, Game1.audioEngine.GetCategoryIndex("Sound"), false);
+                if (cueDef.sounds.Count > 0)
+                    cueDef.sounds[0].volume = ConfigManager.Config.CallVolume / 100f;
 
                 Game1.soundBank.AddCue(cueDef);
             }

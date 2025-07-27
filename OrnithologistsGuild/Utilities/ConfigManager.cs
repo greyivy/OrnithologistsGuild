@@ -26,6 +26,8 @@ namespace OrnithologistsGuild
             );
 
             configMenu.AddSectionTitle(mod: manifest, text: () => I18n.Config_GeneralOptions());
+            configMenu.AddParagraph(mod: manifest, text: () => I18n.Config_GeneralOptions_Note());
+
             //configMenu.AddBoolOption(
             //    mod: manifest,
             //    name: () => I18n.Config_UseVanilla_Name(),
@@ -33,6 +35,18 @@ namespace OrnithologistsGuild
             //    getValue: () => Config.LoadVanillaPack,
             //    setValue: value => Config.LoadVanillaPack = value
             //);
+            configMenu.AddNumberOption(
+                mod: manifest,
+                name: () => I18n.Config_Volume_Name(),
+                tooltip: () => I18n.Config_Volume_Tooltip(),
+                getValue: () => Config.CallVolume,
+                setValue: value => Config.CallVolume = value,
+                min: 0,
+                max: 100,
+                interval: 10,
+                formatValue: value => $"{value}%"
+            );
+
             configMenu.AddBoolOption(
                 mod: manifest,
                 name: () => I18n.Config_UseBuiltIn_Name(),
