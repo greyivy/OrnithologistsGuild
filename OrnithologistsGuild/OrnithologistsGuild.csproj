@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ContentPacks Include="../OrnithologistsGuild.CP" FolderName="[CP] Ornithologists Guild"
-      Version="1.9.6" />
+      Version="1.9.7" />
   </ItemGroup>
 
   <ItemGroup>

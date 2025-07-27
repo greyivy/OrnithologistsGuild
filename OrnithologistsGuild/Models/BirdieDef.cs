@@ -10,7 +10,7 @@ using OrnithologistsGuild.Models;
 using StardewModdingAPI;
 using StardewValley;
 
-namespace OrnithologistsGuild.Content
+namespace OrnithologistsGuild.Content   
 {
     public class BirdieDef
     {
