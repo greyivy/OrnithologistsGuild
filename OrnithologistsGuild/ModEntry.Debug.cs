@@ -16,6 +16,7 @@ namespace OrnithologistsGuild
         private static bool debug_EnableBirdWhisperer = false;
         public static Vector2? debug_BirdWhisperer = null;
         public static bool debug_Conditions = false;
+        public static int debug_NestSprite = 0;
 
         private void RegisterDebugCommands()
         {
@@ -25,6 +26,7 @@ namespace OrnithologistsGuild
             Helper.ConsoleCommands.Add("ogw", "Bird Whisperer: ask a random bird (nicely) to relocate to wherever you click", OnDebugCommand);
             Helper.ConsoleCommands.Add("ogc", "Prints bird condition debug information for all birds or the specified birdie ID", OnDebugCommand);
             Helper.ConsoleCommands.Add("ogn", "Prints bird nest debug information for the current game location", OnDebugCommand);
+            Helper.ConsoleCommands.Add("ogt", "Forces nest sprites on treetops", OnDebugCommand);
         }
 
         private void OnDebugCommand(string cmd, string[] args)
@@ -147,6 +149,12 @@ namespace OrnithologistsGuild
                 else
                 {
                     Instance.Monitor.Log("No nests in current game location", LogLevel.Info);
+                }
+            }
+            else if (cmd.Equals("ogt"))
+            {
+                if (!int.TryParse(args[0], out debug_NestSprite)) {
+                    Instance.Monitor.Log("Must be an integer representing nest age", LogLevel.Info);
                 }
             }
         }

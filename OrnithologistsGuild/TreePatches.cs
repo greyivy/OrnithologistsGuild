@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using OrnithologistsGuild.Game;
 using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
@@ -68,6 +69,12 @@ namespace OrnithologistsGuild
             try
             {
                 var nest = __instance.GetNest();
+
+                if (ModEntry.debug_NestSprite > 0)
+                {
+                    nest = new Nest(null, NestType.TreeTop, SDate.Now().AddDays(-ModEntry.debug_NestSprite));
+                }
+
                 var hasSprite = nestSpriteCache.TryGetValue(__instance, out var sprite);
 
                 if (nest == null || nest.Stage == NestStage.Removed && hasSprite)
@@ -76,7 +83,7 @@ namespace OrnithologistsGuild
                     sprite = null;
                     nestSpriteCache.Remove(__instance);
                 }
-                else if (nest != null && !hasSprite)
+                else if (nest != null && nest?.Stage != NestStage.Removed && !hasSprite)
                 {
                     // Nest added -- attach sprite
                     sprite = new AnimatedSprite("Mods/Ivy.OrnithologistsGuild/Nest", 0, 16, 16);
