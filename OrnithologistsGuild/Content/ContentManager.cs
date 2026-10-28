@@ -24,21 +24,21 @@ namespace OrnithologistsGuild.Content
 
         private static void Content_AssetRequested(object sender, AssetRequestedEventArgs e)
         {
-            if (e.Name.IsEquivalentTo("Mods/Ivy.OrnithologistsGuild/Nest"))
+            if (e.NameWithoutLocale.IsEquivalentTo("Mods/Ivy.OrnithologistsGuild/Nest"))
             {
                 e.LoadFromModFile<Texture2D>("assets/nest.png", AssetLoadPriority.Low);
             }
-            else if (e.Name.IsEquivalentTo("Mods/Ivy.OrnithologistsGuild/Binoculars"))
+            else if (e.NameWithoutLocale.IsEquivalentTo("Mods/Ivy.OrnithologistsGuild/Binoculars"))
             {
                 e.LoadFromModFile<Texture2D>("assets/binoculars.png", AssetLoadPriority.Low);
             }
             // mail & triggers
             // this can be done in content patcher ofc, kept here for i18n key.
-            if (e.Name.IsEquivalentTo("Data/Mail"))
+            if (e.NameWithoutLocale.IsEquivalentTo("Data/Mail"))
             {
                 e.Edit(Edit_DataMail);
             }
-            if (e.Name.IsEquivalentTo("Data/TriggerActions"))
+            if (e.NameWithoutLocale.IsEquivalentTo("Data/TriggerActions"))
             {
                 e.Edit(Edit_DataTriggerActions);
             }
