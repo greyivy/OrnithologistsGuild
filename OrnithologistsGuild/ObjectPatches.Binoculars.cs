@@ -220,6 +220,9 @@ namespace OrnithologistsGuild
         {
             if (location.critters == null) return;
 
+            // Farmhand hasn't received their data from the host yet (sending partial data would overwrite it)
+            if (SaveDataManager.SaveData == null) return;
+
             List<string> alreadyIdentified = new List<string>();
             List<string> newlyIdentified = new List<string>();
 

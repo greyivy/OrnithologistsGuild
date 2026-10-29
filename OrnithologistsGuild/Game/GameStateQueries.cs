@@ -1,3 +1,4 @@
+using System.Linq;
 using OrnithologistsGuild.Content;
 using StardewModdingAPI;
 using StardewValley;
@@ -49,7 +50,11 @@ namespace OrnithologistsGuild
             // No birdies loaded (e.g. content packs failed to load) shouldn't count as all identified
             if (ContentPackManager.BirdieDefs.Count == 0) return false;
 
-            return (SaveDataManager.SaveData?.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList?.IdentifiedCount ?? 0) >= ContentPackManager.BirdieDefs.Count;
+            // Only count birdies that are currently loaded (life list may contain birdies from removed content packs)
+            var lifeList = SaveDataManager.SaveData?.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList;
+            if (lifeList == null) return false;
+
+            return ContentPackManager.BirdieDefs.Keys.All(uniqueId => lifeList.TryGetValue(uniqueId, out var entry) && entry.Identified);
         }
     }
 }

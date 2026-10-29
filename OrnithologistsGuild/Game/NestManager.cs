@@ -42,7 +42,7 @@ namespace OrnithologistsGuild.Game
         public static bool CanBuildNestAt(GameLocation gameLocation)
         {
             var trees = gameLocation.GetTrees();
-            var percentTreesWithNests = trees.Where(tree => tree.HasNest()).Count() / trees.Count();
+            var percentTreesWithNests = (float)trees.Where(tree => tree.HasNest()).Count() / trees.Count();
 
             return percentTreesWithNests < 0.2 && GetValidNestingLocations().Contains(gameLocation) &&
                 (Game1.season == Season.Spring && Game1.dayOfMonth >= 0 && Game1.dayOfMonth <= 6); // First week of Spring

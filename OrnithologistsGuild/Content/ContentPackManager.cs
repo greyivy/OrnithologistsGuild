@@ -64,6 +64,12 @@ namespace OrnithologistsGuild.Content
                     birdieDef.UniqueID = $"{contentPack.Manifest.UniqueID}.birdie.{birdieDef.ID}";
                     birdieDef.ContentPackDef = contentPackDef;
 
+                    if (birdieDef.Attributes < 1)
+                    {
+                        ModEntry.Instance.Monitor.Log(@$"Warning in content pack: {contentPackDef.ContentPack.Manifest.Name} {contentPackDef.ContentPack.Manifest.Version} (in {birdieDef.ID}): Attributes must be at least 1 (got {birdieDef.Attributes}), using 1", LogLevel.Warn);
+                        birdieDef.Attributes = 1;
+                    }
+
                     birdieDef.LoadSoundAssets();
 
                     BirdieDefs.Add(birdieDef.UniqueID, birdieDef);

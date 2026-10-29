@@ -1,4 +1,5 @@
 ﻿using OrnithologistsGuild.Models;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 
 namespace OrnithologistsGuild
@@ -8,12 +9,21 @@ namespace OrnithologistsGuild
         private const string KEY = "Ivy_OrnithologistsGuild_1";
         private const string KEY_LEGACY = "OrnithologistsGuild";
 
-        public static SaveData SaveData { get; private set; }
+        // Per screen so split-screen farmhands don't overwrite the host's data
+        private static readonly PerScreen<SaveData> saveData = new PerScreen<SaveData>();
+        public static SaveData SaveData { get => saveData.Value; private set => saveData.Value = value; }
 
         public static void Initialize()
         {
             ModEntry.Instance.Helper.Events.Multiplayer.ModMessageReceived += Multiplayer_ModMessageReceived;
             ModEntry.Instance.Helper.Events.Multiplayer.PeerConnected += Multiplayer_PeerConnected;
+            ModEntry.Instance.Helper.Events.GameLoop.ReturnedToTitle += GameLoop_ReturnedToTitle;
+        }
+
+        private static void GameLoop_ReturnedToTitle(object sender, StardewModdingAPI.Events.ReturnedToTitleEventArgs e)
+        {
+            // Don't carry a previous world's data into the next one (current screen only, other split-screen players may still be playing)
+            SaveData = null;
         }
 
         private static void Multiplayer_PeerConnected(object sender, StardewModdingAPI.Events.PeerConnectedEventArgs e)

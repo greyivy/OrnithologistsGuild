@@ -38,6 +38,13 @@ namespace OrnithologistsGuild.Models
 
             var attributes = Enumerable.Range(1, birdieDef.Attributes);
             var undiscoveredAttributes = attributes.Except(lifeListEntry.Sightings.Select(logEntry => logEntry.Attribute)).ToList();
+            if (undiscoveredAttributes.Count == 0)
+            {
+                // All attributes already sighted (e.g. content pack lowered its attribute count)
+                lifeListEntry.Identified = true;
+                SaveDataManager.Save();
+                return lifeListEntry;
+            }
             if (undiscoveredAttributes.Count == 1)
             {
                 lifeListEntry.Identified = true;

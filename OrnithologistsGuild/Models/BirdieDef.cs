@@ -39,6 +39,9 @@ namespace OrnithologistsGuild.Content
 
         public void ParseConditions()
         {
+            // Treat an explicit null as no conditions
+            if (this.Conditions == null) this.Conditions = new List<BirdDefCondition>();
+
             foreach (var condition in this.Conditions)
             {
                 condition.ManagedConditions = ModEntry.CP.ParseConditions(
@@ -79,7 +82,7 @@ namespace OrnithologistsGuild.Content
         public float BaseWt = 0.5f;
         public Dictionary<string, float> FoodBaseWts = new Dictionary<string, float>() { };
         public Dictionary<string, float> FeederBaseWts = new Dictionary<string, float>() { };
-        public List<BirdDefCondition> Conditions;
+        public List<BirdDefCondition> Conditions = new List<BirdDefCondition>();
 
         public bool CanUseBaths = true;
         public bool CanNestInTrees = true;
@@ -117,6 +120,13 @@ namespace OrnithologistsGuild.Content
 
             try
             {
+                // Conditions not parsed yet or invalid (see error log) -- don't spawn rather than ignore them
+                if (this.Conditions == null || this.Conditions.Any(condition => condition.ManagedConditions?.IsValid != true))
+                {
+                    if (debug) debugLines.Add(("conditions missing or invalid", null));
+                    return 0;
+                }
+
                 if (debug) debugLines.Add(("base weight", BaseWt));
                 float weight = this.BaseWt;
 

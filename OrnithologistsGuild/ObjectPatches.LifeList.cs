@@ -19,12 +19,25 @@ namespace OrnithologistsGuild
         private const string HEADER_PATTERN = @"^\((?'index'\d+)\/\d+\)\s";
 
         private static List<AnimatedSprite> pageBirdieSprites = new List<AnimatedSprite>();
+        private static List<Texture2D> censoredTextures = new List<Texture2D>();
+
+        private static void ClearPageBirdieSprites()
+        {
+            pageBirdieSprites.Clear();
+
+            // Censored textures are created per use, so dispose of them
+            foreach (var texture in censoredTextures) texture.Dispose();
+            censoredTextures.Clear();
+        }
 
         private static string PluralizeBird(int count) => count == 1 ? I18n.Bird() : I18n.Birds();
 
         private static void UseLifeList(Farmer who)
         {
             if (!who.IsLocalPlayer) return;
+
+            // Farmhand hasn't received their data from the host yet
+            if (SaveDataManager.SaveData == null) return;
 
             var lifeList = SaveDataManager.SaveData.ForPlayer(who.UniqueMultiplayerID).LifeList;
 
@@ -37,7 +50,8 @@ namespace OrnithologistsGuild
                     }
                     return (BirdieDef: birdieDef, LifeListEntry: null);
                 })
-                .Where(tuple => tuple.LifeListEntry != null)
+                // Entries without sightings can exist in saves from older versions; leave them in the save but don't show them
+                .Where(tuple => tuple.LifeListEntry != null && tuple.LifeListEntry.Sightings.Any())
                 .OrderBy(tuple => tuple.LifeListEntry.Sightings.First().DaysSinceStart)
                 .ToList();
 
@@ -89,13 +103,18 @@ namespace OrnithologistsGuild
             pages.AddRange(sighted.Select((tuple, i) => GetBirdiePage(i, sighted.Count, tuple.BirdieDef, tuple.LifeListEntry)));
 
             // Create birdie sprites
+            ClearPageBirdieSprites();
             pageBirdieSprites.AddRange(sighted.Select(tuple =>
             {
-                var internalAssetName = tuple.BirdieDef.ContentPackDef.ContentPack.ModContent.GetInternalAssetName(tuple.BirdieDef.AssetPath).BaseName;
-                var birdieSprite = new AnimatedSprite(internalAssetName, tuple.BirdieDef.BaseFrame, 32, 32);
+                // Vanilla birdies have no asset path and use the critters texture
+                var textureName = tuple.BirdieDef.AssetPath != null ?
+                    tuple.BirdieDef.ContentPackDef.ContentPack.ModContent.GetInternalAssetName(tuple.BirdieDef.AssetPath).BaseName :
+                    Critter.critterTexture;
+                var birdieSprite = new AnimatedSprite(textureName, tuple.BirdieDef.BaseFrame, 32, 32);
                 if (!tuple.LifeListEntry.Identified)
                 {
                     birdieSprite.spriteTexture = Utilities.CensorTexture(birdieSprite.Texture);
+                    censoredTextures.Add(birdieSprite.spriteTexture);
                 }
 
                 var flyingAnimation = new List<FarmerSprite.AnimationFrame> {
@@ -112,7 +131,7 @@ namespace OrnithologistsGuild
 
             var letter = new LetterViewerMenu(string.Join(PAGE_BREAK_TOKEN, pages));
             letter.whichBG = 1;
-            letter.exitFunction = () => pageBirdieSprites.Clear();
+            letter.exitFunction = ClearPageBirdieSprites;
             Game1.activeClickableMenu = letter;
         }
 
@@ -147,7 +166,8 @@ namespace OrnithologistsGuild
                 var date = SDate.FromDaysSinceStart(sighting.DaysSinceStart);
                 var location = Game1.getLocationFromName(sighting.LocationName);
                 var locationName = location == null ? sighting.LocationName : location.Name;
-                var attribute = attributeStrings[sighting.Attribute];
+                // Attribute may no longer exist if the content pack lowered its attribute count
+                var attribute = attributeStrings.TryGetValue(sighting.Attribute, out var attributeString) ? attributeString : I18n.Placeholder();
 
                 lines.Add(I18n.Items_LifeList_Sighting(date.ToLocaleString(), locationName, attribute));
             }

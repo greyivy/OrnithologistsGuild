@@ -31,6 +31,7 @@ namespace OrnithologistsGuild
             Helper.Events.Input.ButtonPressed += Input_ButtonPressed;
 
             SaveDataManager.Initialize();
+            NestManager.Initialize();
             GameStateQueries.Initialize(Monitor);
         }
 
@@ -52,7 +53,6 @@ namespace OrnithologistsGuild
             MigrateLegacyItems();
 
             SaveDataManager.Load();
-            NestManager.Initialize();
 
             if (ConfigManager.Config.LogMissingBiomes)
             {
