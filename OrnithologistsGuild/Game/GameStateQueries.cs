@@ -46,6 +46,9 @@ namespace OrnithologistsGuild
         /// <returns></returns>
         public static bool IDENTIFIED_ALL(string[] query, GameStateQueryContext context)
         {
+            // No birdies loaded (e.g. content packs failed to load) shouldn't count as all identified
+            if (ContentPackManager.BirdieDefs.Count == 0) return false;
+
             return (SaveDataManager.SaveData?.ForPlayer(Game1.player.UniqueMultiplayerID).LifeList?.IdentifiedCount ?? 0) >= ContentPackManager.BirdieDefs.Count;
         }
     }

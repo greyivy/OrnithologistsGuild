@@ -92,8 +92,9 @@ namespace OrnithologistsGuild.Game.Critters
                         } else
                         {
                             // Wait a little while before executing next action
+                            // (Cancelled if the state changes first, e.g. frightened)
                             AfterBetween(TimeSpan.FromMilliseconds(500), TimeSpan.FromSeconds(5),
-                                () => StateMachine.Trigger(nextBehavior.Action()), null);
+                                () => StateMachine.Trigger(nextBehavior.Action()), BetterBirdieState.Stopped);
                         }
                     })
                 .State(BetterBirdieState.Hopping)
@@ -424,10 +425,17 @@ namespace OrnithologistsGuild.Game.Critters
                                 Position3 = RelocateTo.Position;
                                 startingPosition = position;
    
-                                if (IsPerched && Perch.Type == PerchType.Tree)
+                                // Shake tree on landing (tree may have been removed while flying)
+                                if (IsPerched && Perch.Type == PerchType.Tree && Perch.Tree.Location != null)
                                 {
-                                    // Shake tree on landing
-                                    ModEntry.Instance.Helper.Reflection.GetMethod(Perch.Tree, "shake").Invoke(Perch.Tree.Tile, false);
+                                    try
+                                    {
+                                        ModEntry.Instance.Helper.Reflection.GetMethod(Perch.Tree, "shake").Invoke(Perch.Tree.Tile, false);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        ModEntry.Instance.Monitor.Log($"Couldn't shake tree at {Perch.Tree.Tile}: {e}", StardewModdingAPI.LogLevel.Trace);
+                                    }
                                 }
 
                                 if (IsInWater) Splash(1.75f);

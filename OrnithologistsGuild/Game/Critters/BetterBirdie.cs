@@ -315,7 +315,7 @@ namespace OrnithologistsGuild.Game.Critters
         {
             return new List<FarmerSprite.AnimationFrame> {
                     new FarmerSprite.AnimationFrame (baseFrame + 6, (int)MathF.Round(0.27f * FlapDuration)),
-                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * FlapDuration), secondaryArm: false, flip, frameBehavior: (Farmer who) =>
+                    new FarmerSprite.AnimationFrame (baseFrame + 7, (int)MathF.Round(0.23f * FlapDuration), secondaryArm: false, flip: false, frameBehavior: (Farmer who) =>
                     {
                         if (BirdieDef.FlapDuration >= 100) {
                             // Make bird shoot up a bit while flapping for more realistic flight
